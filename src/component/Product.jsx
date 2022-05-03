@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import Skeleton from "react-loading-skeleton";
-import { useDispatch } from 'react-redux';
-import { addCart, delCart } from '../redux/action';
-import { addFav, delFav } from '../redux/action';
 
 
 const Product = () => {
@@ -14,28 +11,15 @@ const Product = () => {
     const [loading, setLoading] = useState(true);
     const [cartBtn, setCartBtn] = useState("Add to Cart");
     const [favBtn, setFavBtn] = useState("Add to Favorites");
-    const [favorit] = useState([]);
-
-    const dispatch = useDispatch();
-
-    const addProduct = (product) => {
-        if (cartBtn === "Add to Cart") {            
-            setCartBtn("Remove from Cart")
-            dispatch(addCart(product));
-        }
-        else{     
-            dispatch(delCart(product))       
-            setCartBtn("Add to Cart")
-        }
-    }
-
+    const [cartItem , setCartItem] = useState([]);
+  
     const addFavorit = (favorit) => {
         if (favBtn === "Add to Favorites") {            
             setFavBtn("Remove From Favorites")
-            dispatch(addFav(product));
+            
         }
         else{
-            dispatch(delFav(product))            
+             
             setFavBtn("Add to Favorites");            
         }
     }
@@ -45,25 +29,91 @@ const Product = () => {
             const response = await fetch(`https://vmart-api.herokuapp.com/singleProduct/${_id}`);
             setProduct(await response.json());
             setLoading(false); 
-                     
+            getcartItem()         
         }
         getProduct();
     }, []);
 
-    const addToCart =async (id) => {
-        let result = await fetch(`https://vmart-api.herokuapp.com/cart/${id}`,{
+     const addToCart =async (_id) => {
+        let result = await fetch(`https://vmart-api.herokuapp.com/cart/${_id}`,{
             method: "POST",
             headers :{ token : JSON.parse(localStorage.getItem("token"))
             }
         });
         result = await result.json();
-        if (cartBtn === "Add to Cart") {            
-            setCartBtn("Remove from Cart")                
-        }
-        else{
-            setCartBtn("Add to Cart")
-        }  
+        setCartItem(result);          
       }
+
+    const removeFromCart =async (_id) => {
+        let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${_id}`,{
+            method: "POST",
+            headers :{ token : JSON.parse(localStorage.getItem("token"))
+            }
+        });
+        result = await result.json();
+        setCartItem(result);
+    }
+
+    const tryingToadd = (_id) =>{     
+        if(cartBtn === "Add to Cart"){
+            addToCart(_id);
+            changeBtn()
+        }       
+    }
+
+    const tryingToremove = (_id) =>{
+        if(cartBtn === "Remove From Cart"){
+            console.log("Trying To Remove from cart")
+           removeFromCart(_id);
+           changeBtn();
+        }
+    }
+
+    console.log(cartBtn)
+
+      const getcartItem = async() => {
+        let result = await fetch("https://vmart-api.herokuapp.com/myCartItem",{
+            method: "GET",
+            headers :{ token : JSON.parse(localStorage.getItem("token"))
+            }
+        });
+        result = await result.json();
+        setCartItem(result);
+        
+    }
+
+    const changeBtn = () =>{
+        console.log("hii");
+        //cartBtn == "Add to Cart";
+        if (cartBtn === "Add to Cart") {            
+            setCartBtn("Remove From Cart")            
+        }else{
+            setCartBtn("Add to Cart")
+        }
+        
+    }
+   
+          for (let i = 0; i < cartItem.length; i++) {       
+
+                const matchId = cartItem[i];
+
+                console.log("matchId",matchId.productId);
+
+                const gotId = matchId.productId;
+
+                console.log("gotId",gotId);
+
+                if(gotId===_id){
+                    console.log("Id Matched - This Product is already in cart")
+                    changeBtn()
+                    {break;}                                        
+                }else{
+                    console.log("Id Did Not Match - This Product is not in cart")
+                }
+
+          }
+                
+        
       
       const addTofavorite =async (id) => {
         let result = await fetch(`https://vmart-api.herokuapp.com/favourite/${id}`,{
@@ -129,8 +179,8 @@ const Product = () => {
                                 
                                 
                                 <div className="addcartgocartBTN">
-                                    <button className="btn-add-item" onClick={() => {addToCart(product._id);}}>{cartBtn}</button>
-                                    <button className="btn-add-item" onClick={() => {addTofavorite(product._id);}}>{favBtn}</button>
+                                    <button className="btn-add-item" onClick={() => {tryingToadd(product._id);tryingToremove(product._id);}}>{cartBtn}</button>
+                                    <button className="btn-add-item" onClick={() => {removeFromCart(product._id);}}>{favBtn}</button>
                                 </div>
 
                             

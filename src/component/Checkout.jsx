@@ -85,7 +85,6 @@ const Checkout = () => {
         cartId = await cartId.json();
         setCartId(cartId);
     }
-
     const removeProduct = async () => {
         let emptyCart = await fetch("https://vmart-api.herokuapp.com/removeAllProduct", {
             method: "POST",

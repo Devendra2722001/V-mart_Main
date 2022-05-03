@@ -108,19 +108,8 @@ console.log("Got Image Url - ",imageurl);
     console.log(imageurl);
     console.log(formData);
 
-    if (!updateProducts && imageurl !== undefined) {
-      
-      await Axios.post("https://vmart-api.herokuapp.com/product", formData)
-        .then(() => {
-          toast("Successfully Inserted");
-          props.getProductsData();
-          props?.setShowForm(false);
-        })
-        .catch((error) => window.alert("Please Enter Valid Data"));
-      
-    } else if(imageurl === undefined){
-      document.getElementById("clickme").click();
-    }else{
+    if (updateProducts) {
+
       let Product = {
         name,
         description,
@@ -157,6 +146,19 @@ console.log("Got Image Url - ",imageurl);
 
         props.getProductsData();
       });
+      
+     
+      
+    } else if(imageurl === undefined){
+      document.getElementById("clickme").click();
+    }else if(imageurl !== undefined){
+      await Axios.post("https://vmart-api.herokuapp.com/product", formData)
+      .then(() => {
+        toast("Successfully Inserted");
+        props.getProductsData();
+        props?.setShowForm(false);
+      })
+      .catch((error) => window.alert("Please Enter Valid Data"));
     }
   };
 
