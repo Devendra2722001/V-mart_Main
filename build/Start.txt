@@ -1,0 +1,9 @@
+json-server public/db.json - port 8000
+npm start
+
+git remote add origin https://github.com/Tanazbanu/E-commerce-site.git
+git branch -M devendra_react
+git push -u origin devendra_react
+
+git commit -m "Uploading to Devendra_react"
+git pull origin Initial_Vmart_User_Penal
