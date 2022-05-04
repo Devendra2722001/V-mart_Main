@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
+import swal from 'sweetalert';
 
 
 const AddAddress = () => {
@@ -61,13 +62,24 @@ const AddAddress = () => {
         // res = await res.json();
         console.log(res)
           if (res.status===201) {
-            window.alert(" address added");
-            history.push("/user");
+            CongoAlert();
+            //window.alert(" address added");
+            //history.push("/user");
           }      
         //     else if (res.status === 500){
         //     window.alert("-- Something went wrong --")
         //   }
       }
+
+      const CongoAlert = () => {
+        swal({
+            title: "Added!",
+            text: "Address added Successfull....",
+            icon: "success",
+            button: "Okay!",
+          });
+          history.push("/user");
+    }
     
 
     return (

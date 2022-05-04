@@ -30,7 +30,7 @@ const ChangePassword = () => {
       error.newPassword = "* Minimum length of password should be 8 characters."
     }
     if (!data.confirmPassword){
-        error.confirmPassword = "* Please enter confirm password."
+        error.confirmPassword = "* Please confirm new password."
     }
     else if (data.confirmPassword !== data.newPassword ){
       error.confirmPassword = "* password and confirm password does not match."
@@ -64,6 +64,16 @@ const CongoAlert = () => {
     history.push("/login");
 }
 
+const CongoAlertDone = () => {
+  swal({
+      title: "Changed !",
+      text: "Password Changed Successfully....",
+      icon: "success",
+      button: "Okay!",
+    });
+    history.push("/user");
+}
+
   const ChangePass = async (e) => {
     e.preventDefault();
 
@@ -81,8 +91,9 @@ const CongoAlert = () => {
     });
     // res = await res.json();
     if(res.status === 200){
-      window.alert("password changed successfuly");
-      history.push("user")
+      CongoAlertDone();
+      //window.alert("password changed successfuly");
+      //history.push("user")
     }
   }
 
@@ -101,11 +112,11 @@ const CongoAlert = () => {
                     
               <div class="row mt-3">
                                 
-                 <div class="col-md-12"><label class="labels">Old Password</label><input type="text" class="form-control" placeholder="enter email id" name="oldPassword" value={data.oldPassword} onChange={handleInputs}/></div>
+                 <div class="col-md-12"><label class="labels">Old Password</label><input type="text" class="form-control" placeholder="enter old password" name="oldPassword" value={data.oldPassword} onChange={handleInputs}/></div>
                  {error.oldPassword && <span className='text-danger font-weight-bold'>{error.oldPassword}</span>}
-                 <div class="col-md-12"><label class="labels">New Password</label><input type="text" class="form-control" placeholder="enter email id" name="newPassword" value={data.newPassword} onChange={handleInputs}/></div>
+                 <div class="col-md-12"><label class="labels">New Password</label><input type="text" class="form-control" placeholder="enter new password" name="newPassword" value={data.newPassword} onChange={handleInputs}/></div>
                  {error.newPassword && <span className='text-danger font-weight-bold'>{error.newPassword}</span>}
-                <div class="col-md-12"><label class="labels">Confirm Password</label><input type="password" class="form-control" placeholder="enter password" name="confirmPassword" value={data.confirmPassword} onChange={handleInputs} /></div>
+                <div class="col-md-12"><label class="labels">Confirm Password</label><input type="password" class="form-control" placeholder="re-enter new password" name="confirmPassword" value={data.confirmPassword} onChange={handleInputs} /></div>
                 {error.confirmPassword && <span className='text-danger font-weight-bold'>{error.confirmPassword}</span>}
                                 
                 </div>

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import Skeleton from "react-loading-skeleton";
+import { toast } from "react-toastify";
 
-
+toast.configure();
 const Product = () => {
 
     const { _id } = useParams();
@@ -48,6 +49,7 @@ const Product = () => {
         });
         result = await result.json();
         setCartItem(result);
+        toast(`${product.name} Added To cart`);
     }
 
     const removeFromCart = async (_id) => {
@@ -183,6 +185,7 @@ const Product = () => {
         );
     };
 
+    console.log(product.name)
 
     const ShowProduct = () => {
         return (
