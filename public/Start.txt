@@ -27,3 +27,6 @@ Existing Git repository
 For existing repositories, simply add the heroku remote
 
 $ heroku git:remote -a sdwsa
+
+rm -rf node_modules
+npm i

@@ -3,11 +3,13 @@ import { NavLink , useHistory} from 'react-router-dom';
 import Empty from './Empty.gif';
 import { useEffect, useState } from 'react';
 import swal from 'sweetalert';
+import Skeleton from "react-loading-skeleton";
 
 const Favorits = () => {
     
      const history = useHistory();
      const [favourite , setFavourite] = useState([]);
+     const [loading, setLoading] = useState(true);
 
      useEffect(() => {
          getFavourite();
@@ -41,6 +43,7 @@ const Favorits = () => {
          });
          result = await result.json();
          setFavourite(result);
+         setLoading(false);
      }
      const removeFromgetFavourite =async (id) => {
          let result = await fetch(`https://vmart-api.herokuapp.com/removeFromFavourite/${id}`,{
@@ -52,28 +55,59 @@ const Favorits = () => {
          setFavourite(result);
      }
  
-     console.log("favorite", favourite )
+     //console.log("favorite", favourite )
  
      // favorite api fatching end
 
-    const emptyFav = () => {
-        return(
-            <section className="cart-wrapper-empty">
-                <div className="Empty-Cart">
-                    <img src={Empty} className="Empty-Cart-img" alt ="Error-Img"/>
-
-                    <div className="Empty-Text">                    
-                        <h2>Hey There's Noting In your Favorites list</h2>
-                        <NavLink to="/"><h6>Contine Shoping</h6></NavLink>
+     const Cartisempty = () => {
+        //if(cartItem === 0){
+            return (
+                <section className="cart-wrapper-empty">
+                    <div className="Empty-Cart">
+                        <img src={Empty} className="Empty-Cart-img" alt="Error-Img" />
+    
+                        <div className="Empty-Text">
+                            <h2>Hey You Have nothing in your Favorites</h2>
+                            <NavLink to="/"><h6>Contine Shoping</h6></NavLink>
+                        </div>
+    
                     </div>
-                    
-                </div>
-            </section>
-        )
+                </section>
+            )
+       //}
     }
+    const Loading = () => {
+        return (
+        <>
+        <div className="loading_screen_cart">
+            <div>
+                <Skeleton height={250} width={400}/>
+            </div>
+            <div>
+                <Skeleton height={250} width={400}/>
+            </div>
+            <div>
+                <Skeleton height={250} width={400}/>
+            </div>
+            
+            <div>
+                <Skeleton height={250} width={400}/>
+            </div>
+            <div>
+                <Skeleton height={250} width={400}/>
+            </div>
+            <div>
+                <Skeleton height={250} width={400}/>
+            </div>
+            
+          </div>
+        </>
+        );
+      };
 
+      console.log(favourite)
 
-   // const favoritItems = (favorit) => {
+    const ShowProducts = () => {
         return(
             <>
                 <section className="fav-wrapper">
@@ -107,17 +141,27 @@ const Favorits = () => {
                 
             </>
         )
-
-   // }
-    
-    // return (
-    //     <div className="fullsizedisplay">
-    //         {state2.length === 0 && emptyFav()}
-    //         <section className="fav-wrapper">
-    //             {state2.length !== 0 && state2.map(favoritItems)}
-    //         </section>            
-    //     </div>
-    // );
+    }
+    if(loading===true){
+        return (
+            <div>
+                <Loading />
+            </div>
+          );
+    }else if(favourite.length === 0){
+        return (
+            <div>
+                <Cartisempty />
+            </div>
+          );
+    }else{
+        return (
+            <div>
+               <ShowProducts />
+            </div>
+          );        
+    }   
+   
 }
 
 export default Favorits;
