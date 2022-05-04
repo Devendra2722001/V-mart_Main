@@ -1350,5 +1350,51 @@ height: 100%;
 }
 
 .addresshight{
-  height: 180px;
+  height: 40px;
+  margin-left: 70px;
+}
+
+.No_data-img{
+  height: 200px;
+  width: 200px;
+  /* margin-left: 90px; */
+}
+
+.NodataAdd{
+  display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.Nodataorder{
+  display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.No_data-img_order{
+  height: 100px;
+  width: 100px;
+  /* margin-left: 90px; */
+}
+
+.order_His-card {
+  background-color: #fff;
+  padding: 15px;
+  position: relative;
+  box-shadow: 0 0 10px 0px rgb(0 0 0 / 30%);
+  z-index: 1;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
 }

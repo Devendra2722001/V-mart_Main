@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import Skeleton from "react-loading-skeleton";
-import Empty from './Empty.gif';
+import No_data from './No_data.gif';
 
 const User = () => {
     const history = useHistory();
@@ -128,7 +128,110 @@ const User = () => {
         );
       };
 
+      const NoAddressAndNoorderFound = () => {
+        console.log("Showing Profile with no address & no order")
+        return (
+                <section>
+                        
+            <div class="container rounded bg-white mt-4">
+                <div class="row">
+                    <div class="col-md-3 border-right">
+                        <div class="d-flex flex-column mt-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+                                <h6 className="order_text"><b>My Profile</b></h6>
+                            </div>
+                            <div class="d-flex flex-column" id="user-profile-card">
+                                <div class="d-flex flex-column align-items-center">
+                                    <img class="rounded-circle " width="100px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="User Profile"/>
+                                    <div class="d-flex flex-row" id="margin_user">
+                                        <div class="font-weight-bold"><b>{profile.firstName} {profile.lastName}</b></div>&nbsp;
+                                    </div>
+                                </div>
+                                <hr></hr>
+                                <div class="text-left p-2">
+                                    <div class="col-md-12">
+                                        <label htmlFor="firstName"><b>First Name :</b> {profile.firstName}</label>
+                                    </div> 
+                                    <div class="col-md-12">
+                                        <label htmlFor="lastName"><b>Last Name :</b> {profile.lastName}</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label htmlFor="Email_id"><b>Email ID :</b> {profile.email}</label>
+                                    </div>
+                                    {/* <div class="col-md-12">
+                                        <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
+                                    </div> */}
+                                    <br></br>
+                                    <div class="d-flex flex-column align-items-center">
+                                        <NavLink to="/ChangePassword">
+                                            <button class="btn btn-primary profile-button" type="button">Change Password</button>
+                                        </NavLink>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <button class="btn btn-primary profile-button" type="button" onClick={() => logout()}>LOG OUT</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 border-right">
+                        <div class="p-3 mt-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 className="order_text"><b>My Addresses</b></h6>
+                                <div>
+                                    <NavLink to="/AddAddress">
+                                    <button class="btn btn-primary profile-button" type="button">Add New Address</button>
+                                    </NavLink>
+                                 </div>
+                            </div>                            
+                                    <div class="row mt-2 p-3 list-group mb-3" id="user-profile-card">
+                                        
+                                        <div className="NodataAdd">
+                                        <img src={No_data} className="No_data-img" alt="No_data-Img" />
+                                                
+                                                    <span>You Dont Have Any Address Saved</span>
+                                                
+                                        </div>
+                                        
+                                    </div>
+                                
+                            
+                        </div>
+                    </div>
+                    
+                     
+                    <div class="col-md-4">
+                        <div class="py-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+                                <h6 className="order_text"><b>My Orders</b></h6>
+                            </div>
+                                        
+                                        <div className="order_His-card">
+                                            
+                                        <div className="Nodataorder">
+                                        <img src={No_data} className="No_data-img_order" alt="No_data-Img" />
+                                                
+                                                    <span>You Havent ordered Anything yet</span>
+                                                
+                                        </div>
+                                               
+                                        </div>
+                                        
+                                        
+                                                                 
+                        </div>
+                    </div>                    
+                </div>
+
+
+            </div>
+        </section >
+            )
+       
+    }
+
       const NoOrderFound = () => {
+        console.log("Showing Profile with no order")
         return (
                 <section>
                         
@@ -225,19 +328,22 @@ const User = () => {
                             <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
                                 <h6 className="order_text"><b>My Orders</b></h6>
                             </div>
-                                        <ul className="list-group">
-                                        <li className="d-flex justify-content-between mb-3">
-                                        <div className="user-card">
+                                        
+                                        <div className="order_His-card">
                                             
-                                                <div className="order_text">No orders Placed Yet</div>
+                                        <div className="Nodataorder">
+                                        <img src={No_data} className="No_data-img_order" alt="No_data-Img" />
+                                                
+                                                    <span>You Havent ordered Anything yet</span>
+                                                
+                                        </div>
                                                
                                         </div>
                                         
-                                        </li>
-                                        </ul> 
+                                        
                                                                  
                         </div>
-                    </div>                    
+                    </div>                   
                 </div>
 
 
@@ -249,6 +355,7 @@ const User = () => {
 
 
       const NoAddressFound = () => {
+        console.log("Showing Profile with no address")
         return (
                 <section>
                         
@@ -305,11 +412,11 @@ const User = () => {
                             </div>                            
                                     <div class="row mt-2 p-3 list-group mb-3" id="user-profile-card">
                                         
-                                        <div>
+                                        <div className="NodataAdd">
+                                        <img src={No_data} className="No_data-img" alt="No_data-Img" />
                                                 
-                                                <div className="addresshight">
-                                                    You Dont Have Any Address Saved 
-                                                </div>
+                                                    <span>You Dont Have Any Address Saved</span>
+                                                
                                         </div>
                                         
                                     </div>
@@ -362,6 +469,7 @@ const User = () => {
     }
 
     const ShowProfile = () => {
+        console.log("Showing full Profile")
         return (
             
         <section>
@@ -504,16 +612,22 @@ const User = () => {
                 <Loading />
             </div>
         );
-    }else if(address.length === 0){
+    }else if(address.length === 0 && orderHistory.length === 0){
         return (
             <div>
-                <NoAddressFound />
+                <NoAddressAndNoorderFound />
             </div>
         );
-    }else if(orderHistory.length === 0){
+    }else if(address.length !== 0 && orderHistory.length === 0){
         return (
             <div>
                 <NoOrderFound />
+            </div>
+        );
+    }else if(address.length === 0 && orderHistory.length !== 0){
+        return (
+            <div>
+                <NoAddressFound />
             </div>
         );
     }else{
