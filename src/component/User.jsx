@@ -131,7 +131,7 @@ const User = () => {
       const NoAddressAndNoorderFound = () => {
         console.log("Showing Profile with no address & no order")
         return (
-                <section>
+                <section className="margin_bottom-for-user">
                         
             <div class="container rounded bg-white mt-4">
                 <div class="row">
@@ -189,7 +189,7 @@ const User = () => {
                                         <div className="NodataAdd">
                                         <img src={No_data} className="No_data-img" alt="No_data-Img" />
                                                 
-                                                    <span>You Dont Have Any Address Saved</span>
+                                                    <span>You Don't Have Any Address Saved</span>
                                                 
                                         </div>
                                         
@@ -233,7 +233,7 @@ const User = () => {
       const NoOrderFound = () => {
         console.log("Showing Profile with no order")
         return (
-                <section>
+                <section className="margin_bottom-for-user">
                         
             <div class="container rounded bg-white mt-4">
                 <div class="row">
@@ -357,7 +357,7 @@ const User = () => {
       const NoAddressFound = () => {
         console.log("Showing Profile with no address")
         return (
-                <section>
+                <section className="margin_bottom-for-user">
                         
             <div class="container rounded bg-white mt-4">
                 <div class="row">
@@ -415,7 +415,7 @@ const User = () => {
                                         <div className="NodataAdd">
                                         <img src={No_data} className="No_data-img" alt="No_data-Img" />
                                                 
-                                                    <span>You Dont Have Any Address Saved</span>
+                                                    <span>You Don't Have Any Address Saved</span>
                                                 
                                         </div>
                                         
@@ -472,7 +472,7 @@ const User = () => {
         console.log("Showing full Profile")
         return (
             
-        <section>
+        <section className="margin_bottom-for-user">
                         
             <div class="container rounded bg-white mt-4">
                 <div class="row">

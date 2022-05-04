@@ -36,7 +36,7 @@ const Navbar = () => {
             button: "Okay!",
           });
           history.push("/");
-        //window.location.reload();
+        window.location.reload();
     }
     
 

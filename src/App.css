@@ -1398,3 +1398,7 @@ height: 100%;
   flex-wrap: nowrap;
   align-items: center;
 }
+
+.margin_bottom-for-user{
+  margin-bottom: 200px;
+}

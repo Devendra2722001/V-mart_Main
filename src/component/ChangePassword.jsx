@@ -1,7 +1,8 @@
 import Empty from './Empty.gif';
-import React,{useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const ChangePassword = () => {
 
@@ -11,6 +12,11 @@ const ChangePassword = () => {
     oldPassword:"", newPassword:"", confirmPassword:""
   })
   const [error, setError] = useState({});
+
+  useEffect(() => {    
+        ProtectedRoute();
+        console.log("Plese Login First");       
+},[])
 
   const validation = (data) =>{
     let error={};
@@ -40,6 +46,23 @@ const ChangePassword = () => {
     value = e.target.value;
     setData({ ... data, [name]:value});
   }
+
+  const ProtectedRoute = (props) => {
+    const token = localStorage.getItem('token');
+    if (token == null) {
+        CongoAlert();
+    }     
+  };
+
+const CongoAlert = () => {
+  swal({
+      title: "Login/Signup!",
+      text: "Please Login/Singup first to view your profile",
+      icon: "warning",
+      button: "Okay!",
+    });
+    history.push("/login");
+}
 
   const ChangePass = async (e) => {
     e.preventDefault();
