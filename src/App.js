@@ -30,12 +30,7 @@ import Orderlist from "../src/component/component/orderList";
 
 function App() {
 
-  const removeAdmin = () =>{
-    localStorage.removeItem('ImAdmin');
-    window.location.reload();
-    window.location.href = "/";
-  }
-   
+     
   if(localStorage.getItem("ImAdmin") === "true"){
     console.log("Hello")
     return (

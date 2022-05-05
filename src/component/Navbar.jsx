@@ -14,11 +14,12 @@ const Navbar = () => {
     const [cartItem , setCartItem] = useState([]);
 
     useEffect(() => {
-
+        getcartItem();
         
         setInterval(() => {   
             
-            getcartItem();        
+            getcartItem();
+            // ^^^ Comment this getcartItem if you wanna get rid of all the getCart request errors in console  
             const token = localStorage.getItem('token');        
                 if (token != null) {
                     setlogBtn(logout); 
@@ -36,7 +37,10 @@ const Navbar = () => {
             button: "Okay!",
           });
           history.push("/");
-        window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        
     }
     
 
@@ -46,6 +50,8 @@ const Navbar = () => {
             setlogBtn(logout);
             getcartItem();
             console.log("Hello Hii");
+        }else{
+            console.log("no token found");            
         }
     },[])
 
@@ -66,7 +72,12 @@ const Navbar = () => {
             }
         });
         result = await result.json();
+        if(result.status === 404){
+            console.log("cart is Empty (Navbar)")
+            //window.location.reload();
+        }
         setCartItem(result);
+        
     }
 
 

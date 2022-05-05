@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 
 
@@ -41,7 +41,7 @@ const AddAddress = () => {
         console.log(e);
         name = e.target.name;
         value = e.target.value;
-        setAddress({ ... address, [name]:value});
+        setAddress({ ...address,[name]:value});
     }
     
     const PostData = async (e) => {

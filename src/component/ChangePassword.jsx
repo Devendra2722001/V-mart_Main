@@ -1,7 +1,6 @@
 import Empty from './Empty.gif';
 import React, {useState, useEffect} from 'react';
-import { useSelector } from 'react-redux';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 
 const ChangePassword = () => {
@@ -44,7 +43,7 @@ const ChangePassword = () => {
     console.log(e);
     name = e.target.name;
     value = e.target.value;
-    setData({ ... data, [name]:value});
+    setData({ ...data, [name]:value});
   }
 
   const ProtectedRoute = (props) => {

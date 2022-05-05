@@ -7,30 +7,24 @@ import swal from 'sweetalert';
 const Cart = () => {
     const history = useHistory();    
     const [loading, setLoading] = useState(true);
-    
-    // cart api fatching
     const [cartItem , setCartItem] = useState([]);
 
     useEffect(() => {
         getcartItem();
-        
+        Protected_Route();
         setTimeout(() => {
-            ProtectedRoute();                   
-          }, 1);
-
-          setTimeout(() => {            
             setLoading(false);
-            Cartisempty();       
-          }, 1000);
-    },[])
+        }, 3000);        
+    },[]);
 
-    const ProtectedRoute = (props) => {
+    const Protected_Route = (props) => {
         const token = localStorage.getItem('token');
         if (token == null) {
             CongoAlert();
         }     
     };
 
+    // cart api fatching
     const getcartItem = async() => {
         let result = await fetch("https://vmart-api.herokuapp.com/myCartItem",{
             method: "GET",
@@ -39,6 +33,7 @@ const Cart = () => {
         });
         result = await result.json();
         setCartItem(result);
+        
     }
     
     const removeFromCart =async (id) => {

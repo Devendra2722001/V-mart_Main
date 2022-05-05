@@ -31,7 +31,7 @@ const Product = () => {
         getProduct();
         getcartItem(); 
         if(cartItem.length!==0){
-            console.log("Condition")
+            console.log("Cart Is not Empty")
         }
     }, []);
 
@@ -50,6 +50,7 @@ const Product = () => {
         result = await result.json();
         setCartItem(result);
         toast(`${product.name} Added To cart`);
+        //setCartBtn("Remove From Cart")
     }
 
     const removeFromCart = async (_id) => {
@@ -64,16 +65,17 @@ const Product = () => {
     }
 
     const tryingToadd = (_id) => {
-        if (cartBtn === "Add to Cart") {
+       // if (cartBtn === "Add to Cart") {
             addToCart(_id);
             //changeBtn()
-        }
+        //}
     }
 
     const tryingToremove = (_id) => {
         if (cartBtn === "Remove From Cart") {
             console.log("Trying To Remove from cart")
             removeFromCart(_id);
+            setCartBtn("Add To Cart")
             //changeBtn();
         }
     }
@@ -92,6 +94,49 @@ const Product = () => {
         //checkProductExist();
         setCartItem(result);
     }
+
+    // let Checking = [];
+    //       for (let i = 0; i < cartItem.length; i++) { 
+    //         let Checking = cartItem;
+    //         let item_ids = Checking[i].productId            
+    //         console.log("this item",item_ids)
+    //         if(item_ids[i]===_id){
+    //              console.log("Found This Item In Cart");
+    //              //Checking.push(item_ids[i]);
+    //         }
+    //         // pricearray.push(priceofitem[i]);
+    //         // break;
+    //       }                  
+    //     console.log("Checking",Checking);
+
+    
+          for (let i = 0; i < cartItem.length; i++) {
+            let pricearray = []; 
+            let allitem = cartItem;
+            let priceofitem = allitem[i].productId
+            if(priceofitem!==null){
+                //console.log("truing to add price");
+                pricearray.push(priceofitem);
+            }
+            // pricearray.push(priceofitem[i]);
+            // break;
+            console.log("Cart Product Array",pricearray);
+            for (let c = 0; c < cartItem.length; c++) { 
+                if(_id===pricearray[c]){
+                    console.log("Found This Item In Cart")
+                    if (cartBtn === "Add to Cart") {
+                        setCartBtn("Remove From Cart")        
+                    }
+                    //setCartBtn("Remove From Cart")
+                }           
+              }
+          }                  
+        
+
+        
+
+          
+
 
     // const changeBtn = () => {
     //     console.log("hii");
@@ -185,7 +230,7 @@ const Product = () => {
         );
     };
 
-    console.log(product.name)
+    //console.log(product.name)
 
     const ShowProduct = () => {
         return (

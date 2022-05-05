@@ -32,10 +32,10 @@ const View = (props) => {
                       <td>
                         <div className="admin_delup">
                           <div id="bloc4">
-                            <img src="../images/delete.png" width="30rem;" alt="user order list" onClick={() => props?.deleteProduct(product._id)}/>
+                            <img src="../images/delete.png" width="30rem;" alt="user order list" title="Delete Product" onClick={() => props?.deleteProduct(product._id)}/>
                           </div>
                           <div id="bloc4">
-                            <img src="../images/updated.png" width="30rem;" alt="user order list" onClick={() => updateData(product)}/>
+                            <img src="../images/updated.png" width="30rem;" alt="user order list" title="Update Product" onClick={() => updateData(product)}/>
                           </div>
                         </div>
                       </td>
