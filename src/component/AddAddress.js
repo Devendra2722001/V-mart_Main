@@ -105,7 +105,10 @@ const AddAddress = () => {
 
                                 <div className="col-12">
                                     <label htmlFor="line2" className="form-label">AddressLine - 2</label>
-                                    <input type="text" className="form-control" id="line2" placeholder="Street or Road Name" autoComplete='off' required="" name="addline2" value={address.addline2} onChange={handleInputs}/>
+                                    <select type="option" className="form-control" id="line2" placeholder="Street or Road Name" autoComplete='off' required="" name="addline2" value={address.addline2} onChange={handleInputs}>
+                                    <option>Home</option>
+                                    <option>Office</option>
+                                    </select>
                                     {/* {error.addline2 && <span className='text-danger font-weight-bold'>{error.addline2}</span>} */}
                                     <div className="invalid-feedback">
                                         Please enter AddressLine - 2.

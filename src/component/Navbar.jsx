@@ -14,7 +14,7 @@ const Navbar = () => {
     const [cartItem , setCartItem] = useState([]);
 
     useEffect(() => {
-        getcartItem();
+        //getcartItem();
         
         setInterval(() => {   
             

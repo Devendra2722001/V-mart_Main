@@ -228,18 +228,18 @@ const Checkout = () => {
 
                                                     <div className="row mt-2 p-3" id="list-group-item" key={addressObj._id}>
                                                         <div className="col-md-12"><label htmlFor="firstName" className="form-label"><h5><span className="text-primary"><input type="radio" onChange={handleInputs} name="address" value={addressObj._id}/> {addressObj.addressLine2}</span></h5></label>
-                                                            <div className="add-card-head mb-2">{addressObj.addressLine1}</div>
-                                                            <div className="add-card-head mb-2">{addressObj.addressLine2}</div>
+                                                            <div className="form-label mb-2">{addressObj.addressLine1}</div>
+                                                            {/* <div className="add-card-head mb-2">{addressObj.addressLine2}</div> */}
                                                         </div>
                                                         <div className="col-md-12 row mb-2">
                                                             <div className="col-md-3"><label htmlFor="lastName" className="form-label"><b>City</b></label>
-                                                                <div className="add-card-head">{addressObj.cityName}</div></div>
+                                                                <div className="form-label">{addressObj.cityName}</div></div>
                                                             <div className="col-md-3"><label htmlFor="lastName" className="form-label"><b>District</b></label>
-                                                                <div className="add-card-head">{addressObj.district}</div></div>
+                                                                <div className="form-label">{addressObj.district}</div></div>
                                                             <div className="col-md-3"><label htmlFor="lastName" className="form-label"><b>State</b></label>
-                                                                <div className="add-card-head">{addressObj.state}</div></div>
+                                                                <div className="form-label">{addressObj.state}</div></div>
                                                             <div className="col-md-3"><label htmlFor="lastName" className="form-label"><b>Zip Code</b></label>
-                                                                <div className="add-card-head">{addressObj.zipCode}</div></div>
+                                                                <div className="form-label">{addressObj.zipCode}</div></div>
                                                         </div>
                                                     </div>
                                                 </>
