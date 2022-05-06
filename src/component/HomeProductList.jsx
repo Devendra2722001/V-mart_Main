@@ -31,6 +31,7 @@ const HomeProductList = () => {
 
   
   let allproducts = data;
+  
       console.log(data);
       
         let mobileproducts = [];
