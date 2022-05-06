@@ -22,7 +22,8 @@
     "react-toastify": "^8.2.0",
     "redux": "^4.1.1",
     "sweetalert": "^2.1.2",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "webfontloader": "^1.6.28"
   },
   "scripts": {
     "start": "set PORT=3006 && react-scripts start || react-scripts --openssl-legacy-provider start",

@@ -18,12 +18,12 @@ const Navbar = () => {
         
         setInterval(() => {   
             
-            getcartItem();
+            
             // ^^^ Comment this getcartItem if you wanna get rid of all the getCart request errors in console  
             const token = localStorage.getItem('token');        
                 if (token != null) {
                     setlogBtn(logout); 
-                    
+                    getcartItem();
                 }
         }, 1000);       
     },[])

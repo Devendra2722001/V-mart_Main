@@ -330,6 +330,7 @@
   
   /* Caption text */
   .text {
+    font-family: Roboto;
     color: #f2f2f2;
     font-size: 15px;
     padding: 8px 12px;
@@ -613,8 +614,7 @@
   border: none;
   min-width: 200px;
   padding: 1rem;
-  background-color:rgba(0, 232, 190, 1);
-  ;
+  background-color:rgba(0, 232, 190, 1);  
   cursor: pointer;
   margin: 0;
   font-size: 17px;
@@ -699,7 +699,7 @@
 
 
 .checkout-main{
-  margin-top: 80px;
+  margin-top: 120px;
 }
 
 .qty_font{
@@ -935,13 +935,13 @@ color: #878787;
 }
 
 .Filters{
-padding: auto;
-width: 400px;
-background-color: #e2e4e2;
-height: 100%;
-display: flex;
-flex-direction: column;
-align-items: center;
+  padding: auto;
+  width: 400px;
+  background-color: #e2e4e2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .Main-mobile{
@@ -1205,6 +1205,7 @@ height: 100%;
 }
 
 .bread_crum_text{
+  font-family: Poppins;
   margin-top: 100px;
   margin-left: 150px;
   font-weight: bold;
@@ -1401,5 +1402,19 @@ height: 100%;
 }
 
 .margin_bottom-for-user{
+  margin-bottom: 200px;
+}
+
+.checkoutmain{
+  display: flex;
+  margin-top: 180px;  
+  padding-left: 110px;
+
+
+}
+
+.blkbox2{
+  margin-right: 50px;
+  margin-left: 50px;
   margin-bottom: 200px;
 }

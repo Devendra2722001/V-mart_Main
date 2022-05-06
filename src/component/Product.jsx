@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { NavLink , useHistory} from 'react-router-dom';
 import Skeleton from "react-loading-skeleton";
 import { toast } from "react-toastify";
+import swal from 'sweetalert';
 
 toast.configure();
 const Product = () => {
 
+    const history = useHistory();
     const { _id } = useParams();
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cartBtn, setCartBtn] = useState("Add to Cart");
     const [favBtn, setFavBtn] = useState("Add to Favorites");
     const [cartItem, setCartItem] = useState([]);
+    const [Idincart, setIdncart] = useState([]);
+    
+    
+    
 
     
 
@@ -30,10 +36,37 @@ const Product = () => {
     useEffect(() => {
         getProduct();
         getcartItem(); 
-        if(cartItem.length!==0){
-            console.log("Cart Is not Empty")
-        }
+        console.log("Hii");
+
+        setTimeout(() => {
+            //document.getElementById("I_know").click();
+        }, 2000);
+                
     }, []);
+
+
+    const Checkforme = () => {
+
+        //let Checking = [];
+            for (let i = 0; i < cartItem.length; i++) { 
+                
+                let item_ids = Idincart[i].productId            
+                console.log("cart item ids",item_ids)
+                
+                if(item_ids===_id){
+                    console.log("Found This Item In Cart");
+                    setCartBtn("Remove From Cart")
+                }else{
+                    //Checking.push(item_ids[i]);
+                    setCartBtn("Add To Cart")
+                }
+                // pricearray.push(priceofitem[i]);
+                // break;
+                console.log("Checking",item_ids);
+            }                  
+            
+
+    };
 
     const getProduct = async () => {
         const response = await fetch(`https://vmart-api.herokuapp.com/singleProduct/${_id}`);
@@ -64,11 +97,22 @@ const Product = () => {
         setCartItem(result);
     }
 
+    
+
+    const dothething = () =>{
+        tryingToadd(product._id); 
+        tryingToremove(product._id);
+        Protected_Route();
+    }
+
     const tryingToadd = (_id) => {
-       // if (cartBtn === "Add to Cart") {
+       if (cartBtn === "Add to Cart") {
             addToCart(_id);
+            setCartBtn("Remove From Cart")
             //changeBtn()
-        //}
+        }else{
+            //setCartBtn("Add To Cart")
+        }
     }
 
     const tryingToremove = (_id) => {
@@ -90,50 +134,71 @@ const Product = () => {
             }
         });
         result = await result.json();
-        console.log("get cart data:-",result);
+        console.log("got cart data:-",result);
+        
+            setCartItem(result);
+            setIdncart(result)
+            if(result===[]){
+                console.log("Empty");                
+            }else{
+                console.log("Not Empty");
+            }
+            Checkforme();
+        
+
         //checkProductExist();
-        setCartItem(result);
+        console.log(cartItem);
+        console.log(Idincart);
+        
     }
 
-    // let Checking = [];
-    //       for (let i = 0; i < cartItem.length; i++) { 
-    //         let Checking = cartItem;
-    //         let item_ids = Checking[i].productId            
-    //         console.log("this item",item_ids)
-    //         if(item_ids[i]===_id){
-    //              console.log("Found This Item In Cart");
-    //              //Checking.push(item_ids[i]);
-    //         }
-    //         // pricearray.push(priceofitem[i]);
-    //         // break;
-    //       }                  
-    //     console.log("Checking",Checking);
+
 
     
-          for (let i = 0; i < cartItem.length; i++) {
-            let pricearray = []; 
-            let allitem = cartItem;
-            let priceofitem = allitem[i].productId
-            if(priceofitem!==null){
-                //console.log("truing to add price");
-                pricearray.push(priceofitem);
-            }
-            // pricearray.push(priceofitem[i]);
-            // break;
-            console.log("Cart Product Array",pricearray);
-            for (let c = 0; c < cartItem.length; c++) { 
-                if(_id===pricearray[c]){
-                    console.log("Found This Item In Cart")
-                    if (cartBtn === "Add to Cart") {
-                        setCartBtn("Remove From Cart")        
-                    }
-                    //setCartBtn("Remove From Cart")
-                }           
-              }
-          }                  
+
+    
+        //   for (let i = 0; i < cartItem.length; i++) {
+        //     let pricearray = []; 
+        //     let allitem = cartItem;
+        //     let priceofitem = allitem[i].productId
+        //     if(priceofitem!==null){
+        //         //console.log("truing to add price");
+        //         pricearray.push(priceofitem);
+        //     }
+        //     // pricearray.push(priceofitem[i]);
+        //     // break;
+        //     console.log("Cart Product Array",pricearray);
+        //     for (let c = 0; c < cartItem.length; c++) { 
+        //         if(_id===pricearray[c]){
+        //             console.log("Found This Item In Cart")
+        //             if (cartBtn === "Add to Cart") {
+        //                 setCartBtn("Remove From Cart")        
+        //             }
+        //             //setCartBtn("Remove From Cart")
+        //         }           
+        //       }
+        //   }                  
         
 
-        
+          const Protected_Route = (props) => {
+            const token = localStorage.getItem('token');
+            if (token == null) {
+                CongoAlert();
+            }     
+        };
+
+        const CongoAlert = () => {
+            swal({
+                title: "Login/Signup!",
+                text: "Please Login Or Singup to add item to your cart",
+                icon: "warning",
+                button: "Okay!",
+              });
+              //history.push("/login");
+        }
+
+
+
 
           
 
@@ -258,8 +323,8 @@ const Product = () => {
 
 
                         <div className="addcartgocartBTN">
-                            <button className="btn-add-item" onClick={() => { tryingToadd(product._id); tryingToremove(product._id); }}>{cartBtn}</button>
-                            <button className="btn-add-item" onClick={() => { removeFromCart(product._id); }}>{favBtn}</button>
+                            <button className="btn-add-item" onClick={() => { dothething();}}>{cartBtn}</button>
+                            <button className="btn-add-item" id="I_know" onClick={() => { Checkforme();}}>{favBtn}</button>
                         </div>
 
 

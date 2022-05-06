@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 //import { useSelector } from 'react-redux';
 import { useParams , useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
+import Skeleton from "react-loading-skeleton";
 
 const Checkout = () => {
     const history = useHistory();
@@ -10,6 +11,7 @@ const Checkout = () => {
     const [cartItem, setCartItem] = useState([]);
     const [cartId, setCartId] = useState([]);
     const [addId, setaddId] = useState([]);
+    const [loading, setLoading] = useState(true);
     
 
     const {_id} = useParams();
@@ -29,7 +31,22 @@ const Checkout = () => {
     
     
 
-    
+    const Loading = () => {
+        return (
+        <>
+            <div className="checkoutmain">
+
+                <div className="blkbox1">
+                    <Skeleton height={200} width={850}/>
+                </div>
+                <div className="blkbox2">
+                    <Skeleton height={400} width={400}/>
+                </div> 
+
+            </div>
+        </>
+        );
+      };
 
     const PostOrder = async (id,key) => {
         let result = await fetch(`https://vmart-api.herokuapp.com/order/${cartId}/${addId}`,{
@@ -80,6 +97,9 @@ const Checkout = () => {
         });
         result = await result.json();
         setAddress(result);
+        setLoading(false)
+        //console.log("getAddress",result)
+        //console.log("address",address)
     }
 
     const getcartItem = async () => {
@@ -183,11 +203,11 @@ const Checkout = () => {
     }
 
     //console.log(cartItem)
-    
+    const ShowCheckout = () => {
     return (
         <>
             <div className="checkout-main">
-                <div className="container my-5">
+                <div className="container">
                     <div className="row g-5">
                         <div className="col-md-5 col-lg-4 order-md-last">
                             <h4 className="d-flex justify-content-between align-items-center mb-3">
@@ -262,7 +282,15 @@ const Checkout = () => {
                 </div>
             </div >
         </>
-    )
+    );
+    }
+    
+    return (
+                <div>
+                    {loading ? <Loading /> : <ShowCheckout />}
+                </div>
+    );
+    
 }
 
 export default Checkout

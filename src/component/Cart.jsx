@@ -12,9 +12,9 @@ const Cart = () => {
     useEffect(() => {
         getcartItem();
         Protected_Route();
-        setTimeout(() => {
-            setLoading(false);
-        }, 3000);        
+        // setTimeout(() => {
+        //     
+        // }, 3000);        
     },[]);
 
     const Protected_Route = (props) => {
@@ -33,7 +33,7 @@ const Cart = () => {
         });
         result = await result.json();
         setCartItem(result);
-        
+        setLoading(false);
     }
     
     const removeFromCart =async (id) => {

@@ -18,8 +18,8 @@ const HomeProductList = () => {
       if (componentMounted) {        
         setData(response.data.products); 
         setLoading(false); 
-        console.log(data); 
-        console.log(response.data.products);        
+        //console.log(data); 
+        //console.log(response.data.products);        
       }
 
       return () => {
@@ -31,7 +31,7 @@ const HomeProductList = () => {
 
   
   let allproducts = data;
-      //console.log(data);
+      console.log(data);
       
         let mobileproducts = [];
           for (let i = 0; i < allproducts.length; i++) {
@@ -40,7 +40,7 @@ const HomeProductList = () => {
               }
           }
         let fourmobile = mobileproducts.slice(0, 4);          
-        console.log("mobileproducts",fourmobile);
+        //console.log("mobileproducts",fourmobile);
 
         let laptopproducts = [];
           for (let i = 0; i < allproducts.length; i++) {
@@ -49,7 +49,7 @@ const HomeProductList = () => {
               }
           }
         let fourlaptop = laptopproducts.slice(0, 4);          
-        console.log("laptopproducts",fourlaptop);
+        //console.log("laptopproducts",fourlaptop);
 
         let shoesproducts = [];
           for (let i = 0; i < allproducts.length; i++) {
@@ -58,7 +58,7 @@ const HomeProductList = () => {
               }
           }
         let fourshoes = shoesproducts.slice(0, 4);          
-        console.log("shoesproducts",fourshoes);
+        //console.log("shoesproducts",fourshoes);
         //console.log(allproducts);
 
 const ShowProducts = () => {
