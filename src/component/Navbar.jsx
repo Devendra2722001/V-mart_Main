@@ -49,7 +49,7 @@ const Navbar = () => {
         if (token != null) {
             setlogBtn(logout);
             getcartItem();
-            console.log("Hello Hii");
+            //console.log("Hello Hii");
         }else{
             console.log("no token found");            
         }

@@ -31,8 +31,8 @@ const HomeProductList = () => {
 
   
   let allproducts = data;
-  
-      console.log(data);
+
+      //console.log(data);
       
         let mobileproducts = [];
           for (let i = 0; i < allproducts.length; i++) {

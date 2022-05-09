@@ -12,67 +12,78 @@ const Product = () => {
     const { _id } = useParams();
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [cartBtn, setCartBtn] = useState("Add to Cart");
-    const [favBtn, setFavBtn] = useState("Add to Favorites");
+    const [cartBtn, setCartBtn] = useState("Add To Cart");
+    const [favBtn, setFavBtn] = useState("Add To Favorites");
     const [cartItem, setCartItem] = useState([]);
-    const [Idincart, setIdncart] = useState([]);
-    
-    
-    
-
-    
 
     const addFavorit = (favorit) => {
-        if (favBtn === "Add to Favorites") {
+        if (favBtn === "Add To Favorites") {
             setFavBtn("Remove From Favorites")
 
         }
         else {
 
-            setFavBtn("Add to Favorites");
+            setFavBtn("Add To Favorites");
         }
     }
 
     useEffect(() => {
-        getProduct();
-        getcartItem(); 
-        console.log("Hii");
-
-        setTimeout(() => {
-            //document.getElementById("I_know").click();
-        }, 2000);
-                
+        getProduct();        
+        Checkforcart();
+        Checkforfav();
     }, []);
 
 
-    const Checkforme = () => {
+    const Checkforcart = async () => {        
+            let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
+                method: "GET",
+                headers: {
+                    token: JSON.parse(localStorage.getItem("token"))
+                }
+            });
+            result = await result.json();
+            //console.log("got cart data:-",result);        
+            //setCartItem(result);
 
-        //let Checking = [];
-            for (let i = 0; i < cartItem.length; i++) { 
-                
-                let item_ids = Idincart[i].productId            
-                console.log("cart item ids",item_ids)
-                
-                if(item_ids===_id){
-                    console.log("Found This Item In Cart");
+            for (let i = 0; i < result.length; i++) {
+                let item_ids = result[i].productId                
+                if(item_ids===_id){                    
                     setCartBtn("Remove From Cart")
                 }else{
-                    //Checking.push(item_ids[i]);
                     setCartBtn("Add To Cart")
-                }
-                // pricearray.push(priceofitem[i]);
-                // break;
-                console.log("Checking",item_ids);
-            }                  
-            
-
+                }               
+            }
     };
 
+    const Checkforfav = async () => {        
+        let Favresult = await fetch("https://vmart-api.herokuapp.com/myfavouritetItem", {
+            method: "GET",
+            headers: {
+                token: JSON.parse(localStorage.getItem("token"))
+            }
+        });
+        Favresult = await Favresult.json();
+        console.log("got Fav data:-",Favresult);        
+        //setCartItem(Favresult);
+
+        for (let i = 0; i < Favresult.length; i++) {
+            let favitem_ids = Favresult[i].productId                
+            if(favitem_ids===_id){                    
+                setFavBtn("Remove From Favorites")
+            }else{
+                setFavBtn("Add To Favorites")
+            }               
+        }
+};
+
+   
     const getProduct = async () => {
         const response = await fetch(`https://vmart-api.herokuapp.com/singleProduct/${_id}`);
         setProduct(await response.json());
         setLoading(false);
     }
+
+
     const addToCart = async (_id) => {
         let result = await fetch(`https://vmart-api.herokuapp.com/cart/${_id}`, {
             method: "POST",
@@ -81,9 +92,20 @@ const Product = () => {
             }
         });
         result = await result.json();
-        setCartItem(result);
-        toast(`${product.name} Added To cart`);
+        //setCartItem(result);
+        toast(`${product.name} Added To cart`,{position: toast.POSITION.TOP_LEFT});
         //setCartBtn("Remove From Cart")
+    }
+
+    const addTofav = async (_id) => {
+        let Favresult = await fetch(`https://vmart-api.herokuapp.com/favourite/${_id}`, {
+            method: "POST",
+            headers: {
+                token: JSON.parse(localStorage.getItem("token"))
+            }
+        });
+        Favresult = await Favresult.json();
+        toast(`${product.name} Added To Favorites`,{position: toast.POSITION.TOP_LEFT});
     }
 
     const removeFromCart = async (_id) => {
@@ -94,19 +116,51 @@ const Product = () => {
             }
         });
         result = await result.json();
-        setCartItem(result);
+        //setCartItem(result);
+        toast(`${product.name} Removed From Cart`,{position: toast.POSITION.TOP_LEFT});
+        //window.location.reload();
+    }
+
+    const removeFromfav = async (_id) => {
+        let Favresult = await fetch(`https://vmart-api.herokuapp.com/removeFromFavourite/${_id}`, {
+            method: "POST",
+            headers: {
+                token: JSON.parse(localStorage.getItem("token"))
+            }
+        });
+        Favresult = await Favresult.json();
+        //setCartItem(result);
+        toast(`${product.name} Removed From Favorites`,{position: toast.POSITION.TOP_LEFT});
+        //window.location.reload();
     }
 
     
 
     const dothething = () =>{
-        tryingToadd(product._id); 
-        tryingToremove(product._id);
-        Protected_Route();
+        //console.log("call donothing",cartBtn,typeof(cartBtn));
+        if (cartBtn === "Add To Cart") {
+            console.log("---->")
+            tryingToadd(product._id);            
+        }else{
+            tryingToremove(product._id);
+        }        
+    }
+
+    const dothethingforfav = () =>{
+        //console.log("call donothing",cartBtn,typeof(cartBtn));
+        if (favBtn === "Add To Favorites") {
+            //console.log("---->")
+            tryingToaddfav(product._id);            
+        }else{
+            tryingToremovefav(product._id);
+        }        
     }
 
     const tryingToadd = (_id) => {
-       if (cartBtn === "Add to Cart") {
+        //console.log(_id)
+        //console.log("call donothing",cartBtn,typeof(cartBtn));
+
+       if (cartBtn === "Add To Cart") {
             addToCart(_id);
             setCartBtn("Remove From Cart")
             //changeBtn()
@@ -124,66 +178,38 @@ const Product = () => {
         }
     }
 
-    //console.log(cartBtn)
-
-    const getcartItem = async () => {
-        let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
-            method: "GET",
-            headers: {
-                token: JSON.parse(localStorage.getItem("token"))
-            }
-        });
-        result = await result.json();
-        console.log("got cart data:-",result);
+    const tryingToaddfav = (_id) => {
         
-            setCartItem(result);
-            setIdncart(result)
-            if(result===[]){
-                console.log("Empty");                
-            }else{
-                console.log("Not Empty");
-            }
-            Checkforme();
-        
-
-        //checkProductExist();
-        console.log(cartItem);
-        console.log(Idincart);
-        
+       if (favBtn === "Add To Favorites") {
+            addTofav(_id);
+            setFavBtn("Remove From Favorites")            
+        }
     }
 
+    const tryingToremovefav = (_id) => {
+        if (favBtn === "Remove From Favorites") {
+            console.log("Trying To Remove from Fav")
+            removeFromfav(_id);
+            setFavBtn("Add To Favorites")
+            //changeBtn();
+        }
+    }
 
-
-    
-
-    
-        //   for (let i = 0; i < cartItem.length; i++) {
-        //     let pricearray = []; 
-        //     let allitem = cartItem;
-        //     let priceofitem = allitem[i].productId
-        //     if(priceofitem!==null){
-        //         //console.log("truing to add price");
-        //         pricearray.push(priceofitem);
-        //     }
-        //     // pricearray.push(priceofitem[i]);
-        //     // break;
-        //     console.log("Cart Product Array",pricearray);
-        //     for (let c = 0; c < cartItem.length; c++) { 
-        //         if(_id===pricearray[c]){
-        //             console.log("Found This Item In Cart")
-        //             if (cartBtn === "Add to Cart") {
-        //                 setCartBtn("Remove From Cart")        
-        //             }
-        //             //setCartBtn("Remove From Cart")
-        //         }           
-        //       }
-        //   }                  
-        
-
-          const Protected_Route = (props) => {
+          const Protected_Route_Cart = (props) => {
             const token = localStorage.getItem('token');
             if (token == null) {
                 CongoAlert();
+            }else{
+                dothething();
+            }     
+        };
+
+        const Protected_Route_Fav = (props) => {
+            const token = localStorage.getItem('token');
+            if (token == null) {
+                CongoAlertFav();
+            }else{
+                dothethingforfav();
             }     
         };
 
@@ -197,75 +223,15 @@ const Product = () => {
               //history.push("/login");
         }
 
-
-
-
-          
-
-
-    // const changeBtn = () => {
-    //     console.log("hii");
-    //     //cartBtn == "Add to Cart";
-    //     if (cartBtn === "Add to Cart") {
-    //         setCartBtn("Remove From Cart")
-    //     } else {
-    //         setCartBtn("Add to Cart")
-    //     }
-
-    // }
-
-    
-
-
-// const checkProductExist = () =>{
-  
-    
-// }
-
-// console.log("lenth check",cartItem.length)
-//     if(cartItem.length !== 0){
-//         console.log("Condition")
-
-//         for (let i = 0; i < cartItem.length; i++) {
-
-//             console.log(i)
-//             const matchId = cartItem[i];
-    
-//             //console.log("matchId",matchId.productId);
-    
-//             const gotId = matchId.productId;
-    
-//             console.log("getId", gotId, typeof (gotId))
-//             console.log("Id", _id, typeof (_id))
-
-//             if(i===cartItem.length){
-//                 console.log("Finished Reading array")
-//             }
-    
-//             console.log("condtion", gotId === _id)
-//             if (gotId === _id) {
-//                 console.log("Id Matched - This Product is already in cart")
-//                 changeBtn()
-//                 if(i===cartItem.length){
-//                     console.log("Finished Reading array")
-//                 }
-//             } else {
-//                 console.log("Id Did Not Match - This Product is not in cart")
-//             }
-//             //break;
-//         }
-        
-//     }
-
-    const addTofavorite = async (id) => {
-        let result = await fetch(`https://vmart-api.herokuapp.com/favourite/${id}`, {
-            method: "post",
-            headers: {
-                token: JSON.parse(localStorage.getItem("token"))
-            }
-        });
-        result = await result.json();
-    }
+        const CongoAlertFav = () => {
+            swal({
+                title: "Login/Signup!",
+                text: "Please Login Or Singup to add item to your favorites",
+                icon: "warning",
+                button: "Okay!",
+              });
+              //history.push("/login");
+        }
 
 
     const Loading = () => {
@@ -323,8 +289,17 @@ const Product = () => {
 
 
                         <div className="addcartgocartBTN">
-                            <button className="btn-add-item" onClick={() => { dothething();}}>{cartBtn}</button>
-                            <button className="btn-add-item" id="I_know" onClick={() => { Checkforme();}}>{favBtn}</button>
+                            <button className="btn-add-item" onClick={() => { 
+                                Protected_Route_Cart();
+                                console.log("Clicked Cartbtn")
+                                }
+                            }>{cartBtn}</button>
+
+                            <button className="btn-add-item" onClick={() => {
+                                Protected_Route_Fav();                                 
+                                console.log("Clicked Favbtn")
+                                }
+                            }>{favBtn}</button>                            
                         </div>
 
 
