@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 
 const Cart = () => {
     const history = useHistory();    
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState();
     const [cartItem , setCartItem] = useState([]);
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const Cart = () => {
         });
         result = await result.json();
         setCartItem(result);
-        setLoading(false);
+        //setLoading(false);
     }
     
     const removeFromCart =async (id) => {

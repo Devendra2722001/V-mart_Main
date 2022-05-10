@@ -5,6 +5,13 @@ import Skeleton from "react-loading-skeleton";
 import No_data from './No_data.gif';
 
 const User = () => {
+
+    
+    
+
+        
+
+
     const history = useHistory();
     const [profile , setProfile] = useState([]);
     const [address , setAddress] = useState([]);
@@ -15,11 +22,7 @@ const User = () => {
         getProfile();
         getAddress();
         getOrderHistory();
-        setTimeout(() => {
-            ProtectedRoute();
-            console.log("Plese Login First");
-            
-          }, 1);
+        ProtectedRoute();        
     },[])
 
     const getProfile = async() => {
@@ -99,14 +102,13 @@ const User = () => {
             headers :{ token : JSON.parse(localStorage.getItem("token")),
             }
         });
-        result = await result.json();
+        result = await result.json();        
         setOrderHistory(result);
+        console.log("result",result);
     }
 
-    console.log("myProfile", profile )
-    console.log("myaddress", address )
-    console.log("myOrder", orderHistory)
-
+   
+        
     const Loading = () => {
         return (
         <>
@@ -432,7 +434,7 @@ const User = () => {
                             </div>
                             {
                             orderHistory.map((orderHistory) =>{
-                                return orderHistory.products.map((products) =>{  
+                                return orderHistory.products.reverse().map((products) =>{  
                                     return(
                                         <ul className="list-group"  key={orderHistory._id}>
                                         <li className="d-flex justify-content-between mb-3">
@@ -569,7 +571,7 @@ const User = () => {
                             </div>
                             {
                             orderHistory.map((orderHistory) =>{
-                                return orderHistory.products.map((products) =>{  
+                                return orderHistory.products.reverse().map((products) =>{  
                                     return(
                                         <ul className="list-group"  key={orderHistory._id}>
                                         <li className="d-flex justify-content-between mb-3">
