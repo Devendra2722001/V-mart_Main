@@ -48,7 +48,7 @@ function App() {
               <Switch>
                   <Route exact path="/" component={Dashbord} />
                   <Route exact path="/userorder" component={Userorder} />
-                  <Route exact path="/specificorder/:id/:key" component={Orderlist} />
+                  <Route exact path="/specificorder/:id" component={Orderlist} />
               </Switch>
 
         </div>
@@ -68,6 +68,7 @@ function App() {
         <Navbar />
       </div>
       <Switch>
+
         <Route exact path="/" component={home} />
         <Route exact path="/productlist" component={productlist} />        
         <Route exact path="/productlist/:_id" component={product} />           
@@ -85,6 +86,7 @@ function App() {
         <Route exact path="/ChangePassword" component={changePassword} />
         <Route exact path="/Email" component={email} />
         <Route exact path="/ResetPassword" component={resetpassword} />
+        
       </Switch>
       
       <Footer/>

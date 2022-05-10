@@ -151,7 +151,7 @@ console.log("Got Image Url - ",imageurl);
       
     } else if(imageurl === undefined){
       document.getElementById("clickme").click();
-    }else if(imageurl !== undefined){
+    } else if(imageurl !== undefined){
       await Axios.post("https://vmart-api.herokuapp.com/product", formData)
       .then(() => {
         toast("Successfully Inserted");
