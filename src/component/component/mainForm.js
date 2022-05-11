@@ -132,20 +132,34 @@ console.log("Got Image Url - ",imageurl);
         imageurl,
       };
 
-      fetch(`https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`, {
-        method: "put",
+      let res = fetch(`https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`, {
+        method: "PUT",
         formData,
         headers: {
           accept: "application/json",
           "content-Type": "application/json",
         },
         body: JSON.stringify(Product),
-      }).then(() => {
+       
+      });
+      //let resp = await res.json();
+      console.log(res)
+      // .then(() => {
+      //   toast("Successfully Updated");
+      //   props?.setShowForm(false);
+
+      //   props.getProductsData();
+      // });\
+      
+      if(res){
         toast("Successfully Updated");
         props?.setShowForm(false);
-
         props.getProductsData();
-      });
+      }
+      // else if (res.status === 404){
+      //   window.alert("not updated")
+      //   console.log(updateProducts._id)
+      // }
       
      
       
@@ -159,7 +173,7 @@ console.log("Got Image Url - ",imageurl);
         props?.setShowForm(false);
       })
       .catch((error) => window.alert("Please Enter Valid Data"));
-    }
+     }
   };
 
  

@@ -261,9 +261,9 @@ const Product = () => {
         );
     };
 
-    //console.log(product.name)
+    console.log(product)
 
-    const ShowProduct = () => {
+    const ShowProductMobile = () => {
         return (
             <>
 
@@ -286,7 +286,10 @@ const Product = () => {
                         <div className="product-head"> {product.name} </div>
                         <div className="product-price"> Price - {product.price}₹</div>
                         <div className="product-category">Category - {product.category}</div>
-
+                        <div className="product-minitext">Ram - {product.RAM}GB</div>
+                        <div className="product-minitext"> Screen Size - {product.screenSize}</div>
+                        <div className="product-minitext"> Main Camera - {product.camera}</div>
+                        <div className="product-minitext"> Product Description - {product.description}</div>
 
                         <div className="addcartgocartBTN">
                             <button className="btn-add-item" onClick={() => { 
@@ -312,15 +315,135 @@ const Product = () => {
         )
     }
 
-    return (
-        <div>
-            <div>
-                <div>
-                    {loading ? <Loading /> : <ShowProduct />}
+    const ShowProductLaptop = () => {
+        return (
+            <>
+
+                <h6 className="bread_crum_text"><NavLink to="/" id="copyright">Home</NavLink> / <NavLink to={`/${(product.category)}`} id="copyright">{product.category} </NavLink> / {product.name}</h6>
+                <div className="product-page">
+
+                    <div id="grid_1" >
+                        <div id="Tproductimg">
+                            <div><img className="product-media-mini" src={product.imageurl} alt={product.name} /></div>
+                            <div><img className="product-media-mini" src={product.imageurl} alt={product.name} /></div>
+                            <div><img className="product-media-mini" src={product.imageurl} alt={product.name} /></div>
+                        </div>
+                        <div className="product-media" >
+                            <img className="product_img" src={product.imageurl} alt={product.name} />
+                        </div>
+                    </div>
+
+                    <div id="grid_2">
+
+                        <div className="product-head"> {product.name} </div>
+                        <div className="product-price"> Price - {product.price}₹</div>
+                        <div className="product-category">Category - {product.category}</div>
+                        <div className="product-minitext">Ram - {product.RAM}</div>
+                        <div className="product-minitext"> Screen HardDisk - {product.hardDisk}</div>
+                        <div className="product-minitext"> Processor - {product.processor}</div>
+                        <div className="product-minitext"> Product Description - {product.description}</div>
+
+                        <div className="addcartgocartBTN">
+                            <button className="btn-add-item" onClick={() => { 
+                                Protected_Route_Cart();
+                                console.log("Clicked Cartbtn")
+                                }
+                            }>{cartBtn}</button>
+
+                            <button className="btn-add-item" onClick={() => {
+                                Protected_Route_Fav();                                 
+                                console.log("Clicked Favbtn")
+                                }
+                            }>{favBtn}</button>                            
+                        </div>
+
+
+                    </div>
+
                 </div>
+
+
+            </>
+        )
+    }
+
+    const ShowProductShoes = () => {
+        return (
+            <>
+
+                <h6 className="bread_crum_text"><NavLink to="/" id="copyright">Home</NavLink> / <NavLink to={`/${(product.category)}`} id="copyright">{product.category} </NavLink> / {product.name}</h6>
+                <div className="product-page">
+
+                    <div id="grid_1" >
+                        <div id="Tproductimg">
+                            <div><img className="product-media-mini" src={product.imageurl} alt={product.name} /></div>
+                            <div><img className="product-media-mini" src={product.imageurl} alt={product.name} /></div>
+                            <div><img className="product-media-mini" src={product.imageurl} alt={product.name} /></div>
+                        </div>
+                        <div className="product-media" >
+                            <img className="product_img" src={product.imageurl} alt={product.name} />
+                        </div>
+                    </div>
+
+                    <div id="grid_2">
+
+                        <div className="product-head"> {product.name} </div>
+                        <div className="product-price"> Price - {product.price}₹</div>
+                        <div className="product-category">Category - {product.category}</div>
+                        <div className="product-minitext"> Colour - {product.colour}</div>
+                        <div className="product-minitext"> Size - {product.size}</div>
+                        <div className="product-minitext"> For - {product.gender}</div> 
+                        <div className="product-minitext"> Product Description - {product.description}</div>
+
+                        <div className="addcartgocartBTN">
+                            <button className="btn-add-item" onClick={() => { 
+                                Protected_Route_Cart();
+                                console.log("Clicked Cartbtn")
+                                }
+                            }>{cartBtn}</button>
+
+                            <button className="btn-add-item" onClick={() => {
+                                Protected_Route_Fav();                                 
+                                console.log("Clicked Favbtn")
+                                }
+                            }>{favBtn}</button>                            
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </>
+        )
+    }
+
+    if(loading===true){
+        return (
+            <div>
+                <Loading />
             </div>
-        </div>
-    );
+        );
+    }else if(product.category === "mobile"){
+        return (
+            <div>
+                <ShowProductMobile />
+            </div>
+        );
+    }else if(product.category === "laptop"){
+        return (
+            <div>
+                <ShowProductLaptop />
+            </div>
+        );
+    }else{
+        return (
+            <div>
+                <ShowProductShoes />
+            </div>
+        );
+    } 
 }
 
 export default Product;
