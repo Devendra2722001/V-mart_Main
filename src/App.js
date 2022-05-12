@@ -24,6 +24,7 @@ import resetpassword from "./component/ResetPassword";
 import Dashbord from "./component/component/productDash";
 import Userorder from "./component/component/userOrder";
 import Orderlist from "../src/component/component/orderList";
+import vendorsignup from "../src/component/vendorsignup";
 
 
 
@@ -81,6 +82,7 @@ function App() {
         <Route exact path="/Shoes" component={shoes} />
         <Route exact path="/Login" component={login} />
         <Route exact path="/SignUp" component={signUp} />
+        <Route exact path="/vendorsignup" component={vendorsignup} />
         <Route exact path="/AddAddress" component={addaddress} />
         <Route exact path="/EditAddress/:id" component={editaddress} />
         <Route exact path="/ChangePassword" component={changePassword} />

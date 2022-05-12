@@ -13,9 +13,11 @@ const Favorits = () => {
 
      useEffect(() => {
          getFavourite();
-         setTimeout(() => {
-            ProtectedRoute();         
-          }, 1);
+         ProtectedRoute();
+         
+         setTimeout(() => {            
+            setLoading(false);         
+          }, 2000);
      },[])
 
      const ProtectedRoute = (props) => {
@@ -43,7 +45,7 @@ const Favorits = () => {
          });
          result = await result.json();
          setFavourite(result);
-         setLoading(false);
+         //setLoading(false);
      }
      const removeFromgetFavourite =async (id) => {
          let result = await fetch(`https://vmart-api.herokuapp.com/removeFromFavourite/${id}`,{

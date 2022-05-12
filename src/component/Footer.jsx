@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const linkme = () => {
     window.location.href = "mailto:info@vonalsys.com";
@@ -71,6 +72,9 @@ const Footer = () => {
                                 <div>
                                     <div class="footer-text">
                                         <p>Visit www.Volansys.com For More Info</p>
+                                        <NavLink to="/vendorsignup">
+                                            <p>Vendor Signup ?</p>
+                                        </NavLink>
                                     </div>
                                 </div>
                                 <div>

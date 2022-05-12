@@ -72,7 +72,9 @@ const Login = () => {
         localStorage.removeItem('token');  
         history.push("/");
         window.location.reload();     
-      }else
+      }else if (data.user.isVandor === true){
+          
+      }
 
       {
       if (data.status = data) {

@@ -6,15 +6,19 @@ import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 function Main(props) {
-  
   const { updateProducts } = props;
   const [name, setProductName] = useState(updateProducts?.name || "");
   const [description, setProductDescription] = useState(
     updateProducts?.description || ""
   );
   const [price, setProductPrice] = useState(updateProducts?.price || "");
-  
-  const [image, setImage] = useState(updateProducts?.image || "");
+
+  const [image1, setImage1] = useState(updateProducts?.image1 || "");
+  const [image2, setImage2] = useState(updateProducts?.image2 || "");
+  const [image3, setImage3] = useState(updateProducts?.image3 || "");
+  const [image4, setImage4] = useState(updateProducts?.image4 || "");
+
+  const [brand, setBrand] = useState(updateProducts?.brand || "");
   const [category, setProductcategory] = useState(
     updateProducts?.category || ""
   );
@@ -45,42 +49,119 @@ function Main(props) {
   const [gender, setGender] = useState(updateProducts?.gender || "");
   const [size, setSize] = useState(updateProducts?.size || "");
   const [colour, setColour] = useState(updateProducts?.colour || "");
-  const [brand, setBrand] = useState(updateProducts?.brand || "");
-  const [imageurl, setImageurl] = useState();
+  const [imageurl1, setImageurl1] = useState();
+  const [imageurl2, setImageurl2] = useState();
+  const [imageurl3, setImageurl3] = useState();
+  const [imageurl4, setImageurl4] = useState();
 
-  const postDetails = () => {
+  const postImages = () => {
+    //const postDetails1 = () => {
+    const imgdata1 = new FormData();
+    imgdata1.append("file", image1);
+    imgdata1.append("upload_preset", "V-mart_images");
+    imgdata1.append("cloud_name", "Volansys");
 
-    const imgdata = new FormData()        
-    imgdata.append("file",image)        
-    imgdata.append("upload_preset","V-mart_images")        
-    imgdata.append("cloud_name","Volansys")   
-
-    fetch("https://api.cloudinary.com/v1_1/Volansys/image/upload",{        
-      method:"post",        
-      body:imgdata        
+    fetch("https://api.cloudinary.com/v1_1/Volansys/image/upload", {
+      method: "post",
+      body: imgdata1,
     })
-    
-    
-    .then(res=>res.json())        
-    .then(imgdata=>{                
-      console.log(imgdata);      
-      setImageurl(imgdata.url);
+      .then((res) => res.json())
+      .then((imgdata1) => {
+        console.log(imgdata1);
+        setImageurl1(imgdata1.url);
+        //addproduct();
+
+        //console.log(data)
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+    //};
+
+    //const postDetails2 = () => {
+    const imgdata2 = new FormData();
+    imgdata2.append("file", image2);
+    imgdata2.append("upload_preset", "V-mart_images");
+    imgdata2.append("cloud_name", "Volansys");
+
+    fetch("https://api.cloudinary.com/v1_1/Volansys/image/upload", {
+      method: "post",
+      body: imgdata2,
+    })
+      .then((res) => res.json())
+      .then((imgdata2) => {
+        console.log(imgdata2);
+        setImageurl2(imgdata2.url);
+        //addproduct();
+
+        //console.log(data)
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+    //};
+
+    //const postDetails3 = () => {
+    const imgdata3 = new FormData();
+    imgdata3.append("file", image3);
+    imgdata3.append("upload_preset", "V-mart_images");
+    imgdata3.append("cloud_name", "Volansys");
+
+    fetch("https://api.cloudinary.com/v1_1/Volansys/image/upload", {
+      method: "post",
+      body: imgdata3,
+    })
+      .then((res) => res.json())
+      .then((imgdata3) => {
+        console.log(imgdata3);
+        setImageurl3(imgdata3.url);
+        //addproduct();
+
+        //console.log(data)
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+    //};
+
+    //const postDetails4 = () => {
+    const imgdata4 = new FormData();
+    imgdata4.append("file", image4);
+    imgdata4.append("upload_preset", "V-mart_images");
+    imgdata4.append("cloud_name", "Volansys");
+
+    fetch("https://api.cloudinary.com/v1_1/Volansys/image/upload", {
+      method: "post",
+      body: imgdata4,
+    })
+      .then((res) => res.json())
+      .then((imgdata4) => {
+        console.log(imgdata4);
+        setImageurl4(imgdata4.url);
+        //addproduct();
+
+        //console.log(data)
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+    //};
+
+    if (
+      imageurl1 != null &&
+      imageurl2 != null &&
+      imageurl3 != null &&
+      imageurl4 != null
+    ) {
       addproduct();
-      
-      
-      //console.log(data)   
-    })
-    
-    
+    }
+  };
 
-    .catch(err=>{        
-    console.log(err)        
-    })
-    
-}
-
-
-console.log("Got Image Url - ",imageurl);
+  console.log("Got Image Url - ", imageurl1);
 
   const addproduct = async (e) => {
     //e.preventDefault();
@@ -88,7 +169,8 @@ console.log("Got Image Url - ",imageurl);
     formData.append("name", name);
     formData.append("description", description);
     formData.append("price", price);
-    formData.append("image", image);
+    formData.append("image", image1);
+    formData.append("brand", brand);
     formData.append("category", category);
     formData.append("RAM", RAM);
     formData.append("batteryCapacity", batteryCapacity);
@@ -102,19 +184,21 @@ console.log("Got Image Url - ",imageurl);
     formData.append("gender", gender);
     formData.append("size", size);
     formData.append("colour", colour);
-    formData.append("brand", brand);
-    formData.append("imageurl", imageurl);
-    
-    console.log(imageurl);
+    formData.append("imageurl1", imageurl1);
+    formData.append("imageurl2", imageurl2);
+    formData.append("imageurl3", imageurl3);
+    formData.append("imageurl4", imageurl4);
+
+    console.log(networkType);
     console.log(formData);
 
     if (updateProducts) {
-
       let Product = {
         name,
         description,
         price,
-        image,
+        image1,
+        brand,
         category,
         RAM,
         batteryCapacity,
@@ -128,30 +212,34 @@ console.log("Got Image Url - ",imageurl);
         gender,
         size,
         colour,
-        brand,
-        imageurl,
+        // imageurl1,
+        // imageurl2,
+        // imageurl3,
+        // imageurl4,
       };
 
-      let res = fetch(`https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`, {
-        method: "PUT",
-        formData,
-        headers: {
-          accept: "application/json",
-          "content-Type": "application/json",
-        },
-        body: JSON.stringify(Product),
-       
-      });
+      let res = fetch(
+        `https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`,
+        {
+          method: "PUT",
+          formData,
+          headers: {
+            accept: "application/json",
+            "content-Type": "application/json",
+          },
+          body: JSON.stringify(Product),
+        }
+      );
       //let resp = await res.json();
-      console.log(res)
+      // console.log(res);
       // .then(() => {
       //   toast("Successfully Updated");
       //   props?.setShowForm(false);
 
       //   props.getProductsData();
       // });\
-      
-      if(res){
+
+      if (res) {
         toast("Successfully Updated");
         props?.setShowForm(false);
         props.getProductsData();
@@ -160,29 +248,25 @@ console.log("Got Image Url - ",imageurl);
       //   window.alert("not updated")
       //   console.log(updateProducts._id)
       // }
-      
-     
-      
-    } else if(imageurl === undefined){
+    } else if (imageurl1 === undefined) {
       document.getElementById("clickme").click();
-    } else if(imageurl !== undefined){
+    } else if (imageurl1 !== undefined) {
       await Axios.post("https://vmart-api.herokuapp.com/product", formData)
-      .then(() => {
-        toast("Successfully Inserted");
-        props.getProductsData();
-        props?.setShowForm(false);
-      })
-      .catch((error) => window.alert("Please Enter Valid Data"));
-     }
+        .then(() => {
+          toast("Successfully Inserted");
+          props.getProductsData();
+          props?.setShowForm(false);
+        })
+        .catch((error) => window.alert("Please Enter Valid Data"));
+    }
   };
+  console.log(networkType);
 
- 
-
-  
   const handleChange = (e) => {
     setProductcategory(e.target.value);
+    console.log(networkType);
   };
-  
+
   return (
     <>
       <div>
@@ -245,8 +329,64 @@ console.log("Got Image Url - ",imageurl);
                         className="form-control"
                         placeholder="Product Image"
                         onChange={(e) => {
-                          setImage(e.target.files[0]);
-                          
+                          setImage1(e.target.files[0]);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <div className="form-outline flex-fill mb-0">
+                      <label className="form-label">Product Image</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        placeholder="Product Image"
+                        onChange={(e) => {
+                          setImage2(e.target.files[0]);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <div className="form-outline flex-fill mb-0">
+                      <label className="form-label">Product Image</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        placeholder="Product Image"
+                        onChange={(e) => {
+                          setImage3(e.target.files[0]);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <div className="form-outline flex-fill mb-0">
+                      <label className="form-label">Product Image</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        placeholder="Product Image"
+                        onChange={(e) => {
+                          setImage4(e.target.files[0]);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <div className="form-outline flex-fill mb-0">
+                      <label className="form-label"> Product Brand</label>
+                      <input
+                        type="text"
+                        value={brand}
+                        className="form-control"
+                        placeholder="Brand"
+                        onChange={(e) => {
+                          setBrand(e.target.value);
                         }}
                         required
                       />
@@ -438,7 +578,7 @@ console.log("Got Image Url - ",imageurl);
                     category === "shoes" && (
                       <div>
                         <div className="row mt-2">
-                          <div className="d-flex flex-row align-items-center mb-4 col-md-3">
+                          <div className="d-flex flex-row align-items-center mb-4 col-md-4">
                             <div className="form-outline flex-fill mb-0">
                               <label className="form-label">Gender</label>
                               <input
@@ -454,7 +594,7 @@ console.log("Got Image Url - ",imageurl);
                             </div>
                           </div>
 
-                          <div className="d-flex flex-row align-items-center mb-4 col-md-3">
+                          <div className="d-flex flex-row align-items-center mb-4 col-md-4">
                             <div className="form-outline flex-fill mb-0">
                               <label className="form-label">Size</label>
                               <input
@@ -470,7 +610,7 @@ console.log("Got Image Url - ",imageurl);
                             </div>
                           </div>
 
-                          <div className="d-flex flex-row align-items-center mb-4 col-md-3">
+                          <div className="d-flex flex-row align-items-center mb-4 col-md-4">
                             <div className="form-outline flex-fill mb-0">
                               <label className="form-label">Color</label>
                               <input
@@ -485,22 +625,6 @@ console.log("Got Image Url - ",imageurl);
                               />
                             </div>
                           </div>
-
-                          <div className="d-flex flex-row align-items-center mb-4 col-md-3">
-                            <div className="form-outline flex-fill mb-0">
-                              <label className="form-label"> Brand</label>
-                              <input
-                                type="text"
-                                value={brand}
-                                className="form-control"
-                                placeholder="Brand"
-                                onChange={(e) => {
-                                  setBrand(e.target.value);
-                                }}
-                                required
-                              />
-                            </div>
-                          </div>
                         </div>
                       </div>
                     )
@@ -510,15 +634,9 @@ console.log("Got Image Url - ",imageurl);
                       id="clickme"
                       type="button"
                       className="btn btn-primary btn-lg"
-                      onClick={()=>{
-                        postDetails(); 
-                        
-                        // setTimeout(() => {
-                        //   addproduct(); 
-                                                  
-                        // }, 2000);
-                        
-                        }}
+                      onClick={() => {
+                        postImages();
+                      }}
                     >
                       {updateProducts ? "Update Product" : "Add Product"}
                     </button>
