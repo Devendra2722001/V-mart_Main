@@ -248,9 +248,9 @@ function Main(props) {
       //   window.alert("not updated")
       //   console.log(updateProducts._id)
       // }
-    } else if (imageurl1 === undefined) {
+    } else if (imageurl4 === undefined) {
       document.getElementById("clickme").click();
-    } else if (imageurl1 !== undefined) {
+    } else if (imageurl4 !== undefined) {
       await Axios.post("https://vmart-api.herokuapp.com/product", formData)
         .then(() => {
           toast("Successfully Inserted");

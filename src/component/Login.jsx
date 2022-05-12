@@ -65,15 +65,19 @@ const Login = () => {
     const data = await res.json();
     console.log(data);
       if(data.user.isAdmin === true){
-        localStorage.setItem("token" , JSON.stringify(data.token));
         localStorage.setItem("ImAdmin" , true);
-        console.log("Admin Login Successfull");
-        //window.location.href = "http://localhost:3000/";
-        localStorage.removeItem('token');  
+        localStorage.setItem("token" , JSON.stringify(data.token));        
+        console.log("Admin Login Successfull");        
+        //localStorage.removeItem('token');  
         history.push("/");
-        window.location.reload();     
-      }else if (data.user.isVandor === true){
-          
+        window.location.reload();   
+
+      }else if(data.user.isVendor === true){        
+        localStorage.setItem("ImVendor" , true);
+        //localStorage.setItem("token" , JSON.stringify(data.token));
+        console.log("Vendor Login Successfull"); 
+        history.push("/");
+        window.location.reload(); 
       }
 
       {
