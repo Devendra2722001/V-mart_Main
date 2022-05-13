@@ -1428,3 +1428,14 @@ height: 100%;
 #yourcartmb{
   margin-bottom: 30px;
 }
+
+#user_address{
+  color: #ffffff;
+  background-color: rgba(0, 189, 85, 0.959);
+}
+
+#user_address_remove{
+  color: #ffffff;
+  background-color: rgba(252, 33, 33, 0.959);
+}
+

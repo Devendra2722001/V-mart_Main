@@ -74,7 +74,8 @@ const Login = () => {
 
       }else if(data.user.isVendor === true){        
         localStorage.setItem("ImVendor" , true);
-        //localStorage.setItem("token" , JSON.stringify(data.token));
+        localStorage.setItem("VendorId" , data.user._id);
+        localStorage.setItem("token" , JSON.stringify(data.token));
         console.log("Vendor Login Successfull"); 
         history.push("/");
         window.location.reload(); 

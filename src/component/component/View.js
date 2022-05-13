@@ -19,6 +19,7 @@ const View = (props) => {
                     <th>Product_Description</th>
                     <th>Product_Price</th>
                     <th>Product_Category</th>
+                    <th>Product_Brand</th>
                     <th>Operation</th>
                   </tr>
                 </thead>
@@ -28,14 +29,27 @@ const View = (props) => {
                       <td>{product.name}</td>
                       <td>{product.description}</td>
                       <td>{product.price}</td>
-                      <td>{product.category}</td>                      
+                      <td>{product.category}</td>
+                      <td>{product.brand}</td>
                       <td>
                         <div className="admin_delup">
                           <div id="bloc4">
-                            <img src="../images/delete.png" width="30rem;" alt="user order list" title="Delete Product" onClick={() => props?.deleteProduct(product._id)}/>
+                            <img
+                              src="../images/delete.png"
+                              width="30rem;"
+                              alt="user order list"
+                              title="Delete Product"
+                              onClick={() => props?.deleteProduct(product._id)}
+                            />
                           </div>
                           <div id="bloc4">
-                            <img src="../images/updated.png" width="30rem;" alt="user order list" title="Update Product" onClick={() => updateData(product)}/>
+                            <img
+                              src="../images/updated.png"
+                              width="30rem;"
+                              alt="user order list"
+                              title="Update Product"
+                              onClick={() => updateData(product)}
+                            />
                           </div>
                         </div>
                       </td>

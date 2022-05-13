@@ -11,27 +11,57 @@ function VendorDashbord() {
   const [products, setProducts] = useState([]);
   const [updateProducts, setUpdateProducts] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [profile , setProfile] = useState([]);
+  const [vid , setVid] = useState("")
 
   useEffect(() => {
     getProductsData();
+    getProfile();
+    
+    //setVid(localStorage.getItem("token"))
+    //console.log(vid);
+    //console.log(localStorage.getItem("token"));
   }, []);
+
+  console.log(profile._id);
+
+  const getProfile = async() => {
+    let result = await fetch("https://vmart-api.herokuapp.com/myProfile",{
+        method: "GET",
+        headers :{ token : JSON.parse(localStorage.getItem("token"))
+        }
+    });
+    result = await result.json();
+    setProfile(result);
+    setVid(result._id)
+
+  }
+
+  console.log(vid)
 
   async function getProductsData() {
     const { data } = await axios.get("https://vmart-api.herokuapp.com/getProduct");
     //setProducts(data.products);
     console.log(data);
 
-    let allproducts = data.products;     
+        let allproducts = data.products;     
       
-        let mobileproducts = [];
+        let vendorproduct = [];
           for (let i = 0; i < allproducts.length; i++) {
-              if (allproducts[i].category ==="mobile") {
-                mobileproducts.push(allproducts[i]);
+              if (allproducts[i].vendorId === localStorage.getItem("VendorId")) {
+                vendorproduct.push(allproducts[i]);
               }
           }
+          setProducts(vendorproduct)
+          // setInterval(() => {
+          //   
+          // }, 1000);
+          
 
-          setProducts(mobileproducts)
-          console.log(allproducts);
+          
+          
+
+          //console.log(allproducts);
         //let fourmobile = mobileproducts.slice(0, 4); 
   }
 

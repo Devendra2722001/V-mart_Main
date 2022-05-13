@@ -91,13 +91,13 @@ const ResetPassword = () => {
             {error.password && <span className='text-danger font-weight-bold'>{error.password}</span>}
         </div>
         <div>
-            <label class="labels">Retype password</label>
+            <label class="labels">Confirm New Password</label>
             <input type="password" class="form-control" placeholder="Retype password" name="conPassword" value={data.conPassword} onChange={handleInputs} />
             {error.conPassword && <span className='text-danger font-weight-bold'>{error.conPassword}</span>}
         </div>
         <br></br>
         <NavLink to="/ResetPassword">
-            <button class="btn btn-primary profile-button" type="button" onClick={resetPassword}>change Password</button>
+            <button class="btn btn-primary profile-button" type="button" onClick={resetPassword}>Change Password</button>
         </NavLink>
 
       </div>

@@ -29,6 +29,7 @@ const Email = () => {
 
 
     const SendOTP = async (e) => {
+      //localStorage.setItem("emailid" , email.emailID);
       e.preventDefault();
       setError(validation(email))
       const{emailID} = email

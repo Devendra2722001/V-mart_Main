@@ -315,9 +315,9 @@ const User = () => {
                                         <hr/>
                                         <div class="text-center">
                                             <NavLink to={`/EditAddress/${addressObj._id}`}>
-                                                <button class="btn btn-primary profile-button" type="button"> Edit Address  </button>
+                                                <button class="btn btn-primary profile-button" type="button" id="user_address"> Edit Address  </button>
                                             </NavLink> &nbsp;
-                                            <button class="btn btn-danger profile-button" type="button" onClick={() => removeAddress(addressObj._id)}>Remove Address</button>
+                                            <button class="btn btn-danger profile-button" type="button" id="user_address_remove" onClick={() => removeAddress(addressObj._id)}>Remove Address</button>
                                         </div>
                                     </div>
                                 ))
@@ -554,9 +554,9 @@ const User = () => {
                                         <hr/>
                                         <div class="text-center">
                                             <NavLink to={`/EditAddress/${addressObj._id}`}>
-                                                <button class="btn btn-primary profile-button" type="button"> Edit Address  </button>
+                                                <button class="btn profile-button" type="button" id="user_address"> Edit Address  </button>
                                             </NavLink> &nbsp;
-                                            <button class="btn btn-danger profile-button" type="button" onClick={() => removeAddress(addressObj._id)}>Remove Address</button>
+                                            <button class="btn profile-button" type="button" id="user_address_remove" onClick={() => removeAddress(addressObj._id)}>Remove Address</button>
                                         </div>
                                     </div>
                                 ))

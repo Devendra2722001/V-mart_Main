@@ -24,6 +24,8 @@ import resetpassword from "./component/ResetPassword";
 import Dashbord from "./component/component/productDash";
 import VendorDashbord from "./component/component/productDashVendor";
 import Userorder from "./component/component/userOrder";
+import VendorOrderuser from "./component/component/VendorOrderuser";
+//import VendorOrderlist from "../src/component/component/VendorOrderlist";
 import Orderlist from "../src/component/component/orderList";
 import vendorsignup from "../src/component/vendorsignup";
 import VendorNavbar from "./component/component/VendorNavbar";
@@ -70,7 +72,8 @@ function App() {
                     <VendorNavbar />
                   </div> 
                   <Switch>
-                        <Route exact path="/" component={VendorDashbord} />                        
+                        <Route exact path="/" component={VendorDashbord} />
+                        <Route exact path="/VendorOrderuser" component={VendorOrderuser} />                        
                   </Switch>
               </div>
             </>

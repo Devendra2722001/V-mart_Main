@@ -49,10 +49,11 @@ function Main(props) {
   const [gender, setGender] = useState(updateProducts?.gender || "");
   const [size, setSize] = useState(updateProducts?.size || "");
   const [colour, setColour] = useState(updateProducts?.colour || "");
-  const [imageurl1, setImageurl1] = useState();
-  const [imageurl2, setImageurl2] = useState();
-  const [imageurl3, setImageurl3] = useState();
-  const [imageurl4, setImageurl4] = useState();
+
+  const [imageurl1, setImageurl1] = useState(updateProducts?.imageurl1 || "");
+  const [imageurl2, setImageurl2] = useState(updateProducts?.imageurl2 || "");
+  const [imageurl3, setImageurl3] = useState(updateProducts?.imageurl3 || "");
+  const [imageurl4, setImageurl4] = useState(updateProducts?.imageurl4 || "");
 
   const postImages = () => {
     //const postDetails1 = () => {
@@ -248,6 +249,7 @@ function Main(props) {
       //   window.alert("not updated")
       //   console.log(updateProducts._id)
       // }
+
     } else if (imageurl4 === undefined) {
       document.getElementById("clickme").click();
     } else if (imageurl4 !== undefined) {

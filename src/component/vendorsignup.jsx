@@ -8,7 +8,7 @@ import validation from './validation';
 const Signup = () => {
   const history = useHistory();
   const [user, setUser] = useState({
-    fname: "", lname: "", email: "", password: "", cpassword: ""
+    fname: "", lname: "", email: "", password: "", cpassword: "", isVendor: "true"
   });
 
   const [error, setError] = useState({});
@@ -24,7 +24,7 @@ const Signup = () => {
   const PostData = async (e) => {
     e.preventDefault();
     setError(validation(user))
-    const { fname, lname, email, password, cpassword } = user;
+    const { fname, lname, email, password, cpassword, isVendor} = user;
     let data = await fetch("https://vmart-api.herokuapp.com/registration", {
       method: "POST",
       headers: {
@@ -32,7 +32,7 @@ const Signup = () => {
       },
               
       body: JSON.stringify({
-        firstName:fname, lastName:lname, email:email, password:password, con_password:cpassword
+        firstName:fname, lastName:lname, email:email, password:password, con_password:cpassword, isVendor : isVendor,
       })
     });
 
@@ -62,9 +62,16 @@ const Signup = () => {
               class="img-fluid" alt="Sample" />
           </div>
           <div class="col-md-8 col-lg-6 col-xl-4">
+            <p>
+              <h2 className='text-center' style={{color: "black"}} >
+                <b>
+                    <tt>Vendor SignUp</tt>
+                </b>
+              </h2>
+            </p>
             <form method="POST">
 
-              <div class="row mt-2 needs-validation">
+              <div class="row needs-validation">
                 <div class="col-md-6">
                   <label class="labels">First name</label>
                   <input type="text" className="form-control" id="firstName" placeholder="Enter Firstname" required="" name="fname" value={user.fname} onChange={handleInputs}/>
@@ -92,9 +99,7 @@ const Signup = () => {
                 </div>
                 {/* <div class="col-md-12">
                   <label class="labels">Select Role</label><br></br>
-                  <input type="radio" name="isAdmin" value={user.isAdmin == true} onChange={handleInputs}/> User &nbsp;
-                  <input type="radio" name="isAdmin" value={user.isAdmin == false} onChange={handleInputs} /> Admin
-                  {error.isAdmin && <span className='text-danger font-weight-bold'>{error.isAdmin}</span>}
+                  <input type="radio" name="isVendor" value={user.isVendor} onChange={handleInputs} defaultChecked/> Vendor &nbsp;
                 </div> */}
               </div>
               <div class="text-center text-lg-start pt-2 mt-3">

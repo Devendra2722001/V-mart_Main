@@ -26,6 +26,7 @@ function AdminNavbar (props){
     
     const removeAdmin = () =>{
         localStorage.removeItem('ImAdmin');
+        localStorage.removeItem('token');
         window.location.reload();
         window.location.href = "/";
       }

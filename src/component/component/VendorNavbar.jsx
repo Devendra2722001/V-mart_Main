@@ -22,13 +22,15 @@ function VendorNavbar (props){
     
     const removeAdmin = () =>{
         localStorage.removeItem('ImVendor');
+        localStorage.removeItem('VendorId');
+        localStorage.removeItem('token');
         window.location.reload();
         window.location.href = "/";
       }
     
     const ProtectedRoute = (props) => {
                 
-        if (localStorage.getItem("ImAdmin") === "true") {
+        if (localStorage.getItem("ImVendor") === "true") {
             setlogBtn(logout);
         }
         else{            
@@ -59,8 +61,8 @@ function VendorNavbar (props){
 
                         
                         <div id="bloc4" class="push">
-                            <NavLink to="/userOrder">
-                                <img src="../images/team.png" width="30rem;" alt="user order list"  title="User Orders List"></img>
+                            <NavLink to="/VendorOrderuser">
+                                <img src="../images/team.png" width="30rem;" alt="user order list"  title="Vendor Order list"></img>
                             </NavLink>
                         </div>                        
                         
