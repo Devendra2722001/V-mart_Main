@@ -30,12 +30,10 @@ const Checkout = () => {
 
   const PostOrder = async (id, key) => {
     sendEmail();
-    let result = await fetch(`https://vmart-api.herokuapp.com/order/${cartId}/${addId}`,
-      {
-        method: "POST",
-        headers: { token: JSON.parse(localStorage.getItem("token")) },
-      }
-    );
+    let result = await fetch(`http://localhost:8000/order/${cartId}/${addId}`, {
+      method: "POST",
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
+    });
     result = await result.json();
     console.log("Data posted");
   };
@@ -47,7 +45,7 @@ const Checkout = () => {
   }, []);
 
   const sendEmail = async () => {
-    let mailsent = await fetch(`https://vmart-api.herokuapp.com/sendmsg`, {
+    let mailsent = await fetch(`http://localhost:8000/sendmsg`, {
       method: "POST",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -87,7 +85,7 @@ const Checkout = () => {
   };
 
   const getAddress = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
+    let result = await fetch("http://localhost:8000/addressListing", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -98,7 +96,7 @@ const Checkout = () => {
   };
 
   const getcartItem = async () => {
-    let cartItem = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
+    let cartItem = await fetch("http://localhost:8000/myCartItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -152,7 +150,7 @@ const Checkout = () => {
   console.log("Total of products is :", sum);
 
   const getcartId = async () => {
-    let cartId = await fetch("https://vmart-api.herokuapp.com/myCartId", {
+    let cartId = await fetch("http://localhost:8000/myCartId", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -163,15 +161,12 @@ const Checkout = () => {
   };
 
   const removeProduct = async () => {
-    let emptyCart = await fetch(
-      "https://vmart-api.herokuapp.com/removeAllProduct",
-      {
-        method: "POST",
-        headers: {
-          token: JSON.parse(localStorage.getItem("token")),
-        },
-      }
-    );
+    let emptyCart = await fetch("http://localhost:8000/removeAllProduct", {
+      method: "POST",
+      headers: {
+        token: JSON.parse(localStorage.getItem("token")),
+      },
+    });
     if (emptyCart.status === 200) {
       console.log("cart empty");
       //window.location.reload();
@@ -185,7 +180,6 @@ const Checkout = () => {
       console.log("Failed");
       CongoAlertOps();
     } else {
-      
       PostOrder();
       removeProduct();
 

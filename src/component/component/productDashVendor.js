@@ -11,13 +11,13 @@ function VendorDashbord() {
   const [products, setProducts] = useState([]);
   const [updateProducts, setUpdateProducts] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [profile , setProfile] = useState([]);
-  const [vid , setVid] = useState("")
+  const [profile, setProfile] = useState([]);
+  const [vid, setVid] = useState("");
 
   useEffect(() => {
     getProductsData();
     getProfile();
-    
+
     //setVid(localStorage.getItem("token"))
     //console.log(vid);
     //console.log(localStorage.getItem("token"));
@@ -25,18 +25,15 @@ function VendorDashbord() {
 
   //console.log(profile._id);
 
-  const getProfile = async() => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myProfile",{
-        method: "GET",
-        headers :{ token : JSON.parse(localStorage.getItem("token"))
-        }
+  const getProfile = async () => {
+    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
+      method: "GET",
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
     setProfile(result);
-    setVid(result._id)
-
-  }
-
+    setVid(result._id);
+  };
 
   //console.log(vid)
 
@@ -45,35 +42,31 @@ function VendorDashbord() {
     //setProducts(data.products);
     //console.log(data);
 
-        let allproducts = data.products;     
-      
-        let vendorproduct = [];
-          for (let i = 0; i < allproducts.length; i++) {
-              if (allproducts[i].vendorId === localStorage.getItem("VendorId")) {
-                vendorproduct.push(allproducts[i]);
-              }
-          }
-          setProducts(vendorproduct)
-          // setInterval(() => {
-          //   
-          // }, 1000);
-          
+    let allproducts = data.products;
 
-          
-          
+    let vendorproduct = [];
+    for (let i = 0; i < allproducts.length; i++) {
+      if (allproducts[i].vendorId === localStorage.getItem("VendorId")) {
+        vendorproduct.push(allproducts[i]);
+      }
+    }
+    setProducts(vendorproduct);
+    // setInterval(() => {
+    //
+    // }, 1000);
 
-          //console.log(allproducts);
-        //let fourmobile = mobileproducts.slice(0, 4); 
+    //console.log(allproducts);
+    //let fourmobile = mobileproducts.slice(0, 4);
   }
 
   const deleteProduct = async (id) => {
-    let result = await fetch(`http://localhost:8000/deleteProduct/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/deleteProduct/${id}`, {
       method: "DELETE",
-      headers :{ token : JSON.parse(localStorage.getItem("token"))}      
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     console.log(result);
     //result = await result.json;
-    if (result.status===200) {
+    if (result.status === 200) {
       toast("Record is deleted");
       getProductsData();
     }

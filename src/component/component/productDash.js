@@ -17,18 +17,18 @@ function Dashbord() {
   }, []);
 
   async function getProductsData() {
-    const { data } = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    const { data } = await axios.get("http://localhost:8000/getProduct");
     setProducts(data.products);
   }
 
   const deleteProduct = async (id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/deleteProduct/${id}`, {
+    let result = await fetch(`http://localhost:8000/deleteProduct/${id}`, {
       method: "DELETE",
-      headers :{ token : JSON.parse(localStorage.getItem("token"))}      
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     console.log(result);
     //result = await result.json;
-    if (result.status===200) {
+    if (result.status === 200) {
       toast("Record is deleted");
       getProductsData();
     }

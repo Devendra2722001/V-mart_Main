@@ -144,7 +144,6 @@ function Main(props) {
       .then((imgdata4) => {
         console.log(imgdata4);
         setImageurl4(imgdata4.url);
-        
 
         //console.log(data)
       })
@@ -152,26 +151,31 @@ function Main(props) {
       .catch((err) => {
         console.log(err);
       });
-      tryingtodosomething();
+    tryingtodosomething();
   };
 
-  const tryingtodosomething = () =>{
-    if(updateProducts){
+  const tryingtodosomething = () => {
+    if (updateProducts) {
       console.log("Time To Update");
       UpdateForme();
-    }else if(imageurl1 != "" && imageurl2 != "" && imageurl3 != "" && imageurl4 != ""){
+    } else if (
+      imageurl1 != "" &&
+      imageurl2 != "" &&
+      imageurl3 != "" &&
+      imageurl4 != ""
+    ) {
       postImages();
-    }else{
+    } else {
       addproduct();
     }
-  }
-  
+  };
+
   const formData = new FormData();
   //console.log("Got Image Url - ", imageurl1);
 
   const addproduct = async (e) => {
     //e.preventDefault();
-    
+
     formData.append("name", name);
     formData.append("description", description);
     formData.append("price", price);
@@ -193,22 +197,20 @@ function Main(props) {
     formData.append("imageurl1", imageurl1);
     formData.append("imageurl2", imageurl2);
     formData.append("imageurl3", imageurl3);
-    formData.append("imageurl4", imageurl4);     
+    formData.append("imageurl4", imageurl4);
 
-      await Axios.post("https://vmart-api.herokuapp.com/product",formData,{
-        //formData,
-        headers :{ token : JSON.parse(localStorage.getItem("token"))}
+    await Axios.post("http://localhost:8000/product", formData, {
+      //formData,
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
+    })
+
+      .then(() => {
+        toast("Successfully Inserted");
+        props.getProductsData();
+        props?.setShowForm(false);
       })
-     
-        .then(() => {
-          toast("Successfully Inserted");
-          props.getProductsData();
-          props?.setShowForm(false);
-        })
-        .catch((error) => window.alert("unable To Post"));
-    
-  
-};
+      .catch((error) => window.alert("unable To Post"));
+  };
   //console.log(networkType);
 
   const handleChange = (e) => {
@@ -241,9 +243,7 @@ function Main(props) {
   //   imageurl4,
   // };
 
-
-  const UpdateForme = async () =>{ 
-
+  const UpdateForme = async () => {
     let Product = {
       name,
       description,
@@ -290,36 +290,32 @@ function Main(props) {
     formData.append("imageurl1", imageurl1);
     formData.append("imageurl2", imageurl2);
     formData.append("imageurl3", imageurl3);
-    formData.append("imageurl4", imageurl4); 
+    formData.append("imageurl4", imageurl4);
 
-  let res = await fetch(`https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`,{
-      method: "PUT",
-      formData,
-      headers: {
-        accept: "application/json",
-        "content-Type": "application/json",
-      },
-      body: JSON.stringify(Product),
-    }       
-  )
-  if(res.status===201){    
+    let res = await fetch(
+      `http://localhost:8000/updateProduct/${updateProducts._id}`,
+      {
+        method: "PUT",
+        formData,
+        headers: {
+          accept: "application/json",
+          "content-Type": "application/json",
+        },
+        body: JSON.stringify(Product),
+      }
+    );
+    if (res.status === 201) {
       toast("Successfully Updated");
       props.getProductsData();
-      props?.setShowForm(false);   
-    
-  }else{
-    window.alert("unable To Post");
-  }
+      props?.setShowForm(false);
+    } else {
+      window.alert("unable To Post");
+    }
+  };
 
-}
-
-  if(updateProducts){
-    
-
+  if (updateProducts) {
     //Product();
-  }  
-
-  
+  }
 
   return (
     <>
