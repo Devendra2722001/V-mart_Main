@@ -30,8 +30,7 @@ const Checkout = () => {
 
   const PostOrder = async (id, key) => {
     sendEmail();
-    let result = await fetch(
-      `https://vmart-api.herokuapp.com/order/${cartId}/${addId}`,
+    let result = await fetch(`https://vmart-api.herokuapp.com/order/${cartId}/${addId}`,
       {
         method: "POST",
         headers: { token: JSON.parse(localStorage.getItem("token")) },
@@ -186,7 +185,7 @@ const Checkout = () => {
       console.log("Failed");
       CongoAlertOps();
     } else {
-      console.log("Sucess");
+      
       PostOrder();
       removeProduct();
 

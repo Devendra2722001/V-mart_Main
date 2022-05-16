@@ -23,10 +23,12 @@ function Dashbord() {
 
   const deleteProduct = async (id) => {
     let result = await fetch(`https://vmart-api.herokuapp.com/deleteProduct/${id}`, {
-      method: "Delete",
+      method: "DELETE",
+      headers :{ token : JSON.parse(localStorage.getItem("token"))}      
     });
-    result = await result.json;
-    if (result) {
+    console.log(result);
+    //result = await result.json;
+    if (result.status===200) {
       toast("Record is deleted");
       getProductsData();
     }

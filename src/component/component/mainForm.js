@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Alert } from "bootstrap";
 
 toast.configure();
 
@@ -54,6 +55,7 @@ function Main(props) {
   const [imageurl2, setImageurl2] = useState(updateProducts?.imageurl2 || "");
   const [imageurl3, setImageurl3] = useState(updateProducts?.imageurl3 || "");
   const [imageurl4, setImageurl4] = useState(updateProducts?.imageurl4 || "");
+  //const [gotallimg, setgotallimg] = useState("");
 
   const postImages = () => {
     //const postDetails1 = () => {
@@ -142,7 +144,7 @@ function Main(props) {
       .then((imgdata4) => {
         console.log(imgdata4);
         setImageurl4(imgdata4.url);
-        //addproduct();
+        
 
         //console.log(data)
       })
@@ -150,23 +152,26 @@ function Main(props) {
       .catch((err) => {
         console.log(err);
       });
-    //};
-
-    if (
-      imageurl1 != null &&
-      imageurl2 != null &&
-      imageurl3 != null &&
-      imageurl4 != null
-    ) {
-      addproduct();
-    }
+      tryingtodosomething();
   };
 
-  console.log("Got Image Url - ", imageurl1);
+  const tryingtodosomething = () =>{
+    if(updateProducts){
+      console.log("Time To Update");
+      UpdateForme();
+    }else if(imageurl1 != "" && imageurl2 != "" && imageurl3 != "" && imageurl4 != ""){
+      postImages();
+    }else{
+      addproduct();
+    }
+  }
+  
+  const formData = new FormData();
+  //console.log("Got Image Url - ", imageurl1);
 
   const addproduct = async (e) => {
     //e.preventDefault();
-    const formData = new FormData();
+    
     formData.append("name", name);
     formData.append("description", description);
     formData.append("price", price);
@@ -188,86 +193,133 @@ function Main(props) {
     formData.append("imageurl1", imageurl1);
     formData.append("imageurl2", imageurl2);
     formData.append("imageurl3", imageurl3);
-    formData.append("imageurl4", imageurl4);
+    formData.append("imageurl4", imageurl4);     
 
-    console.log(networkType);
-    console.log(formData);
-
-    if (updateProducts) {
-      let Product = {
-        name,
-        description,
-        price,
-        image1,
-        brand,
-        category,
-        RAM,
-        batteryCapacity,
-        screenSize,
-        networkType,
-        resolutionType,
-        camera,
-        processor,
-        hardDisk,
-        touchScreen,
-        gender,
-        size,
-        colour,
-        // imageurl1,
-        // imageurl2,
-        // imageurl3,
-        // imageurl4,
-      };
-
-      let res = fetch(
-        `https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`,
-        {
-          method: "PUT",
-          formData,
-          headers: {
-            accept: "application/json",
-            "content-Type": "application/json",
-          },
-          body: JSON.stringify(Product),
-        }
-      );
-      //let resp = await res.json();
-      // console.log(res);
-      // .then(() => {
-      //   toast("Successfully Updated");
-      //   props?.setShowForm(false);
-
-      //   props.getProductsData();
-      // });\
-
-      if (res) {
-        toast("Successfully Updated");
-        props?.setShowForm(false);
-        props.getProductsData();
-      }
-      // else if (res.status === 404){
-      //   window.alert("not updated")
-      //   console.log(updateProducts._id)
-      // }
-
-    } else if (imageurl4 === undefined) {
-      document.getElementById("clickme").click();
-    } else if (imageurl4 !== undefined) {
-      await Axios.post("https://vmart-api.herokuapp.com/product", formData)
+      await Axios.post("https://vmart-api.herokuapp.com/product",formData,{
+        //formData,
+        headers :{ token : JSON.parse(localStorage.getItem("token"))}
+      })
+     
         .then(() => {
           toast("Successfully Inserted");
           props.getProductsData();
           props?.setShowForm(false);
         })
-        .catch((error) => window.alert("Please Enter Valid Data"));
-    }
-  };
-  console.log(networkType);
+        .catch((error) => window.alert("unable To Post"));
+    
+  
+};
+  //console.log(networkType);
 
   const handleChange = (e) => {
     setProductcategory(e.target.value);
     console.log(networkType);
   };
+
+  // let Product = {
+  //   name,
+  //   description,
+  //   price,
+  //   image1,
+  //   brand,
+  //   category,
+  //   RAM,
+  //   batteryCapacity,
+  //   screenSize,
+  //   networkType,
+  //   resolutionType,
+  //   camera,
+  //   processor,
+  //   hardDisk,
+  //   touchScreen,
+  //   gender,
+  //   size,
+  //   colour,
+  //   imageurl1,
+  //   imageurl2,
+  //   imageurl3,
+  //   imageurl4,
+  // };
+
+
+  const UpdateForme = async () =>{ 
+
+    let Product = {
+      name,
+      description,
+      price,
+      image1,
+      brand,
+      category,
+      RAM,
+      batteryCapacity,
+      screenSize,
+      networkType,
+      resolutionType,
+      camera,
+      processor,
+      hardDisk,
+      touchScreen,
+      gender,
+      size,
+      colour,
+      imageurl1,
+      imageurl2,
+      imageurl3,
+      imageurl4,
+    };
+
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("image", image1);
+    formData.append("brand", brand);
+    formData.append("category", category);
+    formData.append("RAM", RAM);
+    formData.append("batteryCapacity", batteryCapacity);
+    formData.append("screenSize", screenSize);
+    formData.append("networkType", networkType);
+    formData.append("resolutionType", resolutionType);
+    formData.append("camera", camera);
+    formData.append("processor", processor);
+    formData.append("hardDisk", hardDisk);
+    formData.append("touchScreen", touchScreen);
+    formData.append("gender", gender);
+    formData.append("size", size);
+    formData.append("colour", colour);
+    formData.append("imageurl1", imageurl1);
+    formData.append("imageurl2", imageurl2);
+    formData.append("imageurl3", imageurl3);
+    formData.append("imageurl4", imageurl4); 
+
+  let res = await fetch(`https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`,{
+      method: "PUT",
+      formData,
+      headers: {
+        accept: "application/json",
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify(Product),
+    }       
+  )
+  if(res.status===201){    
+      toast("Successfully Updated");
+      props.getProductsData();
+      props?.setShowForm(false);   
+    
+  }else{
+    window.alert("unable To Post");
+  }
+
+}
+
+  if(updateProducts){
+    
+
+    //Product();
+  }  
+
+  
 
   return (
     <>
@@ -637,7 +689,8 @@ function Main(props) {
                       type="button"
                       className="btn btn-primary btn-lg"
                       onClick={() => {
-                        postImages();
+                        tryingtodosomething();
+                        //postImages();
                       }}
                     >
                       {updateProducts ? "Update Product" : "Add Product"}
