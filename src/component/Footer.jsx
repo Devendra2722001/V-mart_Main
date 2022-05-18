@@ -36,13 +36,15 @@ const Footer = () => {
                                         <span className="fa fa-map-marker" id="fa_big" onClick={linkmemap}></span>
                                         <div className="cta-text">
                                             <h4>Find us</h4>
-                                            <span>Prahlad Nagar, Ahmedabad, Gujarat 380005</span>
+                                            <span>Prahlad Nagar, Ahmedabad, Gujarat 380015</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="call_us_footer" id="footer-1st_lines">
+                                        <NavLink to="/Testing">
                                         <i className="fa fa-phone" id="fa_big"></i>
+                                        </NavLink>
                                         <div className="cta-text">
                                             <h4>Call us</h4>
                                             <span>079 4004 1994</span>

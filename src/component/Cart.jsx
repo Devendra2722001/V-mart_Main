@@ -28,7 +28,7 @@ const Cart = () => {
 
   // cart api fatching
   const getcartItem = async () => {
-    let result = await fetch("http://localhost:8000/myCartItem", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -39,7 +39,7 @@ const Cart = () => {
   };
 
   const removeFromCart = async (id) => {
-    let result = await fetch(`http://localhost:8000/removeFromCart/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -49,7 +49,7 @@ const Cart = () => {
   };
 
   const increaseQty = async (id) => {    
-    let addone = await fetch(`http://localhost:8000/increaseQuantity/${id}`, {
+    let addone = await fetch(`https://vmart-api.herokuapp.com/increaseQuantity/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -68,7 +68,7 @@ const Cart = () => {
   }
   
   const decreaseQty = async (id) => {    
-    let removeone = await fetch(`http://localhost:8000/decreaseQuantity/${id}`, {
+    let removeone = await fetch(`https://vmart-api.herokuapp.com/decreaseQuantity/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });

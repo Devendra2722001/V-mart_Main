@@ -4,6 +4,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { toast } from "react-toastify";
 import swal from "sweetalert";
+import { css } from 'glamor';
 
 toast.configure();
 const Product = () => {
@@ -15,13 +16,6 @@ const Product = () => {
   const [favBtn, setFavBtn] = useState("Add To Favorites");
   const [cartItem, setCartItem] = useState([]);
 
-  const addFavorit = (favorit) => {
-    if (favBtn === "Add To Favorites") {
-      setFavBtn("Remove From Favorites");
-    } else {
-      setFavBtn("Add To Favorites");
-    }
-  };
 
   useEffect(() => {
     getProduct();
@@ -30,7 +24,7 @@ const Product = () => {
   }, []);
 
   const Checkforcart = async () => {
-    let result = await fetch("http://localhost:8000/myCartItem", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -51,7 +45,7 @@ const Product = () => {
   };
 
   const Checkforfav = async () => {
-    let Favresult = await fetch("http://localhost:8000/myfavouritetItem", {
+    let Favresult = await fetch("https://vmart-api.herokuapp.com/myfavouritetItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -72,13 +66,13 @@ const Product = () => {
   };
 
   const getProduct = async () => {
-    const response = await fetch(`http://localhost:8000/singleProduct/${_id}`);
+    const response = await fetch(`https://vmart-api.herokuapp.com/singleProduct/${_id}`);
     setProduct(await response.json());
     setLoading(false);
   };
 
   const addToCart = async (_id) => {
-    let result = await fetch(`http://localhost:8000/cart/${_id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/cart/${_id}`, {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -86,14 +80,14 @@ const Product = () => {
     });
     result = await result.json();
     //setCartItem(result);
-    toast(`${product.name} Added To cart`, {
-      position: toast.POSITION.TOP_LEFT,
+    toast(`${product.name} Added To cart`, {     
+      position: toast.POSITION.TOP_LEFT,      
     });
     //setCartBtn("Remove From Cart")
   };
 
   const addTofav = async (_id) => {
-    let Favresult = await fetch(`http://localhost:8000/favourite/${_id}`, {
+    let Favresult = await fetch(`https://vmart-api.herokuapp.com/favourite/${_id}`, {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -106,7 +100,7 @@ const Product = () => {
   };
 
   const removeFromCart = async (_id) => {
-    let result = await fetch(`http://localhost:8000/removeFromCart/${_id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${_id}`, {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -122,7 +116,7 @@ const Product = () => {
 
   const removeFromfav = async (_id) => {
     let Favresult = await fetch(
-      `http://localhost:8000/removeFromFavourite/${_id}`,
+      `https://vmart-api.herokuapp.com/removeFromFavourite/${_id}`,
       {
         method: "POST",
         headers: {

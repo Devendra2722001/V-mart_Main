@@ -40,7 +40,7 @@
     "image": "images/product-img/puma-5-a.webp",
     "title": "Puma 5",
     "category": "Shoes",
-    "price": "8000"
+    "price": "8001"
   },
   {
     "id": 6,

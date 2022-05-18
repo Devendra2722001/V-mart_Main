@@ -31,7 +31,7 @@ import vendorsignup from "../src/component/vendorsignup";
 import VendorNavbar from "./component/component/VendorNavbar";
 import EditProfile from "./component/EditProfile";
 import VendororderHistory from "./component/component/VendororderHistory";
-import Testing from "./component/testing";
+import Testing from "./testing";
 
 
 

@@ -46,7 +46,7 @@ const Login = () => {
 
     setError(validation(credentials));
     const { email, password } = credentials;
-    const res = await fetch("http://localhost:8000/login", {
+    const res = await fetch("https://vmart-api.herokuapp.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

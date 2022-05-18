@@ -51,7 +51,7 @@ const AddAddress = () => {
     e.preventDefault();
     setError(validation(address));
     const { addline1, addline2, city, district, state, zipCode } = address;
-    const res = await fetch("http://localhost:8000/addAddress", {
+    const res = await fetch("https://vmart-api.herokuapp.com/addAddress", {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),

@@ -62,7 +62,7 @@ const Navbar = () => {
   // }
 
   const getcartItem = async () => {
-    let result = await fetch("http://localhost:8000/myCartItem", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });

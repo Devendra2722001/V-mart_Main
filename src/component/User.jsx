@@ -3,6 +3,8 @@ import { NavLink, useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import Skeleton from "react-loading-skeleton";
 import No_data from "./No_data.gif";
+import "./testing_css.css";
+
 
 const User = () => {
   const history = useHistory();
@@ -10,6 +12,17 @@ const User = () => {
   const [address, setAddress] = useState([]);
   const [orderHistory, setOrderHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [open , setOpen] = useState(false);
+
+    const handleClick = () => {
+      if (open===true) {
+        setOpen(false)
+      } else {
+        setOpen(true)
+      }
+    };
+
 
   useEffect(() => {
     getProfile();
@@ -19,7 +32,7 @@ const User = () => {
   }, []);
 
   const getProfile = async () => {
-    let result = await fetch("http://localhost:8000/myProfile", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -69,7 +82,7 @@ const User = () => {
   };
 
   const getAddress = async () => {
-    let result = await fetch("http://localhost:8000/addressListing", {
+    let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -78,7 +91,7 @@ const User = () => {
   };
 
   const removeAddress = async (id) => {
-    let result = await fetch(`http://localhost:8000/removeAddress/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/removeAddress/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -87,7 +100,7 @@ const User = () => {
   };
 
   const getOrderHistory = async () => {
-    let result = await fetch("http://localhost:8000/myOrder", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myOrder", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -796,6 +809,25 @@ const User = () => {
                     <b>My Orders</b>
                   </h6>
                 </div>
+                  {/* <div
+                        className={"container " + (open ? "expand" : "")}
+                        onClick={handleClick}
+                      >
+                        <div className="upper">
+                          <p>June 10</p>
+                          <h3>
+                            A family saga with a supernatural twist, set in a German town, where
+                            the disappearance of two young children exposes            
+                          </h3>
+                        </div>
+                        <div className="lower">
+                            <p>June 10</p>
+                            <h3>
+                              A family saga with a supernatural twist, set in a German town, where
+                              the disappearance of two young children exposes...
+                            </h3>
+                        </div>
+                      </div>    */}
                 {orderHistory.map((orderHistory) => {
                   return orderHistory.products.map((products) => {
                     return (

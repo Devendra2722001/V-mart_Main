@@ -14,7 +14,7 @@ const Orderlist = () => {
   }, []);
 
   const getOrdersData = async () => {
-    let result = await fetch(`http://localhost:8000/specificorder/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/specificorder/${id}`, {
       method: "GET",
     });
     result = await result.json();
@@ -26,7 +26,7 @@ const Orderlist = () => {
   //console.log(ordersList);
   // const getOrdersList = async () => {
   //   let result = await fetch(
-  //     `http://localhost:8000/specificorder/${id}/${key}`,
+  //     `https://vmart-api.herokuapp.com/specificorder/${id}/${key}`,
 
   //     {
   //       method: "GET",
