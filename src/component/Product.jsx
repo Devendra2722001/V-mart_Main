@@ -81,7 +81,12 @@ const Product = () => {
     result = await result.json();
     //setCartItem(result);
     toast(`${product.name} Added To cart`, {     
-      position: toast.POSITION.TOP_LEFT,      
+      position: toast.POSITION.TOP_LEFT,
+      toastClassName: css({
+        fontSize: '18px !important',
+        backgroundColor: '#da1c36 !important',
+        padding: '15px !important'
+      }),      
     });
     //setCartBtn("Remove From Cart")
   };
