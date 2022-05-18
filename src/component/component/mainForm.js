@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Alert } from "bootstrap";
+
 
 toast.configure();
 
@@ -120,9 +120,7 @@ function Main(props) {
       .then((imgdata3) => {
         console.log(imgdata3);
         setImageurl3(imgdata3.url);
-        //addproduct();
-
-        //console.log(data)
+    
       })
 
       .catch((err) => {

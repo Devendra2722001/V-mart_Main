@@ -148,7 +148,7 @@ const Cart = () => {
               <div>
                 <div className="cart-card">
                   <img
-                    src={cartObj.productImageurl}
+                    src={cartObj.productImageurl1}
                     alt="images"
                     className="cart-card-media"
                   />

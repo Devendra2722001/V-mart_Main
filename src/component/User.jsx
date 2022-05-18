@@ -164,6 +164,17 @@ const User = () => {
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
+                    <div class="d-flex flex-column align-items-center">
+                      <NavLink to="/EditProfile">
+                        <button
+                          class="btn btn-primary profile-button"
+                          type="button"
+                        >
+                          update profile
+                        </button>
+                      </NavLink>
+                    </div>
+                    <br></br>
                     <div className="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
                         <button
@@ -299,6 +310,17 @@ const User = () => {
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
+                    <div class="d-flex flex-column align-items-center">
+                      <NavLink to="/EditProfile">
+                        <button
+                          class="btn btn-primary profile-button"
+                          type="button"
+                        >
+                          update profile
+                        </button>
+                      </NavLink>
+                    </div>
+                    <br></br>
                     <div className="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
                         <button
@@ -431,6 +453,8 @@ const User = () => {
     );
   };
 
+  console.log(orderHistory);
+
   const NoAddressFound = () => {
     console.log("Showing Profile with no address");
     return (
@@ -481,6 +505,17 @@ const User = () => {
                     {/* <div className="col-md-12">
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
+                    <br></br>
+                    <div class="d-flex flex-column align-items-center">
+                      <NavLink to="/EditProfile">
+                        <button
+                          class="btn btn-primary profile-button"
+                          type="button"
+                        >
+                          update profile
+                        </button>
+                      </NavLink>
+                    </div>
                     <br></br>
                     <div className="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
@@ -553,7 +588,7 @@ const User = () => {
                         <li className="d-flex justify-content-between mb-3">
                           <div className="user-card">
                             <img
-                              src={products.productImageurl}
+                              src={products.productImageurl1}
                               onError={(event) => {
                                 event.target.src =
                                   "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";
@@ -638,17 +673,18 @@ const User = () => {
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
-                    <div className="d-flex flex-column align-items-center">
-                      <NavLink to="/updateprofile">
+                    <div class="d-flex flex-column align-items-center">
+                      <NavLink to="/EditProfile">
                         <button
-                          className="btn btn-primary profile-button"
+                          class="btn btn-primary profile-button"
                           type="button"
                         >
-                          Update Profile
+                          update profile
                         </button>
                       </NavLink>
                     </div>
-                    <div className="d-flex flex-column align-items-center">
+                    <br></br>
+                    <div class="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
                         <button
                           className="btn btn-primary profile-button"
@@ -761,13 +797,13 @@ const User = () => {
                   </h6>
                 </div>
                 {orderHistory.map((orderHistory) => {
-                  return orderHistory.products.reverse().map((products) => {
+                  return orderHistory.products.map((products) => {
                     return (
                       <ul className="list-group" key={orderHistory._id}>
                         <li className="d-flex justify-content-between mb-3">
                           <div className="user-card">
                             <img
-                              src={products.productImageurl}
+                              src={products.productImageurl1}
                               onError={(event) => {
                                 event.target.src =
                                   "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";

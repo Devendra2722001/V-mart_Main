@@ -29,8 +29,10 @@ import VendorOrderuser from "./component/component/VendorOrderuser";
 import Orderlist from "../src/component/component/orderList";
 import vendorsignup from "../src/component/vendorsignup";
 import VendorNavbar from "./component/component/VendorNavbar";
-import updateprofile from "./component/updateprofile";
+import EditProfile from "./component/EditProfile";
 import VendororderHistory from "./component/component/VendororderHistory";
+import Testing from "./component/testing";
+
 
 
 
@@ -102,7 +104,7 @@ function App() {
             <Route exact path="/checkout" component={checkout} />
             <Route exact path="/favorites" component={favorites} />
             <Route exact path="/user" component={user} />
-            <Route exact path="/updateprofile" component={updateprofile} />
+            <Route exact path="/EditProfile" component={EditProfile} />
             <Route exact path="/Mobile" component={mobile} />
             <Route exact path="/Laptop" component={laptop} />
             <Route exact path="/Shoes" component={shoes} />
@@ -114,6 +116,7 @@ function App() {
             <Route exact path="/ChangePassword" component={changePassword} />
             <Route exact path="/Email" component={email} />
             <Route exact path="/ResetPassword" component={resetpassword} />
+            <Route exact path="/Testing" component={Testing} />
             
           </Switch>
           

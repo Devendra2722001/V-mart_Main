@@ -114,25 +114,31 @@ const Favorits = () => {
       <>
         <section className="fav-wrapper">
           {favourite.map((favObj) => (
-            <div className="cart-card-container" key={favObj._id}>
+            <div className="cart-card-container" key={favObj.productId}>
               <div>
                 <div className="cart-card">
+                <NavLink to={`/productlist/${favObj.productId}`} id="copyright">
                   <img
-                    src={favObj.productImageurl}
+                    src={favObj.productImageurl1}
                     alt="images"
                     className="cart-card-media"
                   />
+                  </NavLink>
                   <div className="cart-card-text">
-                    <NavLink to={`/products/${favObj.id}`} id="copyright">
+                    <NavLink to={`/productlist/${favObj.productId}`} id="copyright">
                       <div className="cart-card-head">{favObj.productName}</div>
                     </NavLink>
                     <div className="cart-card-price">
+                    <NavLink to={`/productlist/${favObj.productId}`} id="copyright">
                       Price - {favObj.productPrice}₹
+                      </NavLink>
                     </div>
                     <div className="cart-lastrow">
+                    <NavLink to={`/productlist/${favObj.productId}`} id="copyright">
                       <div className="cart-card-category">
                         Category - {favObj.productCategory}
                       </div>
+                      </NavLink>
                     </div>
                     <br></br>
                     <div className="plus-minus">

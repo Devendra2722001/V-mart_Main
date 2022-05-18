@@ -26,4 +26,4 @@ let validation = (user,email) => {
   return error;
 }
 
-export default validation
+export default validation;
