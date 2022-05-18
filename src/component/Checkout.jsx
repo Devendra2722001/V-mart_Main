@@ -84,6 +84,18 @@ const Checkout = () => {
     //
   };
 
+  const CongoAlertAddress = () => {
+    swal({
+      title: "Errror!",
+      text: "Please Add an address to proceed further!",
+      icon: "warning",
+      button: "Okay!",
+    });
+    //window.alert("Select Adress")
+    history.push("/AddAddress");
+    //
+  };
+
   const getAddress = async () => {
     let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
       method: "GET",
@@ -93,6 +105,11 @@ const Checkout = () => {
     });
     result = await result.json();
     setAddress(result);
+    console.log("result check",result);
+
+    if(result.length===0){
+      CongoAlertAddress();
+    }
   };
 
   const getcartItem = async () => {

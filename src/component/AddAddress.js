@@ -87,7 +87,7 @@ const AddAddress = () => {
       icon: "success",
       button: "Okay!",
     });
-    history.push("/user");
+    history.go(-1);
   };
 
   return (

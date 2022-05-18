@@ -12,16 +12,16 @@ const Navbar = () => {
   const [cartItem, setCartItem] = useState([]);
 
   useEffect(() => {
-    //getcartItem();
+    getcartItem();
 
     setInterval(() => {
       // ^^^ Comment this getcartItem if you wanna get rid of all the getCart request errors in console
       const token = localStorage.getItem("token");
       if (token != null) {
         setlogBtn(logout);
-        if(cartItem.length === 0){
+        //if(cartItem.length !== 0){
           getcartItem();
-        }
+        //}
         
       }
     }, 1000);
