@@ -42,16 +42,16 @@ function VendorNavbar (props){
     
     return (
         <div>
-            <nav class="navbar" id="Navbar">
-                <div class="container-fluid">
-                    <NavLink class="navbar-brand" to="/">
-                        <img src="../images/logo_gold.png" alt="Logo" class="navbar-brand"></img>
+            <nav className="navbar" id="Navbar">
+                <div className="container-fluid">
+                    <NavLink className="navbar-brand" to="/">
+                        <img src="../images/logo_gold.png" alt="Logo" className="navbar-brand"></img>
                     </NavLink>
 
                    
-                    <div class="Nav-menu-options">
+                    <div className="Nav-menu-options">
 
-                        <div class="blocspace">                            
+                        <div className="blocspace">                            
                             <NavLink to="/">                                
                                 <img src="../images/checklist.png" width="30rem;" alt="product list" title="Product List"/>                                
                             </NavLink>
@@ -60,13 +60,13 @@ function VendorNavbar (props){
                         
 
                         
-                        <div id="bloc4" class="push">
-                            <NavLink to="/VendorOrderuser">
+                        <div id="bloc4" className="push">
+                            <NavLink to="/VendororderHistory">
                                 <img src="../images/team.png" width="30rem;" alt="user order list"  title="Vendor Order list"></img>
                             </NavLink>
                         </div>                        
                         
-                        <div id="bloclog" class="push">                            
+                        <div id="bloclog" className="push">                            
                             
                                 <img src={logBtn} width="30rem;" alt="Login/Logout" title="Logout" onClick={() => {removeAdmin();}}/>
                             

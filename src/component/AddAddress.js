@@ -51,7 +51,7 @@ const AddAddress = () => {
     e.preventDefault();
     setError(validation(address));
     const { addline1, addline2, city, district, state, zipCode } = address;
-    const res = await fetch("https://vmart-api.herokuapp.com/addAddress", {
+    const res = await fetch("http://localhost:8000/addAddress", {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -95,8 +95,8 @@ const AddAddress = () => {
       <div className="checkout-main">
         <div className="container">
           <div className="row g-5">
-            <div class="p-3 mt-3">
-              <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+            <div className="p-3 mt-3">
+              <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                 <h6 className="order_text mt-3 mb-3">
                   <b>Enter Details </b>
                 </h6>
@@ -249,7 +249,7 @@ const AddAddress = () => {
                 </div>
                 <hr className="my-4" />
                 <button
-                  class="btn btn-success profile-button"
+                  className="btn btn-success profile-button"
                   type="button"
                   onClick={PostData}
                 >

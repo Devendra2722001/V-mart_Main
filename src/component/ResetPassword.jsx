@@ -47,7 +47,7 @@ const ResetPassword = () => {
 
     setError(validation(data));
     const { email, otp, password, conPassword } = data;
-    const res = await fetch("https://vmart-api.herokuapp.com/forgotpass", {
+    const res = await fetch("http://localhost:8000/forgotpass", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,16 +70,16 @@ const ResetPassword = () => {
   };
 
   return (
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src={Empty} class="img-fluid" alt="Sample" />
+    <div className="row d-flex justify-content-center align-items-center h-100">
+      <div className="col-md-9 col-lg-6 col-xl-5">
+        <img src={Empty} className="img-fluid" alt="Sample" />
       </div>
-      <div class="col-md-8 col-lg-6 col-xl-4">
+      <div className="col-md-8 col-lg-6 col-xl-4">
         <div>
-          <label class="labels">Email ID</label>
+          <label className="labels">Email ID</label>
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             placeholder="enter email id"
             name="email"
             value={data.email}
@@ -90,10 +90,10 @@ const ResetPassword = () => {
           )}
         </div>
         <div>
-          <label class="labels">OTP</label>
+          <label className="labels">OTP</label>
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             placeholder="enter otp"
             name="otp"
             value={data.otp}
@@ -104,10 +104,10 @@ const ResetPassword = () => {
           )}
         </div>
         <div>
-          <label class="labels">New Password</label>
+          <label className="labels">New Password</label>
           <input
             type="password"
-            class="form-control"
+            className="form-control"
             placeholder="enter new password"
             name="password"
             value={data.password}
@@ -120,10 +120,10 @@ const ResetPassword = () => {
           )}
         </div>
         <div>
-          <label class="labels">Confirm New Password</label>
+          <label className="labels">Confirm New Password</label>
           <input
             type="password"
-            class="form-control"
+            className="form-control"
             placeholder="Retype password"
             name="conPassword"
             value={data.conPassword}
@@ -138,7 +138,7 @@ const ResetPassword = () => {
         <br></br>
         <NavLink to="/ResetPassword">
           <button
-            class="btn btn-primary profile-button"
+            className="btn btn-primary profile-button"
             type="button"
             onClick={resetPassword}
           >

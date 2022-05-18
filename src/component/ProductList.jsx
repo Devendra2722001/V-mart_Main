@@ -77,7 +77,7 @@ const Products = () => {
                       <div className="card-text">
                         <div className="card-head"> {product.title} </div>
                         <div className="card-price">Price - {product.price} ₹</div>
-                        <div class="lastrow">
+                        <div className="lastrow">
                           <div className="card-category">Category - {product.category}</div>                          
                         </div>
                       </div>

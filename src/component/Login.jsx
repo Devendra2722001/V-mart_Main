@@ -46,7 +46,7 @@ const Login = () => {
 
     setError(validation(credentials));
     const { email, password } = credentials;
-    const res = await fetch("https://vmart-api.herokuapp.com/login", {
+    const res = await fetch("http://localhost:8000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,20 +90,20 @@ const Login = () => {
   };
 
   return (
-    <section class="vh-100">
-      <div class="container-fluid h-custom">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-md-9 col-lg-6 col-xl-5">
-            <img src={Empty} class="img-fluid" alt="Sample" />
+    <section className="vh-100">
+      <div className="container-fluid h-custom">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-md-9 col-lg-6 col-xl-5">
+            <img src={Empty} className="img-fluid" alt="Sample" />
           </div>
-          <div class="col-md-8 col-lg-6 col-xl-4">
+          <div className="col-md-8 col-lg-6 col-xl-4">
             <form method="POST">
-              <div class="row mt-3">
-                <div class="col-md-12">
-                  <label class="labels">Email ID</label>
+              <div className="row mt-3">
+                <div className="col-md-12">
+                  <label className="labels">Email ID</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="enter email id"
                     name="email"
                     value={credentials.email}
@@ -115,11 +115,11 @@ const Login = () => {
                     {error.email}
                   </span>
                 )}
-                <div class="col-md-12 ">
-                  <label class="labels">Password</label>
+                <div className="col-md-12 ">
+                  <label className="labels">Password</label>
                   <input
                     type="password"
-                    class="form-control"
+                    className="form-control"
                     placeholder="enter password"
                     name="password"
                     value={credentials.password}
@@ -133,22 +133,22 @@ const Login = () => {
                 )}
               </div>
 
-              <div class="d-flex justify-content-between align-items-center">
-                <NavLink to="/email" class="text-body">
+              <div className="d-flex justify-content-between align-items-center">
+                <NavLink to="/email" className="text-body">
                   Forgot password?
                 </NavLink>
               </div>
 
-              <div class="text-center text-lg-start mt-4 pt-2">
+              <div className="text-center text-lg-start mt-4 pt-2">
                 <button
                   type="button"
-                  class="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg"
                   id="login_btn-style"
                   onClick={LoginUser}
                 >
                   Login
                 </button>
-                <p class="small fw-bold mt-2 pt-1 mb-0">
+                <p className="small fw-bold mt-2 pt-1 mb-0">
                   Don't have an account?
                   <NavLink to="/signup">Register</NavLink>
                 </p>

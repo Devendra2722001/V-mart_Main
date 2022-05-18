@@ -9,7 +9,7 @@ const VendorOrderuser = () => {
   }, []);
 
   const getOrdersData = async () => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/order`, {
+    let result = await fetch(`http://localhost:8000/order`, {
       method: "GET",
     });
     result = await result.json();
@@ -20,7 +20,7 @@ const VendorOrderuser = () => {
 
   return (
     <>
-      <div class="admin-card-wraper">
+      <div className="admin-card-wraper">
         {ordersList.map((order) => {
           {
             /* return order.orderDetail.map((orderDetail) => { */
@@ -39,7 +39,7 @@ const VendorOrderuser = () => {
                       <b className="admin-card-head">{order.lastName}</b>
                     </div>
 
-                    <div class="cart-lastrow mb-2">
+                    <div className="cart-lastrow mb-2">
                       <div className="cart-card-category">
                         Email - {order.email}
                       </div>

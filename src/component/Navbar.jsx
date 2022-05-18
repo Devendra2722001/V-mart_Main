@@ -19,7 +19,10 @@ const Navbar = () => {
       const token = localStorage.getItem("token");
       if (token != null) {
         setlogBtn(logout);
-        getcartItem();
+        if(cartItem.length === 0){
+          getcartItem();
+        }
+        
       }
     }, 1000);
   }, []);
@@ -59,7 +62,7 @@ const Navbar = () => {
   // }
 
   const getcartItem = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
+    let result = await fetch("http://localhost:8000/myCartItem", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -104,24 +107,24 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav class="navbar" id="Navbar">
-        <div class="container-fluid">
-          <NavLink class="navbar-brand" to="/">
+      <nav className="navbar" id="Navbar">
+        <div className="container-fluid">
+          <NavLink className="navbar-brand" to="/">
             <img
               src="../images/logo_gold.png"
               alt="Logo"
-              class="navbar-brand"
+              className="navbar-brand"
             ></img>
           </NavLink>
 
           {/* <div id="searchbar">
 
-                        <form class="d-flex">
-                            <input class="form-control" type="search" placeholder="Search Here..." aria-label="Search" />
+                        <form className="d-flex">
+                            <input className="form-control" type="search" placeholder="Search Here..." aria-label="Search" />
                         </form>
                     </div> */}
-          <div class="Nav-menu-options">
-            <div id="bloc3" class="push">
+          <div className="Nav-menu-options">
+            <div id="bloc3" className="push">
               <NavLink to="/cart">
                 <div className="text_cart">{cartItem.length}</div>
                 <img
@@ -133,7 +136,7 @@ const Navbar = () => {
               </NavLink>
             </div>
 
-            <div id="bloc4" class="push">
+            <div id="bloc4" className="push">
               <NavLink to="/favorites">
                 <img
                   src="../images/heart.png"
@@ -144,7 +147,7 @@ const Navbar = () => {
               </NavLink>
             </div>
 
-            <div id="bloc5" class="push">
+            <div id="bloc5" className="push">
               <NavLink to="/user">
                 <img
                   src="../images/user.png"
@@ -155,7 +158,7 @@ const Navbar = () => {
               </NavLink>
             </div>
 
-            <div id="bloclog" class="push">
+            <div id="bloclog" className="push">
               <img
                 src={logBtn}
                 width="30rem;"

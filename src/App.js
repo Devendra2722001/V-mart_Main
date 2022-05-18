@@ -29,6 +29,8 @@ import VendorOrderuser from "./component/component/VendorOrderuser";
 import Orderlist from "../src/component/component/orderList";
 import vendorsignup from "../src/component/vendorsignup";
 import VendorNavbar from "./component/component/VendorNavbar";
+import updateprofile from "./component/updateprofile";
+import VendororderHistory from "./component/component/VendororderHistory";
 
 
 
@@ -41,10 +43,10 @@ function App() {
     return (
       <>
       <div>
-          <section class="home-section">
+          <section className="home-section">
             <>
             <div>
-                    <div class="topfixednav">
+                    <div className="topfixednav">
                     <AdminNavbar />
                     </div>
                     <Switch>
@@ -65,15 +67,16 @@ function App() {
     return (
       <>
       <div>
-          <section class="home-section">
+          <section className="home-section">
             <>
               <div>
-                  <div class="topfixednav">
+                  <div className="topfixednav">
                     <VendorNavbar />
                   </div> 
                   <Switch>
                         <Route exact path="/" component={VendorDashbord} />
-                        <Route exact path="/VendorOrderuser" component={VendorOrderuser} />                        
+                        <Route exact path="/VendorOrderuser" component={VendorOrderuser} />     
+                        <Route exact path="/VendororderHistory" component={VendororderHistory} />                     
                   </Switch>
               </div>
             </>
@@ -86,8 +89,8 @@ function App() {
   else{
       return (
         <>
-        <div class="Mainapp">
-          <div class="topfixednav">
+        <div className="Mainapp">
+          <div className="topfixednav">
             <Navbar />
           </div>
           <Switch>
@@ -99,6 +102,7 @@ function App() {
             <Route exact path="/checkout" component={checkout} />
             <Route exact path="/favorites" component={favorites} />
             <Route exact path="/user" component={user} />
+            <Route exact path="/updateprofile" component={updateprofile} />
             <Route exact path="/Mobile" component={mobile} />
             <Route exact path="/Laptop" component={laptop} />
             <Route exact path="/Shoes" component={shoes} />

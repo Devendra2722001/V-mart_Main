@@ -31,7 +31,7 @@ const Email = () => {
     e.preventDefault();
     setError(validation(email));
     const { emailID } = email;
-    let res = await fetch("https://vmart-api.herokuapp.com/sendotp", {
+    let res = await fetch("http://localhost:8000/sendotp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,16 +53,16 @@ const Email = () => {
   };
 
   return (
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src={Empty} class="img-fluid" alt="Sample" />
+    <div className="row d-flex justify-content-center align-items-center h-100">
+      <div className="col-md-9 col-lg-6 col-xl-5">
+        <img src={Empty} className="img-fluid" alt="Sample" />
       </div>
 
-      <div class="col-md-8 col-lg-6 col-xl-4">
-        <label class="labels">Email ID</label>
+      <div className="col-md-8 col-lg-6 col-xl-4">
+        <label className="labels">Email ID</label>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           placeholder="enter email id"
           name="emailID"
           value={email.emailID}
@@ -74,7 +74,7 @@ const Email = () => {
         <br></br>
         <NavLink to="/ResetPassword">
           <button
-            class="btn btn-primary profile-button"
+            className="btn btn-primary profile-button"
             type="button"
             onClick={SendOTP}
           >

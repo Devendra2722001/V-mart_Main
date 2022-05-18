@@ -26,24 +26,24 @@ const Footer = () => {
 
     return (
         <>
-            <div class="footer">
-                <footer class="footer-section">
-                    <div class="container">
+            <div className="footer">
+                <footer className="footer-section">
+                    <div className="container">
                         <div>
-                            <div class="footer-1st">
+                            <div className="footer-1st">
                                 <div>
                                     <div id="footer-1st_lines">
-                                        <span class="fa fa-map-marker" id="fa_big" onClick={linkmemap}></span>
-                                        <div class="cta-text">
+                                        <span className="fa fa-map-marker" id="fa_big" onClick={linkmemap}></span>
+                                        <div className="cta-text">
                                             <h4>Find us</h4>
-                                            <span>Prahlad Nagar, Ahmedabad, Gujarat 380015</span>
+                                            <span>Prahlad Nagar, Ahmedabad, Gujarat 380005</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="call_us_footer" id="footer-1st_lines">
-                                        <i class="fa fa-phone" id="fa_big"></i>
-                                        <div class="cta-text">
+                                        <i className="fa fa-phone" id="fa_big"></i>
+                                        <div className="cta-text">
                                             <h4>Call us</h4>
                                             <span>079 4004 1994</span>
                                         </div>
@@ -51,8 +51,8 @@ const Footer = () => {
                                 </div>
                                 <div>
                                     <div id="footer-1st_lines"> 
-                                        <i class="fa fa-envelope-open" id="fa_big" onClick={linkme}></i>
-                                        <div class="cta-text">
+                                        <i className="fa fa-envelope-open" id="fa_big" onClick={linkme}></i>
+                                        <div className="cta-text">
                                             <h4>Mail us</h4>
                                             <span onClick={linkme}>info@vonalsys.com</span>
                                         </div>
@@ -61,16 +61,16 @@ const Footer = () => {
                             </div>
                         </div>
                         <div>
-                            <div class="footer-2nd" id="footer-2nd">
+                            <div className="footer-2nd" id="footer-2nd">
                                 <div>
-                                    <div class="footer-widget">
-                                        <div class="footer-logo">
-                                            <a href="/"><img src="../images/logo_gold.png" class="img-fluid" alt="logo" /></a>
+                                    <div className="footer-widget">
+                                        <div className="footer-logo">
+                                            <a href="/"><img src="../images/logo_gold.png" className="img-fluid" alt="logo" /></a>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="footer-text">
+                                    <div className="footer-text">
                                         <p>Visit www.Volansys.com For More Info</p>
                                         <NavLink to="/vendorsignup">
                                             <p>Vendor Signup ?</p>
@@ -78,15 +78,15 @@ const Footer = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="footer-social-icon_All">
+                                    <div className="footer-social-icon_All">
                                         
-                                        <div class="fa fa-facebook" id ="footer-social-icon_All" onClick={linkmeface}>
+                                        <div className="fa fa-facebook" id ="footer-social-icon_All" onClick={linkmeface}>
 
                                         </div>
-                                        <div class="fa fa-twitter" id ="footer-social-icon_All" onClick={linkmetww}>
+                                        <div className="fa fa-twitter" id ="footer-social-icon_All" onClick={linkmetww}>
 
                                         </div>
-                                        <div class="fa fa-linkedin" id ="footer-social-icon_All" onClick={linkmelinkedin}>
+                                        <div className="fa fa-linkedin" id ="footer-social-icon_All" onClick={linkmelinkedin}>
 
                                         </div>
                                     </div>

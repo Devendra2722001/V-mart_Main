@@ -151,22 +151,27 @@ function Main(props) {
       .catch((err) => {
         console.log(err);
       });
-    tryingtodosomething();
+    //tryingtodosomething();
+    addnow();
   };
+
+  const addnow = () =>{
+    if (
+      imageurl1 != "" &&
+      imageurl2 != "" &&
+      imageurl3 != "" &&
+      imageurl4 != ""
+    ){
+      addproduct();
+    }
+  }
 
   const tryingtodosomething = () => {
     if (updateProducts) {
       console.log("Time To Update");
       UpdateForme();
-    } else if (
-      imageurl1 != "" &&
-      imageurl2 != "" &&
-      imageurl3 != "" &&
-      imageurl4 != ""
-    ) {
-      postImages();
-    } else {
-      addproduct();
+    } else{
+      postImages(); 
     }
   };
 
@@ -218,31 +223,7 @@ function Main(props) {
     console.log(networkType);
   };
 
-  // let Product = {
-  //   name,
-  //   description,
-  //   price,
-  //   image1,
-  //   brand,
-  //   category,
-  //   RAM,
-  //   batteryCapacity,
-  //   screenSize,
-  //   networkType,
-  //   resolutionType,
-  //   camera,
-  //   processor,
-  //   hardDisk,
-  //   touchScreen,
-  //   gender,
-  //   size,
-  //   colour,
-  //   imageurl1,
-  //   imageurl2,
-  //   imageurl3,
-  //   imageurl4,
-  // };
-
+  
   const UpdateForme = async () => {
     let Product = {
       name,
@@ -312,10 +293,6 @@ function Main(props) {
       window.alert("unable To Post");
     }
   };
-
-  if (updateProducts) {
-    //Product();
-  }
 
   return (
     <>

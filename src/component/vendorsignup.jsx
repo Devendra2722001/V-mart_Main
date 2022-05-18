@@ -28,7 +28,7 @@ const Signup = () => {
     e.preventDefault();
     setError(validation(user));
     const { fname, lname, email, password, cpassword, isVendor } = user;
-    let data = await fetch("https://vmart-api.herokuapp.com/registration", {
+    let data = await fetch("http://localhost:8000/registration", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,13 +60,13 @@ const Signup = () => {
   };
 
   return (
-    <section class="vh-100">
-      <div class="container-fluid h-custom">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-md-9 col-lg-6 col-xl-5">
-            <img src={Empty} class="img-fluid" alt="Sample" />
+    <section className="vh-100">
+      <div className="container-fluid h-custom">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-md-9 col-lg-6 col-xl-5">
+            <img src={Empty} className="img-fluid" alt="Sample" />
           </div>
-          <div class="col-md-8 col-lg-6 col-xl-4">
+          <div className="col-md-8 col-lg-6 col-xl-4">
             <p>
               <h2 className="text-center" style={{ color: "black" }}>
                 <b>
@@ -75,9 +75,9 @@ const Signup = () => {
               </h2>
             </p>
             <form method="POST">
-              <div class="row needs-validation">
-                <div class="col-md-6">
-                  <label class="labels">First name</label>
+              <div className="row needs-validation">
+                <div className="col-md-6">
+                  <label className="labels">First name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -94,8 +94,8 @@ const Signup = () => {
                     </span>
                   )}
                 </div>
-                <div class="col-md-6">
-                  <label class="labels">Last name</label>
+                <div className="col-md-6">
+                  <label className="labels">Last name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -112,11 +112,11 @@ const Signup = () => {
                     </span>
                   )}
                 </div>
-                <div class="col-md-12">
-                  <label class="labels">Email ID</label>
+                <div className="col-md-12">
+                  <label className="labels">Email ID</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter email "
                     name="email"
                     value={user.email}
@@ -128,11 +128,11 @@ const Signup = () => {
                     </span>
                   )}
                 </div>
-                <div class="col-md-12">
-                  <label class="labels">Password</label>
+                <div className="col-md-12">
+                  <label className="labels">Password</label>
                   <input
                     type="password"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter password"
                     name="password"
                     value={user.password}
@@ -144,11 +144,11 @@ const Signup = () => {
                     </span>
                   )}
                 </div>
-                <div class="col-md-12">
-                  <label class="labels">Comfirm Password</label>
+                <div className="col-md-12">
+                  <label className="labels">Comfirm Password</label>
                   <input
                     type="password"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Enter comfirm password"
                     name="cpassword"
                     value={user.cpassword}
@@ -160,22 +160,22 @@ const Signup = () => {
                     </span>
                   )}
                 </div>
-                {/* <div class="col-md-12">
-                  <label class="labels">Select Role</label><br></br>
+                {/* <div className="col-md-12">
+                  <label className="labels">Select Role</label><br></br>
                   <input type="radio" name="isVendor" value={user.isVendor} onChange={handleInputs} defaultChecked/> Vendor &nbsp;
                 </div> */}
               </div>
-              <div class="text-center text-lg-start pt-2 mt-3">
+              <div className="text-center text-lg-start pt-2 mt-3">
                 <button
                   type="submit"
-                  class="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg"
                   id="login_btn-style"
                   value="register"
                   onClick={PostData}
                 >
                   Signup
                 </button>
-                <p class="small fw-bold mt-2 pt-1 mb-0">
+                <p className="small fw-bold mt-2 pt-1 mb-0">
                   Already have an account?
                   <NavLink to="/login">Login</NavLink>
                 </p>

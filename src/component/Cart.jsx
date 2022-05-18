@@ -8,10 +8,12 @@ const Cart = () => {
   const history = useHistory();
   const [loading, setLoading] = useState();
   const [cartItem, setCartItem] = useState([]);
+  const [Cart_qnt, SetCart_qnt] = useState(10);
 
   useEffect(() => {
     getcartItem();
     Protected_Route();
+    //SetCart_qnt([])
     // setTimeout(() => {
     //
     // }, 3000);
@@ -26,23 +28,57 @@ const Cart = () => {
 
   // cart api fatching
   const getcartItem = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
+    let result = await fetch("http://localhost:8000/myCartItem", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
     setCartItem(result);
+    //
     //setLoading(false);
   };
 
   const removeFromCart = async (id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${id}`, {
+    let result = await fetch(`http://localhost:8000/removeFromCart/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
     setCartItem(result);
+    getcartItem();
   };
+
+  const increaseQty = async (id) => {    
+    let addone = await fetch(`http://localhost:8000/increaseQuantity/${id}`, {
+      method: "post",
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
+    });
+    //addone = await addone.json();
+    getcartItem();
+    if(addone.status===400){
+      swal({
+        title: "Opps",
+        text: "We're sorry! Only 5 unit(s) allowed in each order",
+        icon: "warning",
+        button: "Okay!",
+      });
+    }
+    
+    //setCartItem(addone);
+  }
+  
+  const decreaseQty = async (id) => {    
+    let removeone = await fetch(`http://localhost:8000/decreaseQuantity/${id}`, {
+      method: "post",
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
+    });
+    removeone = await removeone.json();
+    console.log(removeone.quantity);
+    if(removeone.quantity === 0){
+      removeFromCart(id);
+    }
+    getcartItem();
+  }
 
   const CongoAlert = () => {
     swal({
@@ -94,7 +130,7 @@ const Cart = () => {
           <div className="Empty-Text">
             <h2>Hey Your Cart is Empty</h2>
             <NavLink to="/">
-              <h6>Contine Shoping</h6>
+              <h6>Continue Shopping</h6>
             </NavLink>
           </div>
         </div>
@@ -102,7 +138,7 @@ const Cart = () => {
     );
     //}
   };
-  //console.log(cartItem);
+  console.log(cartItem);
   const ShowProducts = () => {
     return (
       <>
@@ -124,7 +160,7 @@ const Cart = () => {
                     <div className="cart-card-price">
                       Price - {cartObj.productPrice}/-₹
                     </div>
-                    <div class="cart-lastrow">
+                    <div className="cart-lastrow">
                       <div className="cart-card-category">
                         Category - {cartObj.productCategory}
                       </div>
@@ -135,26 +171,18 @@ const Cart = () => {
                         {cartObj.quantity * cartObj.productPrice}
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => {
-                        removeFromCart(cartObj.productId);
-                      }}
-                    >
-                      Remove
-                    </button>
-                    {/* <div className="plus-minus">
-                                        <button className="btn btn-outline-dark" onClick={() => handleAdd(product)}>
-                                            <i className="fa fa-plus"></i>
-                                        </button>
-                                        <p className="qty_font">
-                                            {product.qty}
-                                        </p>
-                                        <button className="btn btn-outline-dark me-4" onClick={() => handleDel(product)}>
-                                            <i className="fa fa-minus"></i>
-                                        </button>
-                                    </div> */}
+
+                    <div className="plus-minus">
+                        <button className="btn btn-outline-dark" id="plus-minus_btn_m" onClick={() => {decreaseQty(cartObj.productId);}}>
+                          <i className="fa fa-minus"></i>
+                        </button>
+                        <p className="qty_font">{cartObj.quantity}</p>
+                        <button className="btn btn-outline-dark" id="plus-minus_btn_p" onClick={() => {increaseQty(cartObj.productId);}}>
+                        <i className="fa fa-plus"></i>
+                      </button>
+                      
+                    </div>
+                   
                   </div>
                 </div>
               </div>

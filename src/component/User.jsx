@@ -99,13 +99,13 @@ const User = () => {
   const Loading = () => {
     return (
       <>
-        <div class="user_loading">
+        <div className="user_loading">
           <Skeleton height={600} width={350} />
 
           <div>
             <Skeleton height={250} width={500} />
           </div>
-          <div class="marginleft">
+          <div className="marginleft">
             <Skeleton height={100} width={300} />
           </div>
         </div>
@@ -117,25 +117,25 @@ const User = () => {
     console.log("Showing Profile with no address & no order");
     return (
       <section className="margin_bottom-for-user">
-        <div class="container rounded bg-white mt-4">
-          <div class="row">
-            <div class="col-md-3 border-right">
-              <div class="d-flex flex-column mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+        <div className="container rounded bg-white mt-4">
+          <div className="row">
+            <div className="col-md-3 border-right">
+              <div className="d-flex flex-column mt-5">
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
                     <b>My Profile</b>
                   </h6>
                 </div>
-                <div class="d-flex flex-column" id="user-profile-card">
-                  <div class="d-flex flex-column align-items-center">
+                <div className="d-flex flex-column" id="user-profile-card">
+                  <div className="d-flex flex-column align-items-center">
                     <img
-                      class="rounded-circle "
+                      className="rounded-circle "
                       width="100px"
                       src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
                       alt="User Profile"
                     />
-                    <div class="d-flex flex-row" id="margin_user">
-                      <div class="font-weight-bold">
+                    <div className="d-flex flex-row" id="margin_user">
+                      <div className="font-weight-bold">
                         <b>
                           {profile.firstName} {profile.lastName}
                         </b>
@@ -144,30 +144,30 @@ const User = () => {
                     </div>
                   </div>
                   <hr></hr>
-                  <div class="text-left p-2">
-                    <div class="col-md-12">
+                  <div className="text-left p-2">
+                    <div className="col-md-12">
                       <label htmlFor="firstName">
                         <b>First Name :</b> {profile.firstName}
                       </label>
                     </div>
-                    <div class="col-md-12">
+                    <div className="col-md-12">
                       <label htmlFor="lastName">
                         <b>Last Name :</b> {profile.lastName}
                       </label>
                     </div>
-                    <div class="col-md-12">
+                    <div className="col-md-12">
                       <label htmlFor="Email_id">
                         <b>Email ID :</b> {profile.email}
                       </label>
                     </div>
-                    {/* <div class="col-md-12">
+                    {/* <div className="col-md-12">
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
-                    <div class="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
                         <button
-                          class="btn btn-primary profile-button"
+                          className="btn btn-primary profile-button"
                           type="button"
                         >
                           Change Password
@@ -176,9 +176,9 @@ const User = () => {
                     </div>
                   </div>
                 </div>
-                <div class="mt-5">
+                <div className="mt-5">
                   <button
-                    class="btn btn-primary profile-button"
+                    className="btn btn-primary profile-button"
                     type="button"
                     onClick={() => logout()}
                   >
@@ -187,16 +187,16 @@ const User = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-5 border-right">
-              <div class="p-3 mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+            <div className="col-md-5 border-right">
+              <div className="p-3 mt-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
                   <h6 className="order_text">
                     <b>My Addresses</b>
                   </h6>
                   <div>
                     <NavLink to="/AddAddress">
                       <button
-                        class="btn btn-primary profile-button"
+                        className="btn btn-primary profile-button"
                         type="button"
                       >
                         Add New Address
@@ -205,7 +205,7 @@ const User = () => {
                   </div>
                 </div>
                 <div
-                  class="row mt-2 p-3 list-group mb-3"
+                  className="row mt-2 p-3 list-group mb-3"
                   id="user-profile-card"
                 >
                   <div className="NodataAdd">
@@ -221,9 +221,9 @@ const User = () => {
               </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+            <div className="col-md-4">
+              <div className="py-5">
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
                     <b>My Orders</b>
                   </h6>
@@ -252,25 +252,25 @@ const User = () => {
     console.log("Showing Profile with no order");
     return (
       <section className="margin_bottom-for-user">
-        <div class="container rounded bg-white mt-4">
-          <div class="row">
-            <div class="col-md-3 border-right">
-              <div class="d-flex flex-column mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+        <div className="container rounded bg-white mt-4">
+          <div className="row">
+            <div className="col-md-3 border-right">
+              <div className="d-flex flex-column mt-5">
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
                     <b>My Profile</b>
                   </h6>
                 </div>
-                <div class="d-flex flex-column" id="user-profile-card">
-                  <div class="d-flex flex-column align-items-center">
+                <div className="d-flex flex-column" id="user-profile-card">
+                  <div className="d-flex flex-column align-items-center">
                     <img
-                      class="rounded-circle "
+                      className="rounded-circle "
                       width="100px"
                       src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
                       alt="User Profile"
                     />
-                    <div class="d-flex flex-row" id="margin_user">
-                      <div class="font-weight-bold">
+                    <div className="d-flex flex-row" id="margin_user">
+                      <div className="font-weight-bold">
                         <b>
                           {profile.firstName} {profile.lastName}
                         </b>
@@ -279,30 +279,30 @@ const User = () => {
                     </div>
                   </div>
                   <hr></hr>
-                  <div class="text-left p-2">
-                    <div class="col-md-12">
+                  <div className="text-left p-2">
+                    <div className="col-md-12">
                       <label htmlFor="firstName">
                         <b>First Name :</b> {profile.firstName}
                       </label>
                     </div>
-                    <div class="col-md-12">
+                    <div className="col-md-12">
                       <label htmlFor="lastName">
                         <b>Last Name :</b> {profile.lastName}
                       </label>
                     </div>
-                    <div class="col-md-12">
+                    <div className="col-md-12">
                       <label htmlFor="Email_id">
                         <b>Email ID :</b> {profile.email}
                       </label>
                     </div>
-                    {/* <div class="col-md-12">
+                    {/* <div className="col-md-12">
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
-                    <div class="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
                         <button
-                          class="btn btn-primary profile-button"
+                          className="btn btn-primary profile-button"
                           type="button"
                         >
                           Change Password
@@ -311,9 +311,9 @@ const User = () => {
                     </div>
                   </div>
                 </div>
-                <div class="mt-5">
+                <div className="mt-5">
                   <button
-                    class="btn btn-primary profile-button"
+                    className="btn btn-primary profile-button"
                     type="button"
                     onClick={() => logout()}
                   >
@@ -322,16 +322,16 @@ const User = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-5 border-right">
-              <div class="p-3 mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+            <div className="col-md-5 border-right">
+              <div className="p-3 mt-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
                   <h6 className="order_text">
                     <b>My Addresses</b>
                   </h6>
                   <div>
                     <NavLink to="/AddAddress">
                       <button
-                        class="btn btn-primary profile-button"
+                        className="btn btn-primary profile-button"
                         type="button"
                       >
                         Add New Address
@@ -341,47 +341,47 @@ const User = () => {
                 </div>
                 {address.map((addressObj) => (
                   <div
-                    class="row mt-2 p-3 list-group mb-3"
+                    className="row mt-2 p-3 list-group mb-3"
                     id="user-profile-card"
                     key={addressObj._id}
                   >
                     <div className="col-md-12 row mb-2">
-                      <div class="col-md-12">
+                      <div className="col-md-12">
                         <label htmlFor="lastName" className="form-label">
                           {addressObj.addressLine1}
                         </label>
                       </div>
-                      <div class="col-md-12">
+                      <div className="col-md-12">
                         <label htmlFor="lastName" className="form-label">
                           {addressObj.addressLine2}
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div className="col-md-6">
                         <label htmlFor="lastName" className="form-label">
                           Town/City : {addressObj.cityName}
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div className="col-md-6">
                         <label htmlFor="lastName" className="form-label">
                           District : {addressObj.district}
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div className="col-md-6">
                         <label htmlFor="lastName" className="form-label">
                           State : {addressObj.state}
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div className="col-md-6">
                         <label htmlFor="lastName" className="form-label">
                           Zip Code : {addressObj.zipCode}
                         </label>
                       </div>
                     </div>
                     <hr />
-                    <div class="text-center">
+                    <div className="text-center">
                       <NavLink to={`/EditAddress/${addressObj._id}`}>
                         <button
-                          class="btn btn-primary profile-button"
+                          className="btn btn-primary profile-button"
                           type="button"
                           id="user_address"
                         >
@@ -391,7 +391,7 @@ const User = () => {
                       </NavLink>{" "}
                       &nbsp;
                       <button
-                        class="btn btn-danger profile-button"
+                        className="btn btn-danger profile-button"
                         type="button"
                         id="user_address_remove"
                         onClick={() => removeAddress(addressObj._id)}
@@ -404,9 +404,9 @@ const User = () => {
               </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+            <div className="col-md-4">
+              <div className="py-5">
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
                     <b>My Orders</b>
                   </h6>
@@ -435,25 +435,25 @@ const User = () => {
     console.log("Showing Profile with no address");
     return (
       <section className="margin_bottom-for-user">
-        <div class="container rounded bg-white mt-4">
-          <div class="row">
-            <div class="col-md-3 border-right">
-              <div class="d-flex flex-column mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+        <div className="container rounded bg-white mt-4">
+          <div className="row">
+            <div className="col-md-3 border-right">
+              <div className="d-flex flex-column mt-5">
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
                     <b>My Profile</b>
                   </h6>
                 </div>
-                <div class="d-flex flex-column" id="user-profile-card">
-                  <div class="d-flex flex-column align-items-center">
+                <div className="d-flex flex-column" id="user-profile-card">
+                  <div className="d-flex flex-column align-items-center">
                     <img
-                      class="rounded-circle "
+                      className="rounded-circle "
                       width="100px"
                       src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
                       alt="User Profile"
                     />
-                    <div class="d-flex flex-row" id="margin_user">
-                      <div class="font-weight-bold">
+                    <div className="d-flex flex-row" id="margin_user">
+                      <div className="font-weight-bold">
                         <b>
                           {profile.firstName} {profile.lastName}
                         </b>
@@ -462,30 +462,30 @@ const User = () => {
                     </div>
                   </div>
                   <hr></hr>
-                  <div class="text-left p-2">
-                    <div class="col-md-12">
+                  <div className="text-left p-2">
+                    <div className="col-md-12">
                       <label htmlFor="firstName">
                         <b>First Name :</b> {profile.firstName}
                       </label>
                     </div>
-                    <div class="col-md-12">
+                    <div className="col-md-12">
                       <label htmlFor="lastName">
                         <b>Last Name :</b> {profile.lastName}
                       </label>
                     </div>
-                    <div class="col-md-12">
+                    <div className="col-md-12">
                       <label htmlFor="Email_id">
                         <b>Email ID :</b> {profile.email}
                       </label>
                     </div>
-                    {/* <div class="col-md-12">
+                    {/* <div className="col-md-12">
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
-                    <div class="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
                         <button
-                          class="btn btn-primary profile-button"
+                          className="btn btn-primary profile-button"
                           type="button"
                         >
                           Change Password
@@ -494,9 +494,9 @@ const User = () => {
                     </div>
                   </div>
                 </div>
-                <div class="mt-5">
+                <div className="mt-5">
                   <button
-                    class="btn btn-primary profile-button"
+                    className="btn btn-primary profile-button"
                     type="button"
                     onClick={() => logout()}
                   >
@@ -505,16 +505,16 @@ const User = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-5 border-right">
-              <div class="p-3 mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+            <div className="col-md-5 border-right">
+              <div className="p-3 mt-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
                   <h6 className="order_text">
                     <b>My Addresses</b>
                   </h6>
                   <div>
                     <NavLink to="/AddAddress">
                       <button
-                        class="btn btn-primary profile-button"
+                        className="btn btn-primary profile-button"
                         type="button"
                       >
                         Add New Address
@@ -523,7 +523,7 @@ const User = () => {
                   </div>
                 </div>
                 <div
-                  class="row mt-2 p-3 list-group mb-3"
+                  className="row mt-2 p-3 list-group mb-3"
                   id="user-profile-card"
                 >
                   <div className="NodataAdd">
@@ -539,15 +539,15 @@ const User = () => {
               </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+            <div className="col-md-4">
+              <div className="py-5">
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
                     <b>My Orders</b>
                   </h6>
                 </div>
                 {orderHistory.map((orderHistory) => {
-                  return orderHistory.products.reverse().map((products) => {
+                  return orderHistory.products.map((products) => {
                     return (
                       <ul className="list-group" key={orderHistory._id}>
                         <li className="d-flex justify-content-between mb-3">
@@ -569,7 +569,7 @@ const User = () => {
                               <div className="user-card-price">
                                 Price : {products?.productPrice}/-
                               </div>
-                              {/* <div class="cart-lastrow">
+                              {/* <div className="cart-lastrow">
                                                     <div className="user-card-category">payment method : {orderHistory?.paymentMethod}</div>
                                                 </div> */}
                             </div>
@@ -591,25 +591,25 @@ const User = () => {
     console.log("Showing full Profile");
     return (
       <section className="margin_bottom-for-user">
-        <div class="container rounded bg-white mt-4">
-          <div class="row">
-            <div class="col-md-3 border-right">
-              <div class="d-flex flex-column mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+        <div className="container rounded bg-white mt-4">
+          <div className="row">
+            <div className="col-md-3 border-right">
+              <div className="d-flex flex-column mt-5">
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
                     <b>My Profile</b>
                   </h6>
                 </div>
-                <div class="d-flex flex-column" id="user-profile-card">
-                  <div class="d-flex flex-column align-items-center">
+                <div className="d-flex flex-column" id="user-profile-card">
+                  <div className="d-flex flex-column align-items-center">
                     <img
-                      class="rounded-circle "
+                      className="rounded-circle "
                       width="100px"
                       src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
                       alt="User Profile"
                     />
-                    <div class="d-flex flex-row" id="margin_user">
-                      <div class="font-weight-bold">
+                    <div className="d-flex flex-row" id="margin_user">
+                      <div className="font-weight-bold">
                         <b>
                           {profile.firstName} {profile.lastName}
                         </b>
@@ -618,30 +618,40 @@ const User = () => {
                     </div>
                   </div>
                   <hr></hr>
-                  <div class="text-left p-2">
-                    <div class="col-md-12">
+                  <div className="text-left p-2">
+                    <div className="col-md-12">
                       <label htmlFor="firstName">
                         <b>First Name :</b> {profile.firstName}
                       </label>
                     </div>
-                    <div class="col-md-12">
+                    <div className="col-md-12">
                       <label htmlFor="lastName">
                         <b>Last Name :</b> {profile.lastName}
                       </label>
                     </div>
-                    <div class="col-md-12">
+                    <div className="col-md-12">
                       <label htmlFor="Email_id">
                         <b>Email ID :</b> {profile.email}
                       </label>
                     </div>
-                    {/* <div class="col-md-12">
+                    {/* <div className="col-md-12">
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
-                    <div class="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center">
+                      <NavLink to="/updateprofile">
+                        <button
+                          className="btn btn-primary profile-button"
+                          type="button"
+                        >
+                          Update Profile
+                        </button>
+                      </NavLink>
+                    </div>
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
                         <button
-                          class="btn btn-primary profile-button"
+                          className="btn btn-primary profile-button"
                           type="button"
                         >
                           Change Password
@@ -650,9 +660,9 @@ const User = () => {
                     </div>
                   </div>
                 </div>
-                <div class="mt-5">
+                <div className="mt-5">
                   <button
-                    class="btn btn-primary profile-button"
+                    className="btn btn-primary profile-button"
                     type="button"
                     onClick={() => logout()}
                   >
@@ -661,16 +671,16 @@ const User = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-5 border-right">
-              <div class="p-3 mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+            <div className="col-md-5 border-right">
+              <div className="p-3 mt-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
                   <h6 className="order_text">
                     <b>My Addresses</b>
                   </h6>
                   <div>
                     <NavLink to="/AddAddress">
                       <button
-                        class="btn btn-primary profile-button"
+                        className="btn btn-primary profile-button"
                         type="button"
                       >
                         Add New Address
@@ -680,47 +690,47 @@ const User = () => {
                 </div>
                 {address.map((addressObj) => (
                   <div
-                    class="row mt-2 p-3 list-group mb-3"
+                    className="row mt-2 p-3 list-group mb-3"
                     id="user-profile-card"
                     key={addressObj._id}
                   >
                     <div className="col-md-12 row mb-2">
-                      <div class="col-md-12">
+                      <div className="col-md-12">
                         <label htmlFor="lastName" className="form-label">
                           {addressObj.addressLine1}
                         </label>
                       </div>
-                      <div class="col-md-12">
+                      <div className="col-md-12">
                         <label htmlFor="lastName" className="form-label">
                           {addressObj.addressLine2}
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div className="col-md-6">
                         <label htmlFor="lastName" className="form-label">
                           Town/City : {addressObj.cityName}
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div className="col-md-6">
                         <label htmlFor="lastName" className="form-label">
                           District : {addressObj.district}
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div className="col-md-6">
                         <label htmlFor="lastName" className="form-label">
                           State : {addressObj.state}
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div className="col-md-6">
                         <label htmlFor="lastName" className="form-label">
                           Zip Code : {addressObj.zipCode}
                         </label>
                       </div>
                     </div>
                     <hr />
-                    <div class="text-center">
+                    <div className="text-center">
                       <NavLink to={`/EditAddress/${addressObj._id}`}>
                         <button
-                          class="btn profile-button"
+                          className="btn profile-button"
                           type="button"
                           id="user_address"
                         >
@@ -730,7 +740,7 @@ const User = () => {
                       </NavLink>{" "}
                       &nbsp;
                       <button
-                        class="btn profile-button"
+                        className="btn profile-button"
                         type="button"
                         id="user_address_remove"
                         onClick={() => removeAddress(addressObj._id)}
@@ -743,9 +753,9 @@ const User = () => {
               </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+            <div className="col-md-4">
+              <div className="py-5">
+                <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
                     <b>My Orders</b>
                   </h6>
@@ -773,7 +783,7 @@ const User = () => {
                               <div className="user-card-price">
                                 Price : {products?.productPrice}/-
                               </div>
-                              {/* <div class="cart-lastrow">
+                              {/* <div className="cart-lastrow">
                                                     <div className="user-card-category">payment method : {orderHistory?.paymentMethod}</div>
                                                 </div> */}
                             </div>

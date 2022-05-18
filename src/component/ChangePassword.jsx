@@ -77,7 +77,7 @@ const ChangePassword = () => {
 
     setError(validation(data));
     const { oldPassword, newPassword, confirmPassword } = data;
-    let res = await fetch("https://vmart-api.herokuapp.com/changePassword", {
+    let res = await fetch("http://localhost:8000/changePassword", {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -98,20 +98,20 @@ const ChangePassword = () => {
   };
 
   return (
-    <section class="vh-100">
-      <div class="container-fluid h-custom">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-md-9 col-lg-6 col-xl-5">
-            <img src={Empty} class="img-fluid" alt="Sample" />
+    <section className="vh-100">
+      <div className="container-fluid h-custom">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-md-9 col-lg-6 col-xl-5">
+            <img src={Empty} className="img-fluid" alt="Sample" />
           </div>
-          <div class="col-md-8 col-lg-6 col-xl-4">
+          <div className="col-md-8 col-lg-6 col-xl-4">
             <form method="POST">
-              <div class="row mt-3">
-                <div class="col-md-12">
-                  <label class="labels">Old Password</label>
+              <div className="row mt-3">
+                <div className="col-md-12">
+                  <label className="labels">Old Password</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="enter old password"
                     name="oldPassword"
                     value={data.oldPassword}
@@ -123,11 +123,11 @@ const ChangePassword = () => {
                     {error.oldPassword}
                   </span>
                 )}
-                <div class="col-md-12">
-                  <label class="labels">New Password</label>
+                <div className="col-md-12">
+                  <label className="labels">New Password</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="enter new password"
                     name="newPassword"
                     value={data.newPassword}
@@ -139,11 +139,11 @@ const ChangePassword = () => {
                     {error.newPassword}
                   </span>
                 )}
-                <div class="col-md-12">
-                  <label class="labels">Confirm Password</label>
+                <div className="col-md-12">
+                  <label className="labels">Confirm Password</label>
                   <input
                     type="password"
-                    class="form-control"
+                    className="form-control"
                     placeholder="re-enter new password"
                     name="confirmPassword"
                     value={data.confirmPassword}
@@ -156,10 +156,10 @@ const ChangePassword = () => {
                   </span>
                 )}
               </div>
-              <div class="text-center text-lg-start mt-4 pt-2">
+              <div className="text-center text-lg-start mt-4 pt-2">
                 <button
                   type="button"
-                  class="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg"
                   id="login_btn-style"
                   onClick={ChangePass}
                 >

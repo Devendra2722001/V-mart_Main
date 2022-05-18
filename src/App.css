@@ -442,6 +442,7 @@
     flex-direction: row;
     width: 450px;
   }
+  
 
   .cart-card-media{
     border: 1px solid #407BFF;
@@ -1439,3 +1440,10 @@ height: 100%;
   background-color: rgba(252, 33, 33, 0.959);
 }
 
+#plus-minus_btn_p{
+  margin-left: 10px;
+}
+
+#plus-minus_btn_m{
+  margin-right: 10px;
+}

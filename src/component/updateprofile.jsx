@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import { NavLink, useHistory, useParams } from 'react-router-dom';
 
-const EditAddress = () => {
+const Updateprofile = () => {
     const history = useHistory();   
     const[address, setAddress] = useState({
         addressLine1:"",addressLine2:"",cityName:"",district:"",state:"",zipCode:""
@@ -190,4 +190,4 @@ const EditAddress = () => {
     )
 }
 
-export default EditAddress
+export default Updateprofile;

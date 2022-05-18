@@ -37,7 +37,7 @@ const Favorits = () => {
   };
 
   const getFavourite = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myfavouritetItem", {
+    let result = await fetch("http://localhost:8000/myfavouritetItem", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -47,7 +47,7 @@ const Favorits = () => {
   };
   const removeFromgetFavourite = async (id) => {
     let result = await fetch(
-      `https://vmart-api.herokuapp.com/removeFromFavourite/${id}`,
+      `http://localhost:8000/removeFromFavourite/${id}`,
       {
         method: "post",
         headers: { token: JSON.parse(localStorage.getItem("token")) },
@@ -129,7 +129,7 @@ const Favorits = () => {
                     <div className="cart-card-price">
                       Price - {favObj.productPrice}₹
                     </div>
-                    <div class="cart-lastrow">
+                    <div className="cart-lastrow">
                       <div className="cart-card-category">
                         Category - {favObj.productCategory}
                       </div>

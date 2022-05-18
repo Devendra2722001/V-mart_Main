@@ -13,7 +13,7 @@ const Laptop = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+      const response = await axios.get("http://localhost:8000/getProduct");
       if (componentMounted) {
         setData(response.data.products);
         setFilter(response.data.products);
@@ -172,7 +172,7 @@ const Laptop = () => {
                     <Link to={`/productlist/${product._id}`} id="copyright">
                       <div className="card_All">
                         <img
-                          src={product.imageurl}
+                          src={product.imageurl1}
                           onError={(event) => {
                             event.target.src =
                               "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";
@@ -186,7 +186,7 @@ const Laptop = () => {
                           <div className="card-price">
                             Price - {product.price}₹
                           </div>
-                          <div class="lastrow">
+                          <div className="lastrow">
                             <div className="card-category">
                               Category - {product.category}
                             </div>
