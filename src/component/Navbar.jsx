@@ -9,20 +9,24 @@ import swal from "sweetalert";
 const Navbar = () => {
   const history = useHistory();
   const [logBtn, setlogBtn] = useState(login);
-  const [cartItem, setCartItem] = useState([]);
+  const [cartItem, setCartItem] = useState();
 
   useEffect(() => {
-    getcartItem();
+    //setCartItem(localStorage.getItem('Mycart'));
 
     setInterval(() => {
+      setCartItem(sessionStorage.getItem("Mycart"));
+    }, 1000);
+
+    setInterval(() => {
+      // if(cartItem !== 0){
+      //   getcartItem();
+      // }
       // ^^^ Comment this getcartItem if you wanna get rid of all the getCart request errors in console
       const token = localStorage.getItem("token");
       if (token != null) {
         setlogBtn(logout);
-        //if(cartItem.length !== 0){
-          getcartItem();
-        //}
-        
+        //setCartItem(localStorage.getItem('Mycart'));
       }
     }, 1000);
   }, []);
@@ -44,7 +48,7 @@ const Navbar = () => {
     const token = localStorage.getItem("token");
     if (token != null) {
       setlogBtn(logout);
-      getcartItem();
+      //setCartItem(sessionStorage.getItem("Mycart"));
       //console.log("Hello Hii");
     } else {
       console.log("no token found");
@@ -61,18 +65,18 @@ const Navbar = () => {
   //     }
   // }
 
-  const getcartItem = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
-      method: "GET",
-      headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    if (result.status === 404) {
-      console.log("cart is Empty (Navbar)");
-      //window.location.reload();
-    }
-    setCartItem(result);
-  };
+  // const getcartItem = async () => {
+  //   let result = await fetch("http://localhost:8000/myCartItem", {
+  //     method: "GET",
+  //     headers: { token: JSON.parse(localStorage.getItem("token")) },
+  //   });
+  //   result = await result.json();
+  //   if (result.length === 0) {
+  //     console.log("cart is Empty (Navbar)");
+  //     //window.location.reload();
+  //   }
+    
+  // };
 
   const ProtectedRoute = (props) => {
     const token = localStorage.getItem("token");
@@ -105,6 +109,8 @@ const Navbar = () => {
     }
   };
 
+  console.log("cartItem Navbar",cartItem);
+
   return (
     <div>
       <nav className="navbar" id="Navbar">
@@ -126,7 +132,7 @@ const Navbar = () => {
           <div className="Nav-menu-options">
             <div id="bloc3" className="push">
               <NavLink to="/cart">
-                <div className="text_cart">{cartItem.length}</div>
+                <div className="text_cart">{cartItem}</div>
                 <img
                   src="../images/cart.png"
                   width="30rem;"

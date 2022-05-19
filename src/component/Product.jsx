@@ -24,7 +24,7 @@ const Product = () => {
   }, []);
 
   const Checkforcart = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
+    let result = await fetch("http://localhost:8000/myCartItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -32,7 +32,7 @@ const Product = () => {
     });
     result = await result.json();
     //console.log("got cart data:-",result);
-    //setCartItem(result);
+    setCartItem(result.length);
 
     for (let i = 0; i < result.length; i++) {
       let item_ids = result[i].productId;
@@ -41,11 +41,15 @@ const Product = () => {
       } else {
         setCartBtn("Add To Cart");
       }
-    }
+    }    
+    
   };
+  
+  console.log("cartItem",cartItem);
+  sessionStorage.setItem("Mycart", cartItem);
 
   const Checkforfav = async () => {
-    let Favresult = await fetch("https://vmart-api.herokuapp.com/myfavouritetItem", {
+    let Favresult = await fetch("http://localhost:8000/myfavouritetItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -66,13 +70,13 @@ const Product = () => {
   };
 
   const getProduct = async () => {
-    const response = await fetch(`https://vmart-api.herokuapp.com/singleProduct/${_id}`);
+    const response = await fetch(`http://localhost:8000/singleProduct/${_id}`);
     setProduct(await response.json());
     setLoading(false);
   };
 
   const addToCart = async (_id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/cart/${_id}`, {
+    let result = await fetch(`http://localhost:8000/cart/${_id}`, {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -80,6 +84,7 @@ const Product = () => {
     });
     result = await result.json();
     //setCartItem(result);
+    //
     toast(`${product.name} Added To cart`, {     
       position: toast.POSITION.TOP_LEFT,
       toastClassName: css({
@@ -89,10 +94,11 @@ const Product = () => {
       }),      
     });
     //setCartBtn("Remove From Cart")
+    Checkforcart();
   };
 
   const addTofav = async (_id) => {
-    let Favresult = await fetch(`https://vmart-api.herokuapp.com/favourite/${_id}`, {
+    let Favresult = await fetch(`http://localhost:8000/favourite/${_id}`, {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -105,7 +111,7 @@ const Product = () => {
   };
 
   const removeFromCart = async (_id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${_id}`, {
+    let result = await fetch(`http://localhost:8000/removeFromCart/${_id}`, {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -117,11 +123,12 @@ const Product = () => {
       position: toast.POSITION.TOP_LEFT,
     });
     //window.location.reload();
+    Checkforcart();
   };
 
   const removeFromfav = async (_id) => {
     let Favresult = await fetch(
-      `https://vmart-api.herokuapp.com/removeFromFavourite/${_id}`,
+      `http://localhost:8000/removeFromFavourite/${_id}`,
       {
         method: "POST",
         headers: {

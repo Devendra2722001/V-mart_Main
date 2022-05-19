@@ -13,7 +13,7 @@ const Shoes = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+      const response = await axios.get("http://localhost:8000/getProduct");
       if (componentMounted) {
         setData(response.data.products);
         setFilter(response.data.products);

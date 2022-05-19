@@ -77,7 +77,7 @@ const ChangePassword = () => {
 
     setError(validation(data));
     const { oldPassword, newPassword, confirmPassword } = data;
-    let res = await fetch("https://vmart-api.herokuapp.com/changePassword", {
+    let res = await fetch("http://localhost:8000/changePassword", {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),

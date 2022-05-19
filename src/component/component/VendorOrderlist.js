@@ -9,7 +9,7 @@ const VendorOrderist = () => {
   }, []);
 
   const getOrdersData = async () => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/order`, {
+    let result = await fetch(`http://localhost:8000/order`, {
       method: "GET",
     });
     result = await result.json();
