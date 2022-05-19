@@ -16,7 +16,7 @@ const Navbar = () => {
 
     setInterval(() => {
       setCartItem(sessionStorage.getItem("Mycart"));
-    }, 1000);
+    }, 500);
 
     setInterval(() => {
       // if(cartItem !== 0){
