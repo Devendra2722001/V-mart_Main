@@ -11,25 +11,21 @@ const Navbar = () => {
   const [logBtn, setlogBtn] = useState(login);
   const [cartItem, setCartItem] = useState();
 
-  useEffect(() => {
-    //setCartItem(localStorage.getItem('Mycart'));
-
-    setInterval(() => {
-      setCartItem(sessionStorage.getItem("Mycart"));
-    }, 500);
-
-    setInterval(() => {
-      // if(cartItem !== 0){
-      //   getcartItem();
-      // }
-      // ^^^ Comment this getcartItem if you wanna get rid of all the getCart request errors in console
+  useEffect(() => { 
+    //Checkforcart();
+    setInterval(() => {     
       const token = localStorage.getItem("token");
       if (token != null) {
-        setlogBtn(logout);
-        //setCartItem(localStorage.getItem('Mycart'));
+        setlogBtn(logout);  
+        setCartItem(sessionStorage.getItem("Mycart"));
+        //console.log(cartItem);     
       }
     }, 1000);
-  }, []);
+
+  }, []);  
+  
+  //console.log("cartItem",cartItem);  
+  
 
   const CongoAlert = () => {
     swal({
@@ -38,45 +34,12 @@ const Navbar = () => {
       icon: "success",
       button: "Okay!",
     });
-    history.push("/");
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
+
+    setCartItem("");
+    //localStorage.removeItem("token");
+    history.push("/");    
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token != null) {
-      setlogBtn(logout);
-      //setCartItem(sessionStorage.getItem("Mycart"));
-      //console.log("Hello Hii");
-    } else {
-      console.log("no token found");
-    }
-  }, []);
-
-  // const Loginout = () => {
-  //     const token = localStorage.getItem('token');
-  //     if (token === null) {
-  //         setlogBtn(login)
-  //     }
-  //     else{
-
-  //     }
-  // }
-
-  // const getcartItem = async () => {
-  //   let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
-  //     method: "GET",
-  //     headers: { token: JSON.parse(localStorage.getItem("token")) },
-  //   });
-  //   result = await result.json();
-  //   if (result.length === 0) {
-  //     console.log("cart is Empty (Navbar)");
-  //     //window.location.reload();
-  //   }
-    
-  // };
 
   const ProtectedRoute = (props) => {
     const token = localStorage.getItem("token");
@@ -89,6 +52,7 @@ const Navbar = () => {
 
   const Dologout = async () => {
     localStorage.removeItem("token");
+    sessionStorage.removeItem("Mycart");
     //window.alert("-- Logout Successfuly  --");
     CongoAlert();
     setlogBtn(login);

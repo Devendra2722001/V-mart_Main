@@ -23,6 +23,19 @@ const Login = () => {
     return error;
   };
 
+  const Checkforcart = async () => {
+    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
+      method: "GET",
+      headers: {
+        token: JSON.parse(localStorage.getItem("token")),
+      },
+    });
+    result = await result.json();
+    //console.log("got cart data:-",result);
+    //setCartItem(result.length);
+    sessionStorage.setItem("Mycart", result.length);
+  };
+
   let name, value;
   const handleInputs = (e) => {
     name = e.target.name;
@@ -80,6 +93,7 @@ const Login = () => {
       if ((data.status = data)) {
         localStorage.setItem("token", JSON.stringify(data.token));
         //window.alert("Login Successfull....");
+        Checkforcart();
         CongoAlert();
         console.log("User Login Successfull");
         history.push("/");

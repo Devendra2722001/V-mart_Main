@@ -8,7 +8,7 @@ import axios from "axios";
 const HomeProductList = () => {
   const [data, setData] = useState([]);
   let componentMounted = true;
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);  
 
   useEffect(() => {
     const getProducts = async () => {

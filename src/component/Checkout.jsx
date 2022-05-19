@@ -36,6 +36,9 @@ const Checkout = () => {
     });
     result = await result.json();
     console.log("Data posted");
+    //if (result.status === 201) {
+      removeProduct();
+    //}    
   };
 
   useEffect(() => {
@@ -66,9 +69,9 @@ const Checkout = () => {
       button: "Okay!",
     });
     history.push("/");
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 2000);
     //
   };
 
@@ -95,6 +98,7 @@ const Checkout = () => {
     history.push("/AddAddress");
     //
   };
+
 
   const getAddress = async () => {
     let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
@@ -188,10 +192,8 @@ const Checkout = () => {
         token: JSON.parse(localStorage.getItem("token")),
       },
     });
-    if (emptyCart.status === 200) {
-      console.log("cart empty");
-      //window.location.reload();
-    }
+    sessionStorage.setItem("Mycart", 0);
+    CongoAlert();
   };
 
   const Clickedmeforcheckout = (e) => {
@@ -201,10 +203,7 @@ const Checkout = () => {
       console.log("Failed");
       CongoAlertOps();
     } else {
-      PostOrder();
-      removeProduct();
-
-      CongoAlert();
+      PostOrder();            
     }
   };
 

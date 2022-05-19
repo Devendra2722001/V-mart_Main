@@ -23,6 +23,8 @@ const Signup = () => {
     setUser({ ...user, [name]: value });
   };
 
+  console.log(error);
+
   const PostData = async (e) => {
     e.preventDefault();
     setError(validation(user));
