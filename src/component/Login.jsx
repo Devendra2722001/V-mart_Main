@@ -27,7 +27,7 @@ const Login = () => {
   const Checkforcart = async () => {
     let token = localStorage.getItem("token");
     if(token){
-    let result = await fetch("http://localhost:8000/myCartItem", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -53,7 +53,7 @@ const Login = () => {
     setError(validation(credentials));
     const { email, password } = credentials;
     if(email && password){
-      let res = await fetch("http://localhost:8000/login", {
+      let res = await fetch("https://vmart-api.herokuapp.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

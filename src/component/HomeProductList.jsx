@@ -12,8 +12,8 @@ const HomeProductList = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const response = await axios.get("http://localhost:8000/getProduct");
-      //const response = await fetch(`http://localhost:8000/getProduct`);
+      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+      //const response = await fetch(`https://vmart-api.herokuapp.com/getProduct`);
       if (componentMounted) {
         setData(response.data.products);
         setLoading(false);
