@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import Empty from "./Empty.gif";
+import swal from "sweetalert";
 
 const ResetPassword = () => {
   const history = useHistory();
@@ -43,16 +44,17 @@ const ResetPassword = () => {
   };
 
   const resetPassword = async (e) => {
-    e.preventDefault();
 
+    e.preventDefault();
     setError(validation(data));
     const { email, otp, password, conPassword } = data;
-    const res = await fetch("https://vmart-api.herokuapp.com/forgotpass", {
+
+    if(email && otp && password && conPassword && password.length >= 8 && conPassword===password){
+      const res = await fetch("http://localhost:8000/forgotpass", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         email: email,
         code: otp,
@@ -60,13 +62,38 @@ const ResetPassword = () => {
         con_password: conPassword,
       }),
     });
-    if (res.status === 200) {
-      window.alert("-- Password reset successfuly --");
+    if (res.status === 201) {
+      swal({
+        //title: "Success!",
+        text: "Password reset successfuly",
+        icon: "success",
+        button: "Okay!",
+      });
       history.push("/login");
+    } else if(res.status === 403){
+      swal({
+        //title: "Opps...!",
+        text: "Invalid Email",
+        icon: "warning",
+        button: "Okay!",
+      });
+    }else if(res.status === 400){
+      swal({
+        //title: "Opps...!",
+        text: "Invalid OTP or email",
+        icon: "warning",
+        button: "Okay!",
+      });
+    }else if(res.status === 401){
+      swal({
+        // title: "Opps...!",
+        text: "OTP Expired",
+        icon: "warning",
+        button: "Okay!",
+      });
+      history.push("/email");
     }
-    // else if(res.status === 400){
-    //   window.alert("-- Password not reset --");
-    // }
+    }
   };
 
   return (

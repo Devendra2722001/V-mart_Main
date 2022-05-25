@@ -12,8 +12,8 @@ const HomeProductList = () => {
 
   useEffect(() => {
     const getProducts = async () => {
-      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
-      //const response = await fetch(`https://vmart-api.herokuapp.com/getProduct`);
+      const response = await axios.get("http://localhost:8000/getProduct");
+      //const response = await fetch(`http://localhost:8000/getProduct`);
       if (componentMounted) {
         setData(response.data.products);
         setLoading(false);
@@ -73,8 +73,8 @@ const HomeProductList = () => {
             </div>
           </div>
           <section className="mini-wrapper">
-            {fourmobile.map((product) => {
-              return (
+            {fourmobile.map((product) => (
+              
                 <>
                   <div className="card-container" key={product._id}>
                     <Link to={`/productlist/${product._id}`} id="copyright">
@@ -104,8 +104,8 @@ const HomeProductList = () => {
                     </Link>
                   </div>
                 </>
-              );
-            })}
+              )
+            )}
           </section>
         </div>
 
@@ -121,8 +121,7 @@ const HomeProductList = () => {
             </div>
           </div>
           <section className="mini-wrapper">
-            {fourlaptop.map((product) => {
-              return (
+            {fourlaptop.map((product) => (
                 <>
                   <div className="card-container" key={product._id}>
                     <Link to={`/productlist/${product._id}`} id="copyright">
@@ -152,8 +151,7 @@ const HomeProductList = () => {
                     </Link>
                   </div>
                 </>
-              );
-            })}
+            ))}
           </section>
         </div>
 
@@ -169,8 +167,7 @@ const HomeProductList = () => {
             </div>
           </div>
           <section className="mini-wrapper">
-            {fourshoes.map((product) => {
-              return (
+            {fourshoes.map((product) => (
                 <>
                   <div className="card-container" key={product._id}>
                     <Link to={`/productlist/${product._id}`} id="copyright">
@@ -200,8 +197,7 @@ const HomeProductList = () => {
                     </Link>
                   </div>
                 </>
-              );
-            })}
+            ))}
           </section>
         </div>
       </>

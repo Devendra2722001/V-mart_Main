@@ -24,7 +24,7 @@ const Product = () => {
   }, []);
 
   const Checkforcart = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
+    let result = await fetch("http://localhost:8000/myCartItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -49,7 +49,7 @@ const Product = () => {
   sessionStorage.setItem("Mycart", cartItem);
 
   const Checkforfav = async () => {
-    let Favresult = await fetch("https://vmart-api.herokuapp.com/myfavouritetItem", {
+    let Favresult = await fetch("http://localhost:8000/myfavouritetItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -70,13 +70,13 @@ const Product = () => {
   };
 
   const getProduct = async () => {
-    const response = await fetch(`https://vmart-api.herokuapp.com/singleProduct/${_id}`);
+    const response = await fetch(`http://localhost:8000/singleProduct/${_id}`);
     setProduct(await response.json());
     setLoading(false);
   };
 
   const addToCart = async (_id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/cart/${_id}`, {
+    let result = await fetch(`http://localhost:8000/cart/${_id}`, {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -98,7 +98,7 @@ const Product = () => {
   };
 
   const addTofav = async (_id) => {
-    let Favresult = await fetch(`https://vmart-api.herokuapp.com/favourite/${_id}`, {
+    let Favresult = await fetch(`http://localhost:8000/favourite/${_id}`, {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -111,7 +111,7 @@ const Product = () => {
   };
 
   const removeFromCart = async (_id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${_id}`, {
+    let result = await fetch(`http://localhost:8000/removeFromCart/${_id}`, {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -128,7 +128,7 @@ const Product = () => {
 
   const removeFromfav = async (_id) => {
     let Favresult = await fetch(
-      `https://vmart-api.herokuapp.com/removeFromFavourite/${_id}`,
+      `http://localhost:8000/removeFromFavourite/${_id}`,
       {
         method: "POST",
         headers: {

@@ -2,6 +2,7 @@ import Empty from "./Empty.gif";
 import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const history = useHistory();
@@ -24,7 +25,9 @@ const Login = () => {
   };
 
   const Checkforcart = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
+    let token = localStorage.getItem("token");
+    if(token){
+    let result = await fetch("http://localhost:8000/myCartItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -34,7 +37,7 @@ const Login = () => {
     //console.log("got cart data:-",result);
     //setCartItem(result.length);
     sessionStorage.setItem("Mycart", result.length);
-  };
+  }};
 
   let name, value;
   const handleInputs = (e) => {
@@ -43,23 +46,14 @@ const Login = () => {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const CongoAlert = () => {
-    swal({
-      title: "Welcome!",
-      text: "Login Successfull....",
-      icon: "success",
-      button: "Okay!",
-    });
-    history.push("/");
-  };
-
   const LoginUser = async (e) => {
     e.preventDefault();
     //window.location.reload();
 
     setError(validation(credentials));
     const { email, password } = credentials;
-    const res = await fetch("https://vmart-api.herokuapp.com/login", {
+    if(email && password){
+      let res = await fetch("http://localhost:8000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,36 +66,68 @@ const Login = () => {
     });
 
     const data = await res.json();
-    console.log(data);
-    if (data.user.isAdmin === true) {
-      localStorage.setItem("ImAdmin", true);
+    console.log(res);
+    if ((res.status === 200)) {
       localStorage.setItem("token", JSON.stringify(data.token));
-      console.log("Admin Login Successfull");
-      //localStorage.removeItem('token');
-      history.push("/");
-      window.location.reload();
-    } else if (data.user.isVendor === true) {
-      localStorage.setItem("ImVendor", true);
-      localStorage.setItem("VendorId", data.user._id);
-      localStorage.setItem("token", JSON.stringify(data.token));
-      console.log("Vendor Login Successfull");
-      history.push("/");
-      window.location.reload();
-    }
-
-    {
-      if ((data.status = data)) {
+      await swal({
+        title: "Welcome!",
+        text: "Login Successfull....",
+        icon: "success",
+        button: "Okay!",
+      });
+      console.log("User Login Successfull");
+      if (data.user.isAdmin === false && data.user.isVendor === false) {
+        localStorage.setItem("ImAdmin", false);
         localStorage.setItem("token", JSON.stringify(data.token));
+
         //window.alert("Login Successfull....");
         Checkforcart();
-        CongoAlert();
+        //CongoAlert();
         console.log("User Login Successfull");
         history.push("/");
-      } else {
-        window.alert("-- Invalid Credentials --");
+      } 
+      else if (data.user.isAdmin === true && data.user.isVendor === false) {
+        localStorage.setItem("ImAdmin", true);
+        localStorage.setItem("token", JSON.stringify(data.token));
+        console.log("Admin Login Successfull");
+        //localStorage.removeItem('token');
+        history.push("/");
+        window.location.reload();
       }
+      else if (data.user.isVendor === true && data.user.isAdmin === false) {
+        localStorage.setItem("ImVendor", true);
+        localStorage.setItem("VendorId", data.user._id);
+        localStorage.setItem("token", JSON.stringify(data.token));
+        console.log("Vendor Login Successfull");
+        history.push("/");
+        window.location.reload();
+      }
+      
+    }else if((res.status === 401)){
+      swal({
+        title: "Opps...!",
+        text: "Invalid credentials!",
+        icon: "warning",
+        button: "Okay!",
+      });
+    }else if((res.status === 500)){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You are not registered!',
+        footer: '<a href="SignUp">Register hear</a>'
+      })
+    }else if((res.status === 400)){
+      localStorage.setItem("Email", email)
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'First verify your Email',
+        footer: '<a href="EmailVerification">Make verification?</a>'
+      })
     }
-  };
+    }
+  };  
 
   return (
     <section className="vh-100">

@@ -14,7 +14,7 @@ const EditProfile = () => {
   }, []);
 
   const getProfile = async () => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/myProfile`, {
+    let result = await fetch(`http://localhost:8000/myProfile`, {
       method: "get",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -23,9 +23,6 @@ const EditProfile = () => {
     setFirstName(result.firstName);
     setLastName(result.lastName);
   };
-
-  console.log(firstName);
-  console.log(lastName);
 
   let profile = {
     firstName,
@@ -38,17 +35,20 @@ const EditProfile = () => {
     //const items = { firstName, lastName };
 
     if (profile) {
-      let res = await fetch(`https://vmart-api.herokuapp.com/updateProfile`, {
+      let res = await fetch(`http://localhost:8000/updateProfile`, {
         method: "put",
         headers: {
           token: JSON.parse(localStorage.getItem("token")),
           "Content-Type": "application/json",
         },
 
+        
+
         body: JSON.stringify({
           firstName: firstName,
           lastName: lastName,
         }),
+
       });
       if (res.status === 201) {
         CongoAlert();
@@ -83,7 +83,7 @@ const EditProfile = () => {
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="address"
                       required
                       name="firstName"
@@ -98,7 +98,7 @@ const EditProfile = () => {
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       id="address"
                       required
                       name="lastName"
@@ -109,7 +109,7 @@ const EditProfile = () => {
                 </div>
                 <br></br>
                 <button
-                  class="btn btn-success profile-button"
+                  className="btn btn-success profile-button"
                   type="button"
                   onClick={PostData}
                 >

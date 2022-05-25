@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import Empty from "./Empty.gif";
+import swal from "sweetalert";
 
 const Email = () => {
   const history = useHistory();
@@ -8,6 +9,7 @@ const Email = () => {
   const [email, setEmail] = useState({
     emailID: "",
   });
+  const token = localStorage.getItem("token")
 
   const validation = (email) => {
     let error = {};
@@ -30,25 +32,34 @@ const Email = () => {
     //localStorage.setItem("emailid" , email.emailID);
     e.preventDefault();
     setError(validation(email));
+    
     const { emailID } = email;
-    let res = await fetch("https://vmart-api.herokuapp.com/sendotp", {
+    if(emailID){
+      let res = await fetch("http://localhost:8000/sendotp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-
-      body: JSON.stringify({
-        email: emailID,
-      }),
-    });
-
-    if (res.status === 500) {
-      window.alert("-- Plese enter email --");
-    } else if (res.status === 200) {
-      window.alert("-- OTP sent on given Email --");
-      history.push("/ResetPassword");
-    } else if (res.status === 400) {
-      window.alert("Enter valid email");
+        body: JSON.stringify({
+          email: emailID,
+        }),
+      });
+      if (res.status === 200) {
+        swal({
+          title: "",
+          text: "OTP send on given email ID.",
+          icon: "success",
+          button: "Okay!",
+        });
+        history.push("/ResetPassword");
+      } else if (res.status === 400) {
+        swal({
+          title: "Opps...!",
+          text: "No user with this Email ID!",
+          icon: "warning",
+          button: "Okay!",
+        });
+      }
     }
   };
 

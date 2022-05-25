@@ -2,7 +2,7 @@ import Empty from "./Empty.gif";
 import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import swal from "sweetalert";
-import validation from "./validation";
+// import validation from "./validation";
 
 const Signup = () => {
   const history = useHistory();
@@ -14,6 +14,34 @@ const Signup = () => {
     cpassword: "",
   });
 
+  let validation = (user) => {
+
+    let error={};
+
+    if(!user.fname){
+        error.fname = "* First name must required."
+    }
+    if(!user.lname){
+        error.lname = "* Last name must required."
+    }
+    if(!user.email){
+        error.email = "* Email must required."
+    }
+    if(!user.password){
+        error.password = "* Password must required."
+    }
+    else if(user.password.length < 8){
+        error.password = "* Minimum length of password is 8 charecter."
+    }
+    if(!user.cpassword){
+        error.cpassword = "* Confirm password must required."
+    }
+    else if(user.cpassword !== user.password){
+        error.cpassword = "* Password and Confirm password not match."
+    }
+  return error;
+}
+
   const [error, setError] = useState({});
 
   let name, value;
@@ -23,39 +51,45 @@ const Signup = () => {
     setUser({ ...user, [name]: value });
   };
 
-  console.log(error);
-
   const PostData = async (e) => {
     e.preventDefault();
     setError(validation(user));
     const { fname, lname, email, password, cpassword } = user;
-    let data = await fetch("https://vmart-api.herokuapp.com/registration", {
+    if(fname && lname && email && password && cpassword && password.length >= 8 && password=== cpassword){
+      let data = await fetch("http://localhost:8000/registration", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
 
-      body: JSON.stringify({
-        firstName: fname,
-        lastName: lname,
-        email: email,
-        password: password,
-        con_password: cpassword,
-      }),
-    });
-
-    // data = await data.json();
-    if (data.status === 400 || data.status === 401 || !data) {
-      console.log("Registration not successful");
-    } else {
-      swal({
-        title: "Success!",
-        text: "Now you are Registered!",
-        icon: "success",
-        button: "Okay!",
+        body: JSON.stringify({
+          firstName: fname,
+          lastName: lname,
+          email: email,
+          password: password,
+          con_password: cpassword,
+        }),
       });
-      console.log("Successfull Registration");
-      history.push("/login");
+
+      // data = await data.json();
+      if (data.status === 400) {
+        swal({
+          title: "warning!",
+          text: "This user already exist.",
+          icon: "warning",
+          button: "Okay!",
+        });
+      } else if(data.status === 201){
+        localStorage.setItem("Email", email); 
+        swal({
+          title: "Success!",
+          text: "Check your email for confirmation OTP.",
+          icon: "success",
+          button: "Okay!",
+        });
+        //console.log("Successfull Registration");
+        history.push("/emailVerification");
+      }
     }
   };
 

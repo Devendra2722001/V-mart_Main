@@ -9,38 +9,40 @@ const Cart = () => {
   const [loading, setLoading] = useState();
   const [cartItem, setCartItem] = useState([]);
   const [Cart_qnt, SetCart_qnt] = useState(10);
+  var token = localStorage.getItem("token");
 
   useEffect(() => {
     getcartItem();
-    Protected_Route();    
-    //SetCart_qnt([])
-    // setTimeout(() => {
-    //
-    // }, 3000);
   }, []);
 
-  const Protected_Route = (props) => {
-    const token = localStorage.getItem("token");
-    if (token == null) {
-      CongoAlert();
-    }
+  const LoginAlert = () => {
+    swal({
+      title: "Login/Signup!",
+      text: "Please Login/Singup first to view your cart",
+      icon: "warning",
+      button: "Okay!",
+    });
+    history.push("/login");
   };
 
   // cart api fatching
   const getcartItem = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
+    if(token){
+      let result = await fetch("http://localhost:8000/myCartItem", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
     setCartItem(result);
     sessionStorage.setItem("Mycart", result.length);
-    //
-    //setLoading(false);
+    setLoading(false);
+    }else{
+      LoginAlert();
+    }
   };
 
   const removeFromCart = async (id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${id}`, {
+    let result = await fetch(`http://localhost:8000/removeFromCart/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -51,7 +53,7 @@ const Cart = () => {
   };
 
   const increaseQty = async (id) => {    
-    let addone = await fetch(`https://vmart-api.herokuapp.com/increaseQuantity/${id}`, {
+    let addone = await fetch(`http://localhost:8000/increaseQuantity/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -65,12 +67,10 @@ const Cart = () => {
         button: "Okay!",
       });
     }
-    
-    //setCartItem(addone);
   }
   
   const decreaseQty = async (id) => {    
-    let removeone = await fetch(`https://vmart-api.herokuapp.com/decreaseQuantity/${id}`, {
+    let removeone = await fetch(`http://localhost:8000/decreaseQuantity/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -81,16 +81,6 @@ const Cart = () => {
     }
     getcartItem();
   }
-
-  const CongoAlert = () => {
-    swal({
-      title: "Login/Signup!",
-      text: "Please Login/Singup first to view your cart",
-      icon: "warning",
-      button: "Okay!",
-    });
-    history.push("/login");
-  };
 
   const Loading = () => {
     return (

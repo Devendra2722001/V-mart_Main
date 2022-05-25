@@ -10,7 +10,7 @@ const ChangePassword = () => {
     newPassword: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState({});
+  const [error, setError] = useState([]);
 
   useEffect(() => {
     ProtectedRoute();
@@ -18,20 +18,22 @@ const ChangePassword = () => {
   }, []);
 
   const validation = (data) => {
-    let error = {};
+    let error = [];
     if (!data.oldPassword) {
       error.oldPassword = "* Please enter old password.";
-    }
+    }else
     if (!data.newPassword) {
       error.newPassword = "* Please enter new password.";
     } else if (data.newPassword.length < 8) {
       error.newPassword =
         "* Minimum length of password should be 8 characters.";
-    }
+    }else
     if (!data.confirmPassword) {
       error.confirmPassword = "* Please confirm new password.";
     } else if (data.confirmPassword !== data.newPassword) {
       error.confirmPassword = "* password and confirm password does not match.";
+    }else{
+      ChangePass();
     }
     return error;
   };
@@ -39,6 +41,7 @@ const ChangePassword = () => {
   let name, value;
 
   const handleInputs = (e) => {
+    //setError(validation(data));
     console.log(e);
     name = e.target.name;
     value = e.target.value;
@@ -72,12 +75,18 @@ const ChangePassword = () => {
     history.push("/user");
   };
 
-  const ChangePass = async (e) => {
-    e.preventDefault();
+  console.log(typeof error);
+  console.log("error",error);
 
+  const firstpost = () =>{
     setError(validation(data));
+  }
+
+  const ChangePass = async () => {
+    //e.preventDefault();      
+
     const { oldPassword, newPassword, confirmPassword } = data;
-    let res = await fetch("https://vmart-api.herokuapp.com/changePassword", {
+    let res = await fetch("http://localhost:8000/changePassword", {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -94,7 +103,17 @@ const ChangePassword = () => {
       CongoAlertDone();
       //window.alert("password changed successfuly");
       //history.push("user")
+    }else{
+      swal({
+        title: "Error!",
+        text: "Plese Enter Valid Credentials....",
+        icon: "warning",
+        button: "Okay!",
+      });
     }
+
+    
+    
   };
 
   return (
@@ -161,7 +180,7 @@ const ChangePassword = () => {
                   type="button"
                   className="btn btn-primary btn-lg"
                   id="login_btn-style"
-                  onClick={ChangePass}
+                  onClick={firstpost}
                 >
                   Save
                 </button>

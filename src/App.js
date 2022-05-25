@@ -30,8 +30,11 @@ import Orderlist from "../src/component/component/orderList";
 import vendorsignup from "../src/component/vendorsignup";
 import VendorNavbar from "./component/component/VendorNavbar";
 import EditProfile from "./component/EditProfile";
+import EmailVerification from "./component/EmailVerification";
 import VendororderHistory from "./component/component/VendororderHistory";
 import Testing from "./testing";
+
+
 
 
 
@@ -117,6 +120,8 @@ function App() {
             <Route exact path="/Email" component={email} />
             <Route exact path="/ResetPassword" component={resetpassword} />
             <Route exact path="/Testing" component={Testing} />
+            <Route exact path="/EmailVerification" component={EmailVerification} />
+
             
           </Switch>
           

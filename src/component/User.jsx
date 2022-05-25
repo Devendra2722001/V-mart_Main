@@ -4,48 +4,150 @@ import swal from "sweetalert";
 import Skeleton from "react-loading-skeleton";
 import No_data from "./No_data.gif";
 import "./testing_css.css";
+let Edit = ("https://cdn-icons.flaticon.com/png/512/420/premium/420140.png?token=exp=1653375849~hmac=19309216d12ee5e780dbde75613f5107");
+let Tick = ("https://cdn-icons.flaticon.com/png/512/1634/premium/1634264.png?token=exp=1653394803~hmac=db2f1af71843504a92209b6fab75611b");
 
 
 const User = () => {
   const history = useHistory();
   const [profile, setProfile] = useState([]);
+  const [CardState, setCardState] = useState("user-card");  
   const [address, setAddress] = useState([]);
   const [orderHistory, setOrderHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [image, setImage] = useState("");
+  const [ImgTickEdit, setImgTickEdit] = useState(Edit);
 
-  const [open , setOpen] = useState(false);
+  var token = localStorage.getItem("token");
 
-    const handleClick = () => {
-      if (open===true) {
-        setOpen(false)
-      } else {
-        setOpen(true)
-      }
+
+  console.log("image",image);
+
+  
+
+    const DoImgTickEdit = () => {
+
+
+      Noneed()
+     
+      // if (ImgTickEdit===Edit) {
+      //   setImgTickEdit(Tick)
+      // } 
     };
 
+    console.log("Condtion",image==="");
+
+    const Noneed = () =>{
+      if((image==="")===false){
+        setImgTickEdit(Tick)
+      }else {        
+        setImgTickEdit(Edit)
+      }
+    }
+
+    
 
   useEffect(() => {
     getProfile();
     getAddress();
-    getOrderHistory();
-    ProtectedRoute();
+    getOrderHistory(); 
+    
   }, []);
 
+ 
+
+  const ClickedtheCard = () => {
+    if(CardState==="user-card_Big"){
+      setCardState("user-card")
+    }else{
+      setCardState("user-card_Big")
+    }
+  }
+
+  //console.log("orderHistory",orderHistory);
+
+  
+
+  
   const getProfile = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
+    if(token){
+    let result = await fetch("http://localhost:8000/myProfile", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
     setProfile(result);
     setLoading(false);
-
-    if (result.status === !result) {
-      window.alert("Login Or Signup");
-      console.log("Successfull Registration");
+    }
+    else{
+      swal({
+        title: "Login/Signup!",
+        text: "Please Login/Singup first to view your profile",
+        icon: "warning",
+        button: "Okay!",
+      });
       history.push("/login");
-    } else {
-      //window.alert("Welcome");
+    }
+  };
+
+  const getAddress = async () => {
+    if(token){
+    let result = await fetch("http://localhost:8000/addressListing", {
+      method: "GET",
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
+    });
+    result = await result.json();
+    setAddress(result);
+    }
+    else{
+      swal({
+        title: "Login/Signup!",
+        text: "Please Login/Singup first to view your profile",
+        icon: "warning",
+        button: "Okay!",
+      });
+      history.push("/login");
+    }
+  };
+
+  const removeAddress = async (id) => {
+    if(token){
+    let result = await fetch(`http://localhost:8000/removeAddress/${id}`, {
+      method: "post",
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
+    });
+    result = await result.json();
+    setAddress(result);
+    }
+    else{
+      swal({
+        title: "Login/Signup!",
+        text: "Please Login/Singup first to view your profile",
+        icon: "warning",
+        button: "Okay!",
+      });
+      history.push("/login");
+    }
+  };
+  
+  const getOrderHistory = async () => {
+    if(token){
+    let result = await fetch("http://localhost:8000/myOrder", {
+      method: "GET",
+      headers: { token: JSON.parse(localStorage.getItem("token")) },
+    });
+    result = await result.json();
+    setOrderHistory(result);
+    //console.log("result", result);
+    }
+    else{
+      swal({
+        title: "Login/Signup!",
+        text: "Please Login/Singup first to view your profile",
+        icon: "warning",
+        button: "Okay!",
+      });
+      history.push("/login"); 
     }
   };
 
@@ -53,24 +155,6 @@ const User = () => {
     localStorage.removeItem("token");
     CongoAlertLogout();
   };
-
-  const ProtectedRoute = (props) => {
-    const token = localStorage.getItem("token");
-    if (token == null) {
-      CongoAlert();
-    }
-  };
-
-  const CongoAlert = () => {
-    swal({
-      title: "Login/Signup!",
-      text: "Please Login/Singup first to view your profile",
-      icon: "warning",
-      button: "Okay!",
-    });
-    history.push("/login");
-  };
-
   const CongoAlertLogout = () => {
     swal({
       title: "Cya Later!",
@@ -79,34 +163,6 @@ const User = () => {
       button: "Okay!",
     });
     history.push("/login");
-  };
-
-  const getAddress = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
-      method: "GET",
-      headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setAddress(result);
-  };
-
-  const removeAddress = async (id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/removeAddress/${id}`, {
-      method: "post",
-      headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setAddress(result);
-  };
-
-  const getOrderHistory = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myOrder", {
-      method: "GET",
-      headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setOrderHistory(result);
-    console.log("result", result);
   };
 
   const Loading = () => {
@@ -127,7 +183,7 @@ const User = () => {
   };
 
   const NoAddressAndNoorderFound = () => {
-    console.log("Showing Profile with no address & no order");
+    //console.log("Showing Profile with no address & no order");
     return (
       <section className="margin_bottom-for-user">
         <div className="container rounded bg-white mt-4">
@@ -177,10 +233,10 @@ const User = () => {
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
-                    <div class="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/EditProfile">
                         <button
-                          class="btn btn-primary profile-button"
+                          className="btn btn-primary profile-button"
                           type="button"
                         >
                           update profile
@@ -273,7 +329,7 @@ const User = () => {
   };
 
   const NoOrderFound = () => {
-    console.log("Showing Profile with no order");
+    //console.log("Showing Profile with no order");
     return (
       <section className="margin_bottom-for-user">
         <div className="container rounded bg-white mt-4">
@@ -323,10 +379,10 @@ const User = () => {
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
-                    <div class="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/EditProfile">
                         <button
-                          class="btn btn-primary profile-button"
+                          className="btn btn-primary profile-button"
                           type="button"
                         >
                           update profile
@@ -466,7 +522,7 @@ const User = () => {
     );
   };
 
-  console.log(orderHistory);
+  //console.log(orderHistory);
 
   const NoAddressFound = () => {
     console.log("Showing Profile with no address");
@@ -519,10 +575,10 @@ const User = () => {
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
-                    <div class="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/EditProfile">
                         <button
-                          class="btn btn-primary profile-button"
+                          className="btn btn-primary profile-button"
                           type="button"
                         >
                           update profile
@@ -650,12 +706,23 @@ const User = () => {
                 </div>
                 <div className="d-flex flex-column" id="user-profile-card">
                   <div className="d-flex flex-column align-items-center">
+                    <div>
+
+                      
+                        
+                              <label for="image">
+                                  <input type="file" name="image" id="image" className="NoneImg" onChange={(e) => {setImage(e.target.files[0]);}} onClick={() => DoImgTickEdit()}/>
+                                  <img alt="Edit Profile" className="rounded-circle" id="Edit_Img" width="30px" src={ImgTickEdit}/>
+                              </label>
+                     
+                    
                     <img
                       className="rounded-circle "
                       width="100px"
                       src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
                       alt="User Profile"
                     />
+                    </div>
                     <div className="d-flex flex-row" id="margin_user">
                       <div className="font-weight-bold">
                         <b>
@@ -686,18 +753,18 @@ const User = () => {
                                         <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
                                     </div> */}
                     <br></br>
-                    <div class="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/EditProfile">
                         <button
-                          class="btn btn-primary profile-button"
+                          className="btn btn-primary profile-button"
                           type="button"
                         >
-                          update profile
+                          Edit profile
                         </button>
                       </NavLink>
                     </div>
                     <br></br>
-                    <div class="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
                         <button
                           className="btn btn-primary profile-button"
@@ -830,10 +897,11 @@ const User = () => {
                       </div>    */}
                 {orderHistory.map((orderHistory) => {
                   return orderHistory.products.map((products) => {
+                    return orderHistory.address.map((address) => {
                     return (
                       <ul className="list-group" key={orderHistory._id}>
                         <li className="d-flex justify-content-between mb-3">
-                          <div className="user-card">
+                          <div className={CardState} onClick={ () => ClickedtheCard()}>
                             <img
                               src={products.productImageurl1}
                               onError={(event) => {
@@ -851,14 +919,34 @@ const User = () => {
                               <div className="user-card-price">
                                 Price : {products?.productPrice}/-
                               </div>
-                              {/* <div className="cart-lastrow">
-                                                    <div className="user-card-category">payment method : {orderHistory?.paymentMethod}</div>
-                                                </div> */}
+                              { (CardState!=="user-card") ? 
+                              
+                              <div>
+                                  <div className="user-card-price">
+                                    Address : {address.addressLine1}
+                                  </div>
+
+                                  <div className="user-card-price">
+                                    City : {address.cityName}
+                                  </div> 
+
+                                  <div className="user-card-price">
+                                    District : {address.district}
+                                  </div> 
+                              </div>    
+                                  
+                                  : 
+                                  
+                                  <></>
+                              
+                              
+                              }
                             </div>
                           </div>
                         </li>
                       </ul>
                     );
+                    });
                   });
                 })}
               </div>

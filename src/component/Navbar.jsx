@@ -18,7 +18,6 @@ const Navbar = () => {
       if (token != null) {
         setlogBtn(logout);  
         setCartItem(sessionStorage.getItem("Mycart"));
-        //console.log(cartItem);     
       }
     }, 1000);
 
@@ -73,7 +72,7 @@ const Navbar = () => {
     }
   };
 
-  console.log("cartItem Navbar",cartItem);
+  //console.log("cartItem Navbar",cartItem);
 
   return (
     <div>

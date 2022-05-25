@@ -3,7 +3,6 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 toast.configure();
 
 function Main(props) {
@@ -23,7 +22,6 @@ function Main(props) {
   const [category, setProductcategory] = useState(
     updateProducts?.category || ""
   );
-
   const [RAM, setRam] = useState(updateProducts?.RAM || "");
   const [batteryCapacity, setBatteryCapacity] = useState(
     updateProducts?.batteryCapacity || ""
@@ -55,7 +53,7 @@ function Main(props) {
   const [imageurl2, setImageurl2] = useState(updateProducts?.imageurl2 || "");
   const [imageurl3, setImageurl3] = useState(updateProducts?.imageurl3 || "");
   const [imageurl4, setImageurl4] = useState(updateProducts?.imageurl4 || "");
-  //const [gotallimg, setgotallimg] = useState("");
+  const [stock, setStock] = useState(updateProducts?.stock || "");
 
   const postImages = () => {
     //const postDetails1 = () => {
@@ -120,7 +118,6 @@ function Main(props) {
       .then((imgdata3) => {
         console.log(imgdata3);
         setImageurl3(imgdata3.url);
-    
       })
 
       .catch((err) => {
@@ -153,23 +150,23 @@ function Main(props) {
     addnow();
   };
 
-  const addnow = () =>{
+  const addnow = () => {
     if (
       imageurl1 != "" &&
       imageurl2 != "" &&
       imageurl3 != "" &&
       imageurl4 != ""
-    ){
+    ) {
       addproduct();
     }
-  }
+  };
 
   const tryingtodosomething = () => {
     if (updateProducts) {
       console.log("Time To Update");
       UpdateForme();
-    } else{
-      postImages(); 
+    } else {
+      postImages();
     }
   };
 
@@ -201,8 +198,9 @@ function Main(props) {
     formData.append("imageurl2", imageurl2);
     formData.append("imageurl3", imageurl3);
     formData.append("imageurl4", imageurl4);
+    formData.append("stock", stock);
 
-    await Axios.post("https://vmart-api.herokuapp.com/product", formData, {
+    await Axios.post("http://localhost:8000/product", formData, {
       //formData,
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
@@ -221,7 +219,6 @@ function Main(props) {
     console.log(networkType);
   };
 
-  
   const UpdateForme = async () => {
     let Product = {
       name,
@@ -246,6 +243,7 @@ function Main(props) {
       imageurl2,
       imageurl3,
       imageurl4,
+      stock,
     };
 
     formData.append("name", name);
@@ -270,9 +268,10 @@ function Main(props) {
     formData.append("imageurl2", imageurl2);
     formData.append("imageurl3", imageurl3);
     formData.append("imageurl4", imageurl4);
+    formData.append("stock", stock);
 
     let res = await fetch(
-      `https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`,
+      `http://localhost:8000/updateProduct/${updateProducts._id}`,
       {
         method: "PUT",
         formData,
@@ -346,6 +345,38 @@ function Main(props) {
                       />
                     </div>
                   </div>
+
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <div className="form-outline flex-fill mb-0">
+                      <label className="form-label">Avaliable Stock</label>
+                      <input
+                        type="text"
+                        value={stock}
+                        className="form-control"
+                        placeholder="Avaliable stock"
+                        onChange={(e) => {
+                          setStock(e.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex flex-row align-items-center mb-4">
+                    <div className="form-outline flex-fill mb-0">
+                      <label className="form-label"> Product Brand</label>
+                      <input
+                        type="text"
+                        value={brand}
+                        className="form-control"
+                        placeholder="Brand"
+                        onChange={(e) => {
+                          setBrand(e.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  </div>
+
                   <div className="d-flex flex-row align-items-center mb-4">
                     <div className="form-outline flex-fill mb-0">
                       <label className="form-label">Product Image</label>
@@ -402,21 +433,7 @@ function Main(props) {
                       />
                     </div>
                   </div>
-                  <div className="d-flex flex-row align-items-center mb-4">
-                    <div className="form-outline flex-fill mb-0">
-                      <label className="form-label"> Product Brand</label>
-                      <input
-                        type="text"
-                        value={brand}
-                        className="form-control"
-                        placeholder="Brand"
-                        onChange={(e) => {
-                          setBrand(e.target.value);
-                        }}
-                        required
-                      />
-                    </div>
-                  </div>
+                  
                   <div className="d-flex flex-row align-items-center mb-4">
                     <div className="form-outline flex-fill mb-0">
                       <label className="form-label" for="category">

@@ -1,4 +1,4 @@
-json-server public/db.json - port 8000
+json-server public/db.json - port 8001
 npm start
 
 git remote add origin https://github.com/Tanazbanu/E-commerce-site.git

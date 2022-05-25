@@ -72,6 +72,17 @@
     
   } 
 
+  #Edit_Img{
+    position: absolute;
+    margin-left: 85px;
+    margin-top: 15px;
+    cursor: pointer;
+  }
+
+  .NoneImg{
+    display:none;
+  }
+
   #bloc3{    
     display: flex;
     margin:auto;
@@ -945,7 +956,7 @@ color: #878787;
   padding: auto;
   width: 400px;
   background-color: #e2e4e2;
-  height: 100%;
+  height: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1121,8 +1132,8 @@ color: #878787;
 
 .user-card-media{
   border: 1px solid #407BFF;
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   border-radius: 10px;
 }
 
@@ -1148,9 +1159,8 @@ color: #878787;
 }
 
 .user-card-price{
-  font-size: 12px;
+  font-size: 16px;
   font-family: Poppins;
-  margin-top: 0.1rem;
   
 }
 
@@ -1171,6 +1181,19 @@ color: #878787;
   display: flex;
   flex-direction: row;
   width: 450px;
+}
+
+.user-card_Big {
+  background-color: rgb(255, 11, 11);
+  padding: 15px;
+  position: relative;
+  box-shadow: 0 0 10px 0px rgb(0 0 0 / 30%);
+  z-index: 1;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 450px;
+  height: 170px;
 }
 
 .divider:after,

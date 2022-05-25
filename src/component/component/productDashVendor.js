@@ -26,7 +26,7 @@ function VendorDashbord() {
   //console.log(profile._id);
 
   const getProfile = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
+    let result = await fetch("http://localhost:8000/myProfile", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -38,7 +38,7 @@ function VendorDashbord() {
   //console.log(vid)
 
   async function getProductsData() {
-    const { data } = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    const { data } = await axios.get("http://localhost:8000/getProduct");
     //setProducts(data.products);
     //console.log(data);
 
@@ -60,7 +60,7 @@ function VendorDashbord() {
   }
 
   const deleteProduct = async (id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/deleteProduct/${id}`, {
+    let result = await fetch(`http://localhost:8000/deleteProduct/${id}`, {
       method: "DELETE",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });

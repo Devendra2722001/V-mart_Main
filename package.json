@@ -2,7 +2,7 @@
   "name": "emart",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://vmart-api.herokuapp.com",
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -23,6 +23,7 @@
     "react-toastify": "^8.2.0",
     "redux": "^4.1.1",
     "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.4.16",
     "web-vitals": "^1.1.2",
     "webfontloader": "^1.6.28"
   },

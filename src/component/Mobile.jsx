@@ -6,31 +6,151 @@ import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 
 const Mobile = () => {
-  const [data, setData] = useState([]);
-  const [filter, setFilter] = useState(data);
+  let [data, setData] = useState([]);
+  let [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked1, setIsChecked1] = useState(false);
+  let newData = [];
+  let bothData = [];
+  let popedData = [];
+  
+  
 
   let componentMounted = true;
 
-  useEffect(() => {
-    const getProducts = async () => {
-      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
-      if (componentMounted) {
-        setData(response.data.products);
-        setFilter(response.data.products);
-        setLoading(false);
-        setTimeout(() => {
-          filterProduct();
-          console.log("Data loaded");
-        }, 1);
-      }
-
-      return () => {
-        componentMounted = false;
-      };
-    };
+  useEffect(() => {    
     getProducts();
   }, []);
+
+  //console.log("products",products);
+
+  const getProducts = async () => {
+    const response = await axios.get("http://localhost:8000/getProduct");
+    if (componentMounted) {
+      console.log("Response - ",response.data.products);
+      setProducts((response.data.products).filter((x) => x.category ==="mobile"));
+      setData((response.data.products).filter((x) => x.category ==="mobile"));      
+      setLoading(false);      
+    }
+
+    return () => {
+      componentMounted = false;
+    };
+  };
+
+  let MyData8 = products.filter((x) => x.RAM === "8");    
+  console.log(MyData8);
+
+  let MyData4 = products.filter((x) => x.RAM === "4"); 
+  console.log(MyData4);
+
+
+  const handleOnChange = () => {    
+
+    if(isChecked === false && isChecked1 === false){
+      setIsChecked(true)
+      setData(MyData4)
+    }else if(isChecked === false && isChecked1 === true){
+      setIsChecked(true)
+      let bothData = [];
+      for (let i = 0; i < MyData8.length; i++) {       
+          bothData.push(MyData8[i]);
+          console.log("bothData",bothData);
+      }
+      for (let i = 0; i < MyData4.length; i++) {
+          bothData.push(MyData4[i]);
+          console.log("bothData",bothData);
+      }     
+      setData(bothData)
+    }else if(isChecked === true && isChecked1 === true){
+      setIsChecked(false)
+      setData(MyData8)
+    }else if(isChecked === true && isChecked1 === false){
+      setIsChecked(false)
+      setData(products)
+    }
+  }; 
+
+  const handleOnChange1 = () => {    
+
+    if(isChecked1 === false && isChecked === false){
+      setIsChecked1(true)
+      setData(MyData8)
+    }else if(isChecked1 === false && isChecked === true){
+      setIsChecked1(true) 
+      let bothData = [];
+      for (let i = 0; i < MyData8.length; i++) {       
+          bothData.push(MyData8[i]);
+          console.log("bothData",bothData);
+      }
+      for (let i = 0; i < MyData4.length; i++) {
+          bothData.push(MyData4[i]);
+          console.log("bothData",bothData);
+      }     
+      setData(bothData)
+    }else if(isChecked1 === true && isChecked === true){
+      setIsChecked1(false)
+      setData(MyData4)
+    }else if(isChecked1 === true && isChecked === false){
+      setIsChecked1(false)
+      setData(products)
+    }
+    
+  }; 
+
+
+      // if(isChecked===false){
+      //   setIsChecked(true);
+      //   for (let i = 0; i < products.length; i++) {
+      //     if (products[i].RAM === "4") {
+      //       popedData.push(products[i]);
+      //     }
+      //   }
+      //   setData(popedData)
+      // }else{
+
+      //   setIsChecked(false);
+        // for (let i = 0; i < products.length; i++) {
+        //   if (products[i].RAM !== "4") {
+        //     data.push(products[i]);
+        //   }
+        // }
+        // setData(products)
+        //console.log("popedData",popedData);
+    // }
+
+
+
+//  const handleOnChange1 = () => {      
+ 
+
+
+
+
+//   };
+
+
+     // if(isChecked1===false){
+    //   setIsChecked1(true);
+    //   for (let i = 0; i < products.length; i++) {
+    //     if (products[i].RAM === "8") {
+    //       popedData.push(products[i]);
+    //     }
+    //   }
+    //   setData(popedData)
+    // }else{
+
+    //   setIsChecked1(false);
+      // for (let i = 0; i < products.length; i++) {
+      //   if (products[i].RAM !== "8") {
+      //     popedData.push(products[i]);
+      //   }
+      // }
+      // setData(products)
+      //console.log("popedData",popedData);
+  // }
+  
 
   const Loading = () => {
     return (
@@ -52,158 +172,31 @@ const Mobile = () => {
       </>
     );
   };
-
-  const filterProduct = (c) => {
-    const updatedList = data.filter((x) => x.category === c);
-    setFilter(updatedList);
-    document.getElementById("filter_btn_reset").click();
-  };
-
-  const filter1Product = (r) => {
-    const updatedList = data.filter((x) => x.RAM === r);
-    setFilter(updatedList);
-  };
-
-  const filter2Product = (b) => {
-    const updatedList = data.filter((x) => x.brand === b);
-    setFilter(updatedList);
-  };
-
-  //console.log("All Data" ,data);
-  //const FRUITS = ["Banana", "Orange", "Lemon", "Apple", "Mango"];
-  //var citrus = filter.slice(0, 2);
-
-  //console.log("Sliced Data" ,citrus);
-
-  // let cities = [
-  //   {name: 'Los Angeles', population: 3792621},
-  //   {name: 'New York', population: 8175133},
-  //   {name: 'Chicago', population: 2695598},
-  //   {name: 'Houston', population: 2099451},
-  //   {name: 'Philadelphia', population: 1526006}
-  //   ];
-
-  //   let bigCities = [];
-  //     for (let i = 0; i < cities.length; i++) {
-  //         if (cities[i].name ==='Chicago') {
-  //             bigCities.push(cities[i]);
-
-  //         }
-  //     }
-  //     console.log(bigCities);
-  //     console.log(cities);
-
-  // let allproducts = data;
-  // console.log(data);
-
-  //   let mobileproducts = [];
-  //     for (let i = 0; i < allproducts.length; i++) {
-  //         if (allproducts[i].category ==="mobile") {
-  //           mobileproducts.push(allproducts[i]);
-  //         }
-  //     }
-  //     mobileproducts = filter.slice(0, 3);
-  //   console.log("Sliced Data",mobileproducts);
-  //   //console.log(allproducts);
+  
 
   const ShowProducts = () => {
     return (
       <>
-        <div className="Main-mobile">
-          <div>
-            <div className="Filters">
-              <div className="Filter_Card" id="Filter_Card_first">
-                <div className="card-price">Filter By Ram</div>
+        <div className="Main-mobile">          
+            <div className="Filters">         
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={isChecked} onChange={handleOnChange}/>
+                      <label className="form-check-label" for="flexCheckDefault">
+                        4 GB
+                      </label>
+                    </div>
 
-                <div>
-                  <button
-                    className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter1Product("4")}
-                  >
-                    4 GB
-                  </button>
-                </div>
-
-                <div>
-                  <button
-                    className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter1Product("6")}
-                  >
-                    6 GB
-                  </button>
-                </div>
-
-                <div>
-                  <button
-                    className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter1Product("8")}
-                  >
-                    8 GB
-                  </button>
-                </div>
-              </div>
-
-              <div className="Filter_Card">
-                <div className="card-price">Filter By Brand</div>
-
-                <div>
-                  <button
-                    className="btn btn-outline"
-                    id="filter_btn_first"
-                    onClick={() => filter2Product("Oppo")}
-                  >
-                    Oppo
-                  </button>
-                </div>
-
-                <div>
-                  <button
-                    className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter2Product("Iphone")}
-                  >
-                    Iphone
-                  </button>
-                </div>
-
-                <div>
-                  <button
-                    className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter2Product("Samsung")}
-                  >
-                    Samsung
-                  </button>
-                </div>
-
-                <div>
-                  <button
-                    className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter2Product("Google")}
-                  >
-                    Google
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <button
-                  className="btn btn-outline"
-                  id="filter_btn_reset"
-                  onClick={() => filterProduct("mobile")}
-                >
-                  Reset
-                </button>
-              </div>
-            </div>
-          </div>
-
+                  <br/>
+                
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={isChecked1} onChange={handleOnChange1}/>
+                      <label className="form-check-label" for="flexCheckDefault">
+                        8 GB
+                      </label>
+                    </div>
+        </div>
           <section className="mobile-wrapper" id="mobile-main">
-            {filter.map((product) => {
+            {data.map((product) => {
               return (
                 <>
                   <div className="card-container" key={product._id}>
