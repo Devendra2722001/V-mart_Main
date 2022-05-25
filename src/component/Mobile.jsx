@@ -26,7 +26,7 @@ const Mobile = () => {
   //console.log("products",products);
 
   const getProducts = async () => {
-    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    const response = await axios.get("http://localhost:8000/getProduct");
     if (componentMounted) {
       console.log("Response - ",response.data.products);
       setProducts((response.data.products).filter((x) => x.category ==="mobile"));

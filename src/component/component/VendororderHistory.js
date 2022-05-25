@@ -17,7 +17,7 @@ const  VendororderHistory = () => {
 
 
     const getOrderhistory = async () => {
-      let data = await fetch("https://vmart-api.herokuapp.com/order", {
+      let data = await fetch("http://localhost:8000/order", {
       method: "GET",
     });
     data = await data.json();
