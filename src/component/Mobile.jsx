@@ -6,33 +6,35 @@ import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 
 const Mobile = () => {
-  let [data, setData] = useState([]);
-  let [products, setProducts] = useState([]);
+  const [data, setData] = useState([]);
+  const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(true);
-  const [isChecked, setIsChecked] = useState(false);
-  const [isChecked1, setIsChecked1] = useState(false);
-  let newData = [];
-  let bothData = [];
-  let popedData = [];
-  
-  
-
   let componentMounted = true;
+  const [BtnColor1, setBtnColor1] = useState("filter_btn_off")
+  const [BtnColor2, setBtnColor2] = useState("filter_btn_off")
+  const [BtnColor3, setBtnColor3] = useState("filter_btn_off")
+  const [BrandBtnColor1, setBrandBtnColor1] = useState("filter_btn_off")
+  const [BrandBtnColor2, setBrandBtnColor2] = useState("filter_btn_off")
+  const [BrandBtnColor3, setBrandBtnColor3] = useState("filter_btn_off")
+  const [BrandBtnColor4, setBrandBtnColor4] = useState("filter_btn_off")
 
-  useEffect(() => { 
+  useEffect(() => {
     window.scrollTo(0, 0);    
     getProducts();
   }, []);
 
-  //console.log("products",products);
+
 
   const getProducts = async () => {
-    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    const response = await axios.get("http://localhost:8000/getProduct");
     if (componentMounted) {
-      console.log("Response - ",response.data.products);
-      setProducts((response.data.products).filter((x) => x.category ==="mobile"));
-      setData((response.data.products).filter((x) => x.category ==="mobile"));      
-      setLoading(false);      
+      setData((response.data.products).filter((x) => x.category ==="mobile"));
+      setFilter((response.data.products).filter((x) => x.category ==="mobile"));
+      setLoading(false);
+      // setTimeout(() => {
+      //   filterProduct();
+      //   console.log("Data loaded");
+      // }, 1);
     }
 
     return () => {
@@ -40,118 +42,139 @@ const Mobile = () => {
     };
   };
 
-  let MyData8 = products.filter((x) => x.RAM === "8");    
-  console.log(MyData8);
 
-  let MyData4 = products.filter((x) => x.RAM === "4"); 
-  console.log(MyData4);
-
-
-  const handleOnChange = () => {    
-
-    if(isChecked === false && isChecked1 === false){
-      setIsChecked(true)
-      setData(MyData4)
-    }else if(isChecked === false && isChecked1 === true){
-      setIsChecked(true)
-      let bothData = [];
-      for (let i = 0; i < MyData8.length; i++) {       
-          bothData.push(MyData8[i]);
-          console.log("bothData",bothData);
-      }
-      for (let i = 0; i < MyData4.length; i++) {
-          bothData.push(MyData4[i]);
-          console.log("bothData",bothData);
-      }     
-      setData(bothData)
-    }else if(isChecked === true && isChecked1 === true){
-      setIsChecked(false)
-      setData(MyData8)
-    }else if(isChecked === true && isChecked1 === false){
-      setIsChecked(false)
-      setData(products)
+  const changeBtnColor1 = () =>{
+    if(BtnColor1==="filter_btn_off"){
+      setBtnColor1("filter_btn_on")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+    }else{
+      setBtnColor1("filter_btn_off")
+      setFilter(data)
     }
-  }; 
+  }
 
-  const handleOnChange1 = () => {    
-
-    if(isChecked1 === false && isChecked === false){
-      setIsChecked1(true)
-      setData(MyData8)
-    }else if(isChecked1 === false && isChecked === true){
-      setIsChecked1(true) 
-      let bothData = [];
-      for (let i = 0; i < MyData8.length; i++) {       
-          bothData.push(MyData8[i]);
-          console.log("bothData",bothData);
-      }
-      for (let i = 0; i < MyData4.length; i++) {
-          bothData.push(MyData4[i]);
-          console.log("bothData",bothData);
-      }     
-      setData(bothData)
-    }else if(isChecked1 === true && isChecked === true){
-      setIsChecked1(false)
-      setData(MyData4)
-    }else if(isChecked1 === true && isChecked === false){
-      setIsChecked1(false)
-      setData(products)
+  const changeBtnColor2 = () =>{
+    if(BtnColor2==="filter_btn_off"){
+      setBtnColor2("filter_btn_on")
+      setBtnColor1("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+    }else{
+      setBtnColor2("filter_btn_off")
+      setFilter(data)
     }
-    
-  }; 
+  }
+
+  const changeBtnColor3 = () =>{
+    if(BtnColor3==="filter_btn_off"){
+      setBtnColor3("filter_btn_on")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+    }else{
+      setBtnColor3("filter_btn_off")
+      setFilter(data)
+    }
+  }
+
+  const changeBrandBtnColor1 = () =>{
+    if(BrandBtnColor1==="filter_btn_off"){
+      setBrandBtnColor1("filter_btn_on")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+
+    }else{
+      setBrandBtnColor1("filter_btn_off")
+      setFilter(data)
+    }
+  }
+
+  const changeBrandBtnColor2 = () =>{
+    if(BrandBtnColor2==="filter_btn_off"){
+      setBrandBtnColor2("filter_btn_on")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+    }else{
+      setBrandBtnColor2("filter_btn_off")
+      setFilter(data)
+    }
+  }
+
+  const changeBrandBtnColor3 = () =>{
+    if(BrandBtnColor3==="filter_btn_off"){
+      setBrandBtnColor3("filter_btn_on")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+    }else{
+      setBrandBtnColor3("filter_btn_off")
+      setFilter(data)
+    }
+  }
+
+  const changeBrandBtnColor4 = () =>{
+    if(BrandBtnColor4==="filter_btn_off"){
+      setBrandBtnColor4("filter_btn_on")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+    }else{
+      setBrandBtnColor4("filter_btn_off")
+      setFilter(data)
+    }
+  }
+
+  const ResetAllcolor = () =>{
+      setFilter(data)
+      setBrandBtnColor4("filter_btn_off")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+  }
 
 
-      // if(isChecked===false){
-      //   setIsChecked(true);
-      //   for (let i = 0; i < products.length; i++) {
-      //     if (products[i].RAM === "4") {
-      //       popedData.push(products[i]);
-      //     }
-      //   }
-      //   setData(popedData)
-      // }else{
-
-      //   setIsChecked(false);
-        // for (let i = 0; i < products.length; i++) {
-        //   if (products[i].RAM !== "4") {
-        //     data.push(products[i]);
-        //   }
-        // }
-        // setData(products)
-        //console.log("popedData",popedData);
-    // }
-
-
-
-//  const handleOnChange1 = () => {      
- 
 
 
 
 
-//   };
 
 
-     // if(isChecked1===false){
-    //   setIsChecked1(true);
-    //   for (let i = 0; i < products.length; i++) {
-    //     if (products[i].RAM === "8") {
-    //       popedData.push(products[i]);
-    //     }
-    //   }
-    //   setData(popedData)
-    // }else{
 
-    //   setIsChecked1(false);
-      // for (let i = 0; i < products.length; i++) {
-      //   if (products[i].RAM !== "8") {
-      //     popedData.push(products[i]);
-      //   }
-      // }
-      // setData(products)
-      //console.log("popedData",popedData);
-  // }
-  
+
+
+
+
+
+
+
 
   const Loading = () => {
     return (
@@ -173,34 +196,125 @@ const Mobile = () => {
       </>
     );
   };
-  
+
+  const filterProduct = (c) => {
+    const updatedList = data.filter((x) => x.category === c);
+    setFilter(updatedList);
+    //document.getElementById("filter_btn_reset").click();
+  };
+
+  const filter1Product = (r) => {
+    const updatedList = data.filter((x) => x.RAM === r);
+    setFilter(updatedList);
+  };
+
+  const filter2Product = (b) => {
+    const updatedList = data.filter((x) => x.brand === b);
+    setFilter(updatedList);
+  };
 
   const ShowProducts = () => {
     return (
       <>
-        <div className="Main-mobile">          
-            <div className="Filters">         
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={isChecked} onChange={handleOnChange}/>
-                      <label className="form-check-label" for="flexCheckDefault">
-                        4 GB
-                      </label>
-                    </div>
+        <div className="Main-mobile">
+          <div>
+            <div className="Filters">
+              <div className="Filter_Card" id="Filter_Card_first">
+                <div className="card-price">Filter By Ram</div>
 
-                  <br/>
-                
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={isChecked1} onChange={handleOnChange1}/>
-                      <label className="form-check-label" for="flexCheckDefault">
-                        8 GB
-                      </label>
-                    </div>
-        </div>
+                <div>
+                  <button
+
+                    className="btn btn-outline"
+                    id={BtnColor1}                    
+                    onClick={() => {filter1Product("4"); changeBtnColor1();}}
+                  >
+                    4 GB
+                  </button>
+                </div>
+
+                <div>
+                  <button
+                    className="btn btn-outline"
+                    id={BtnColor2} 
+                    onClick={() => {filter1Product("6"); changeBtnColor2();}}
+                  >
+                    6 GB
+                  </button>
+                </div>
+
+                <div>
+                  <button
+                    className="btn btn-outline"
+                    id={BtnColor3} 
+                    onClick={() => {filter1Product("8"); changeBtnColor3();}}
+                  >
+                    8 GB
+                  </button>
+                </div>
+              </div>
+
+              <div className="Filter_Card">
+                <div className="card-price">Filter By Brand</div>
+
+                <div>
+                  <button
+                    className="btn btn-outline"
+                    id={BrandBtnColor1} 
+                    onClick={() => {filter2Product("Apple"); changeBrandBtnColor1();}}
+                  >
+                    Apple
+                  </button>
+                </div>
+
+                <div>
+                  <button
+                    className="btn btn-outline"
+                    id={BrandBtnColor2} 
+                    onClick={() => {filter2Product("Oppo"); changeBrandBtnColor2();}}
+                  >
+                    Oppo
+                  </button>
+                </div>
+
+                <div>
+                  <button
+                    className="btn btn-outline"
+                    id={BrandBtnColor3}
+                    onClick={() => {filter2Product("Vivo"); changeBrandBtnColor3();}}
+                  >
+                    Vivo
+                  </button>
+                </div>
+
+                <div>
+                  <button
+                    className="btn btn-outline"
+                    id={BrandBtnColor4}
+                    onClick={() => {filter2Product("Samsung"); changeBrandBtnColor4();}}
+                  >
+                    Samsung
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <button
+                  className="btn btn-outline"
+                  id="filter_btn_reset"
+                  onClick={() => {ResetAllcolor();}}
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+
           <section className="mobile-wrapper" id="mobile-main">
-            {data.map((product) => {
+            {filter.map((product) => {
               return (
                 <>
-                  <div className="card-container" key={product._id}>
+                  <div className="card-container" key={product.id}>
                     <Link to={`/productlist/${product._id}`} id="copyright">
                       <div className="card_All">
                         <img

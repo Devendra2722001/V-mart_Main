@@ -23,7 +23,7 @@ const EditProfile = () => {
   }, []);
 
   const getProfile = async () => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/myProfile`, {
+    let result = await fetch(`http://localhost:8000/myProfile`, {
       method: "get",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -75,7 +75,7 @@ const EditProfile = () => {
      console.log("Posting With This Url -",imageUrl);
 
         if (profile) {
-          let res = await fetch(`https://vmart-api.herokuapp.com/updateProfile`, {
+          let res = await fetch(`http://localhost:8000/updateProfile`, {
             method: "put",
             headers: {
               token: JSON.parse(localStorage.getItem("token")),

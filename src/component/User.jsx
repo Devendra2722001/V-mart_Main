@@ -44,7 +44,7 @@ const User = () => {
   
   const getProfile = async () => {
     if(token){
-    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
+    let result = await fetch("http://localhost:8000/myProfile", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -66,7 +66,7 @@ const User = () => {
 
   const getAddress = async () => {
     if(token){
-    let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
+    let result = await fetch("http://localhost:8000/addressListing", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -86,7 +86,7 @@ const User = () => {
 
   const removeAddress = async (id) => {
     if(token){
-    let result = await fetch(`https://vmart-api.herokuapp.com/removeAddress/${id}`, {
+    let result = await fetch(`http://localhost:8000/removeAddress/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -106,7 +106,7 @@ const User = () => {
   
   const getOrderHistory = async () => {
     if(token){
-    let result = await fetch("https://vmart-api.herokuapp.com/myOrder", {
+    let result = await fetch("http://localhost:8000/myOrder", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });

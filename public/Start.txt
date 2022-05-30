@@ -31,7 +31,7 @@ $ heroku git:remote -a sdwsa
 rm -rf node_modules
 npm i
 
-https://vmart-api.herokuapp.com
+http://localhost:8000
 
 
-https://vmart-api.herokuapp.com
+http://localhost:8000

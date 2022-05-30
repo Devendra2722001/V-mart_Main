@@ -200,7 +200,7 @@ function Main(props) {
     formData.append("imageurl4", imageurl4);
     formData.append("stock", stock);
 
-    await Axios.post("https://vmart-api.herokuapp.com/product", formData, {
+    await Axios.post("http://localhost:8000/product", formData, {
       //formData,
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
@@ -271,7 +271,7 @@ function Main(props) {
     formData.append("stock", stock);
 
     let res = await fetch(
-      `https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`,
+      `http://localhost:8000/updateProduct/${updateProducts._id}`,
       {
         method: "PUT",
         formData,

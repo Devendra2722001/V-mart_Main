@@ -35,7 +35,7 @@ const Email = () => {
     
     const { emailID } = email;
     if(emailID){
-      let res = await fetch("https://vmart-api.herokuapp.com/sendotp", {
+      let res = await fetch("http://localhost:8000/sendotp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -50,7 +50,7 @@ const ResetPassword = () => {
     const { email, otp, password, conPassword } = data;
 
     if(email && otp && password && conPassword && password.length >= 8 && conPassword===password){
-      const res = await fetch("https://vmart-api.herokuapp.com/forgotpass", {
+      const res = await fetch("http://localhost:8000/forgotpass", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
