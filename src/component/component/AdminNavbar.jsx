@@ -25,6 +25,7 @@ function AdminNavbar (props){
     },[])
     
     const removeAdmin = () =>{
+        sessionStorage.clear()
         localStorage.removeItem('ImAdmin');
         localStorage.removeItem('token');
         window.location.reload();

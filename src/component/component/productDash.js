@@ -13,16 +13,28 @@ function Dashbord() {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    getProductsData();
+    getProductsData(); 
+    getOrderhistory()   
   }, []);
 
   async function getProductsData() {
-    const { data } = await axios.get("http://localhost:8000/getProduct");
+    const { data } = await axios.get("https://vmart-api.herokuapp.com/getProduct");
     setProducts(data.products);
+    console.log("Got Data");
+    sessionStorage.setItem("Myproducts", data.products.length);
   }
 
+  const getOrderhistory = async () => {
+    let data = await fetch("https://vmart-api.herokuapp.com/order", {
+    method: "GET",
+  });
+  data = await data.json();
+  console.log(data.length);    
+  sessionStorage.setItem("MyOrder", data.length);
+}
+
   const deleteProduct = async (id) => {
-    let result = await fetch(`http://localhost:8000/deleteProduct/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/deleteProduct/${id}`, {
       method: "DELETE",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -33,6 +45,18 @@ function Dashbord() {
       getProductsData();
     }
   };
+
+  
+    let Zerostock = [];
+
+    for (let i = 0; i < products.length; i++) {
+      if (products[i].stock === 0) {
+        Zerostock.push(products[i]);
+      }
+    }
+
+    sessionStorage.setItem("OutOfStock", Zerostock.length);  
+    console.log("Zerostock",Zerostock);
 
   return (
     <>
@@ -58,7 +82,7 @@ function Dashbord() {
             getProductsData={getProductsData}
             deleteProduct={deleteProduct}
             setUpdateProducts={setUpdateProducts}
-          />
+          />         
         </div>
       )}
     </>

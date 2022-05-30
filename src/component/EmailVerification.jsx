@@ -36,7 +36,7 @@ const EmailVerification = () => {
     setError(validation(OTP));
     const { otp } = OTP;
     if(otp){
-      let res = await fetch("http://localhost:8000/verificationOTP", {
+      let res = await fetch("https://vmart-api.herokuapp.com/verificationOTP", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +76,7 @@ const EmailVerification = () => {
     //setError(validation(OTP));
     //const { otp } = OTP;
     //if(otp){
-      let res = await fetch("http://localhost:8000/resendOTP", {
+      let res = await fetch("https://vmart-api.herokuapp.com/resendOTP", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

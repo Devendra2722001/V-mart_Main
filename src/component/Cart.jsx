@@ -33,7 +33,7 @@ const Cart = () => {
   // cart api fatching
   const getcartItem = async () => {
     if(token){
-      let result = await fetch("http://localhost:8000/myCartItem", {
+      let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -47,7 +47,7 @@ const Cart = () => {
   };
 
   const removeFromCart = async (id) => {
-    let result = await fetch(`http://localhost:8000/removeFromCart/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -58,7 +58,7 @@ const Cart = () => {
   };
 
   const increaseQty = async (id) => {    
-    let addone = await fetch(`http://localhost:8000/increaseQuantity/${id}`, {
+    let addone = await fetch(`https://vmart-api.herokuapp.com/increaseQuantity/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -75,7 +75,7 @@ const Cart = () => {
   }
   
   const decreaseQty = async (id) => {    
-    let removeone = await fetch(`http://localhost:8000/decreaseQuantity/${id}`, {
+    let removeone = await fetch(`https://vmart-api.herokuapp.com/decreaseQuantity/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -88,7 +88,7 @@ const Cart = () => {
   }
 
   const getProducts = async () => {
-    const response = await axios.get("http://localhost:8000/getProduct");
+    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
     if(response.status===201){
       setData(response.data.products);     
       // checkForZerostock();
@@ -210,15 +210,19 @@ const MatchIds = () =>{
       <>
         <section className="cart-wrapper">
           {cartItem.map((cartObj) => (
+           
             <div className="cart-card-container" key={cartObj._id}>
               <div>
                 <div className="cart-card">
+                <NavLink to={`/productlist/${cartObj.productId}`} id="copyright">
                   <img
                     src={cartObj.productImageurl1}
                     alt="images"
                     className="cart-card-media"
-                  />
+                  /></NavLink>
+                  
                   <div className="cart-card-text">
+                  <NavLink to={`/productlist/${cartObj.productId}`} id="copyright">
                     <div className="cart-card-head">
                       {" "}
                       {cartObj.productName}{" "}
@@ -237,7 +241,8 @@ const MatchIds = () =>{
                         {cartObj.quantity * cartObj.productPrice}
                       </p>
                     </div>
-
+                    </NavLink>
+                    
                     <div className="plus-minus">
                         <button className="btn btn-outline-dark" id="plus-minus_btn_m" onClick={() => {decreaseQty(cartObj.productId);}}>
                           <i className="fa fa-minus"></i>
@@ -253,6 +258,7 @@ const MatchIds = () =>{
                 </div>
               </div>
             </div>
+            
           ))}
         </section>
         <>

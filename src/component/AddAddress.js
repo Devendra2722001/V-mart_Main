@@ -69,7 +69,7 @@ const AddAddress = () => {
     setError(validation(address));    
     const token=JSON.parse(localStorage.getItem("token"))
     console.log("token",token);
-    await axios.post("http://localhost:8000/addAddress",{
+    await axios.post("https://vmart-api.herokuapp.com/addAddress",{
         addressLine1: address.addline1,
         addressLine2: address.addline2,
         cityName: address.city,

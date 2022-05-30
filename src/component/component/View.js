@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const View = (props) => {
   const updateData = (product) => {
@@ -6,9 +6,78 @@ const View = (props) => {
     props?.setShowForm(true);
   };
 
+
+  const [productCount ,setproductCount] = useState();
+  const [OrderCount ,setOrderCount] = useState();
+  const [outOfStockCount ,setoutOfStockCount] = useState();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);    
+    setInterval(() => {
+      setproductCount(sessionStorage.getItem("Myproducts"))   
+      setOrderCount(sessionStorage.getItem("MyOrder"))   
+      setoutOfStockCount(sessionStorage.getItem("OutOfStock"))  
+    }, 500); 
+  }, []);
+
   return (
     <>
+    <br/>
       <div>
+      <div className="Van_body">
+
+<div className="Van_Card">
+  <div>
+    <span className="Van_Card_font">
+      Total Products : 
+    </span> 
+  </div>
+
+  <div>
+    <span className="Van_Card_font">
+      <b>
+      {productCount}
+      </b>
+    </span>
+  </div>
+  
+</div>
+
+<div className="Van_Card">
+  <div>
+    <span className="Van_Card_font">
+    Total Orders : 
+    </span> 
+  </div>
+
+  <div>
+    <span className="Van_Card_font">
+      <b>
+      {OrderCount}
+      </b>
+    </span>
+  </div>
+  
+</div>
+
+<div className="Van_Card">
+  <div>
+    <span className="Van_Card_font">
+      Product Out Of Stock : 
+    </span> 
+  </div>
+
+  <div>
+    <span className="Van_Card_font">
+      <b>
+      {outOfStockCount}
+      </b>
+    </span>
+  </div>
+  
+</div>
+
+</div>
         <div className="container-scroller">
           <div className="container-fluid page-body-wrapper table-responsive ">
             <div className="table-responsive tbl ">

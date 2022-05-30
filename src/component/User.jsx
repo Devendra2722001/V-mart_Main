@@ -44,7 +44,7 @@ const User = () => {
   
   const getProfile = async () => {
     if(token){
-    let result = await fetch("http://localhost:8000/myProfile", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -66,7 +66,7 @@ const User = () => {
 
   const getAddress = async () => {
     if(token){
-    let result = await fetch("http://localhost:8000/addressListing", {
+    let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -86,7 +86,7 @@ const User = () => {
 
   const removeAddress = async (id) => {
     if(token){
-    let result = await fetch(`http://localhost:8000/removeAddress/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/removeAddress/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -106,7 +106,7 @@ const User = () => {
   
   const getOrderHistory = async () => {
     if(token){
-    let result = await fetch("http://localhost:8000/myOrder", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myOrder", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -215,7 +215,7 @@ const User = () => {
                                     </div> */}
                     <br></br>
                     <div className="d-flex flex-column align-items-center">
-                      <NavLink to="/EditProfile">
+                      <NavLink to="/editprofile">
                         <button
                           className="btn btn-primary profile-button"
                           type="button"
@@ -368,7 +368,7 @@ const User = () => {
                                     </div> */}
                     <br></br>
                     <div className="d-flex flex-column align-items-center">
-                      <NavLink to="/EditProfile">
+                      <NavLink to="/editprofile">
                         <button
                           className="btn btn-primary profile-button"
                           type="button"
@@ -571,7 +571,7 @@ const User = () => {
                                     </div> */}
                     <br></br>
                     <div className="d-flex flex-column align-items-center">
-                      <NavLink to="/EditProfile">
+                      <NavLink to="/editprofile">
                         <button
                           className="btn btn-primary profile-button"
                           type="button"
@@ -647,10 +647,11 @@ const User = () => {
                 </div>
                 {orderHistory.map((orderHistory) => {
                   return orderHistory.products.map((products) => {
+                    return orderHistory.address.map((address) => {
                     return (
                       <ul className="list-group" key={orderHistory._id}>
                         <li className="d-flex justify-content-between mb-3">
-                          <div className="user-card">
+                          <div className={CardState} onClick={ () => ClickedtheCard()}>
                             <img
                               src={products.productImageurl1}
                               onError={(event) => {
@@ -668,14 +669,34 @@ const User = () => {
                               <div className="user-card-price">
                                 Price : {products?.productPrice}/-
                               </div>
-                              {/* <div className="cart-lastrow">
-                                                    <div className="user-card-category">payment method : {orderHistory?.paymentMethod}</div>
-                                                </div> */}
+                              { (CardState!=="user-card") ? 
+                              
+                              <div>
+                                  <div className="user-card-price">
+                                    Address : {address.addressLine1}
+                                  </div>
+
+                                  <div className="user-card-price">
+                                    City : {address.cityName}
+                                  </div> 
+
+                                  <div className="user-card-price">
+                                    District : {address.district}
+                                  </div> 
+                              </div>    
+                                  
+                                  : 
+                                  
+                                  <></>
+                              
+                              
+                              }
                             </div>
                           </div>
                         </li>
                       </ul>
                     );
+                    });
                   });
                 })}
               </div>
@@ -745,7 +766,7 @@ const User = () => {
                                     </div> */}
                     <br></br>
                     <div className="d-flex flex-column align-items-center">
-                      <NavLink to="/EditProfile">
+                      <NavLink to="/editprofile">
                         <button
                           className="btn btn-primary profile-button"
                           type="button"

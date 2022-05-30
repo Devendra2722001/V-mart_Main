@@ -87,7 +87,7 @@ const ChangePassword = () => {
     //e.preventDefault();      
 
     const { oldPassword, newPassword, confirmPassword } = data;
-    let res = await fetch("http://localhost:8000/changePassword", {
+    let res = await fetch("https://vmart-api.herokuapp.com/changePassword", {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),

@@ -4,6 +4,7 @@ import login from "./login.png";
 import logout from "./logout.png";
 
 
+
 function VendorNavbar (props){
 
       
@@ -21,6 +22,7 @@ function VendorNavbar (props){
     },[])
     
     const removeAdmin = () =>{
+        sessionStorage.clear()
         localStorage.removeItem('ImVendor');
         localStorage.removeItem('VendorId');
         localStorage.removeItem('token');
@@ -50,6 +52,7 @@ function VendorNavbar (props){
 
                    
                     <div className="Nav-menu-options">
+                      
 
                         <div className="blocspace">                            
                             <NavLink to="/">                                

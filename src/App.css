@@ -1382,7 +1382,7 @@ height: 100%;
 }
 
 #form_margin{
-  padding-top: 120px;
+  padding-top: 100px;
 }
 
 .admin_delup{
@@ -1533,4 +1533,30 @@ html {
 
 .greenColorfont{
   color: rgb(0, 112, 0);
+}
+
+.Van_Card{
+  background-color: #fff;
+  padding: 15px;
+  position: relative;
+  box-shadow: 0 0 10px 0px rgb(0 0 0 / 30%);
+  z-index: 1;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 450px;
+  justify-content: space-around;
+}
+
+.Van_body{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.Van_Card_font{
+  font-size: 20px;
 }

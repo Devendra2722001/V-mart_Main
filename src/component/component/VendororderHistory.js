@@ -17,15 +17,17 @@ const  VendororderHistory = () => {
 
 
     const getOrderhistory = async () => {
-      let data = await fetch("http://localhost:8000/order", {
+      let data = await fetch("https://vmart-api.herokuapp.com/order", {
       method: "GET",
     });
     data = await data.json();
-    console.log(data);
+    console.log(data.length);
     setOrderhistory(data);  
+    
   }
 
   console.log("orderHistory" ,Orderhistory)
+  sessionStorage.setItem("MyOrder", Orderhistory.length);
   //console.log("orderHistory orderDetail" ,Orderhistory.orderDetail)
 
   // let allproducts = Orderhistory;

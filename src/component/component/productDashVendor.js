@@ -17,7 +17,7 @@ function VendorDashbord() {
   useEffect(() => {
     getProductsData();
     getProfile();
-
+    getOrderhistory();
     //setVid(localStorage.getItem("token"))
     //console.log(vid);
     //console.log(localStorage.getItem("token"));
@@ -26,31 +26,51 @@ function VendorDashbord() {
   //console.log(profile._id);
 
   const getProfile = async () => {
-    let result = await fetch("http://localhost:8000/myProfile", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
+    });    
     result = await result.json();
     setProfile(result);
     setVid(result._id);
+    
   };
 
-  //console.log(vid)
+   const getOrderhistory = async () => {
+      let data = await fetch("https://vmart-api.herokuapp.com/order", {
+      method: "GET",
+    });
+    data = await data.json();
+    console.log(data.length);    
+    sessionStorage.setItem("MyOrder", data.length);
+  }
 
   async function getProductsData() {
-    const { data } = await axios.get("http://localhost:8000/getProduct");
+    const { data } = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+      
     //setProducts(data.products);
     //console.log(data);
 
     let allproducts = data.products;
-
+    let Zerostock = [];
     let vendorproduct = [];
+
     for (let i = 0; i < allproducts.length; i++) {
       if (allproducts[i].vendorId === localStorage.getItem("VendorId")) {
         vendorproduct.push(allproducts[i]);
       }
     }
     setProducts(vendorproduct);
+    sessionStorage.setItem("Myproducts", vendorproduct.length);  
+
+    for (let i = 0; i < vendorproduct.length; i++) {
+      if (vendorproduct[i].stock === 0) {
+        Zerostock.push(vendorproduct[i]);
+      }
+    }
+
+    sessionStorage.setItem("OutOfStock", Zerostock.length);  
+    console.log("Zerostock",Zerostock);
     // setInterval(() => {
     //
     // }, 1000);
@@ -60,7 +80,7 @@ function VendorDashbord() {
   }
 
   const deleteProduct = async (id) => {
-    let result = await fetch(`http://localhost:8000/deleteProduct/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/deleteProduct/${id}`, {
       method: "DELETE",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
