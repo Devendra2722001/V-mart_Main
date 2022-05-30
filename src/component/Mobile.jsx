@@ -19,14 +19,15 @@ const Mobile = () => {
 
   let componentMounted = true;
 
-  useEffect(() => {    
+  useEffect(() => { 
+    window.scrollTo(0, 0);    
     getProducts();
   }, []);
 
   //console.log("products",products);
 
   const getProducts = async () => {
-    const response = await axios.get("http://localhost:8000/getProduct");
+    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
     if (componentMounted) {
       console.log("Response - ",response.data.products);
       setProducts((response.data.products).filter((x) => x.category ==="mobile"));

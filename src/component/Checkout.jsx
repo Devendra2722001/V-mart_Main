@@ -30,25 +30,26 @@ const Checkout = () => {
 
   const PostOrder = async (id, key) => {
     sendEmail();
-    let result = await fetch(`http://localhost:8000/order/${cartId}/${addId}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/order/${cartId}/${addId}`, {
       method: "POST",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
-    console.log("Data posted");
+    //console.log("Data posted");
     //if (result.status === 201) {
       removeProduct();
     //}    
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getAddress();
     getcartItem();
     getcartId();
   }, []);
 
   const sendEmail = async () => {
-    let mailsent = await fetch(`http://localhost:8000/sendmsg`, {
+    let mailsent = await fetch(`https://vmart-api.herokuapp.com/sendmsg`, {
       method: "POST",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -101,7 +102,7 @@ const Checkout = () => {
 
 
   const getAddress = async () => {
-    let result = await fetch("http://localhost:8000/addressListing", {
+    let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -109,7 +110,7 @@ const Checkout = () => {
     });
     result = await result.json();
     setAddress(result);
-    console.log("result check",result);
+    //console.log("result check",result);
 
     if(result.length===0){
       CongoAlertAddress();
@@ -117,7 +118,7 @@ const Checkout = () => {
   };
 
   const getcartItem = async () => {
-    let cartItem = await fetch("http://localhost:8000/myCartItem", {
+    let cartItem = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -127,9 +128,9 @@ const Checkout = () => {
     setCartItem(cartItem);    
   };
 
-  console.log("cartItem",cartItem);
+  //console.log("cartItem",cartItem);
 
-  console.log("cartItem ----------------------------",cartId);
+  //console.log("cartItem ----------------------------",cartId);
   //let priceofall = cartItem.productPrice.json()
   //console.log(priceofall)
   //console.log(cartItem)
@@ -172,10 +173,10 @@ const Checkout = () => {
   for (let s = 0; s < cartItem.length; s++) {
     sum += mularray[s];
   }
-  console.log("Total of products is :", sum);
+  //console.log("Total of products is :", sum);
 
   const getcartId = async () => {
-    let cartId = await fetch("http://localhost:8000/myCartId", {
+    let cartId = await fetch("https://vmart-api.herokuapp.com/myCartId", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -186,7 +187,7 @@ const Checkout = () => {
   };
 
   const removeProduct = async () => {
-    let emptyCart = await fetch("http://localhost:8000/removeAllProduct", {
+    let emptyCart = await fetch("https://vmart-api.herokuapp.com/removeAllProduct", {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -200,7 +201,7 @@ const Checkout = () => {
     e.preventDefault();
 
     if (addId.length == 0) {
-      console.log("Failed");
+      //console.log("Failed");
       CongoAlertOps();
     } else {
       PostOrder();            

@@ -7,16 +7,30 @@ import axios from "axios";
 
 const Shoes = () => {
   const [data, setData] = useState([]);
+  const [Alldata, setAllData] = useState([]);
+
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(true);
+  const [isApplied, setisApplied] = useState(true)
+  const [BtnColor1, setBtnColor1] = useState("filter_btn_off")
+  const [BtnColor2, setBtnColor2] = useState("filter_btn_off")
+  const [BtnColor3, setBtnColor3] = useState("filter_btn_off")
+  const [BrandBtnColor1, setBrandBtnColor1] = useState("filter_btn_off")
+  const [BrandBtnColor2, setBrandBtnColor2] = useState("filter_btn_off")
+  const [BrandBtnColor3, setBrandBtnColor3] = useState("filter_btn_off")
+  const [BrandBtnColor4, setBrandBtnColor4] = useState("filter_btn_off")
+
+
   let componentMounted = true;
 
   useEffect(() => {
+    window.scrollTo(0, 0); 
     const getProducts = async () => {
-      const response = await axios.get("http://localhost:8000/getProduct");
+      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
       if (componentMounted) {
         setData(response.data.products);
         setFilter(response.data.products);
+        setAllData(response.data.products);
         setLoading(false);
         setTimeout(() => {
           filterProduct();
@@ -30,6 +44,122 @@ const Shoes = () => {
     };
     getProducts();
   }, []);
+
+  const changeBtnColor1 = () =>{
+    if(BtnColor1==="filter_btn_off"){
+      setBtnColor1("filter_btn_on")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+    }else{
+      setBtnColor1("filter_btn_off")
+      filterProduct("shoes")
+    }
+  }
+
+  const changeBtnColor2 = () =>{
+    if(BtnColor2==="filter_btn_off"){
+      setBtnColor2("filter_btn_on")
+      setBtnColor1("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+    }else{
+      setBtnColor2("filter_btn_off")
+      filterProduct("shoes")
+    }
+  }
+
+  const changeBtnColor3 = () =>{
+    if(BtnColor3==="filter_btn_off"){
+      setBtnColor3("filter_btn_on")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+    }else{
+      setBtnColor3("filter_btn_off")
+      filterProduct("shoes")
+    }
+  }
+
+  const changeBrandBtnColor1 = () =>{
+    if(BrandBtnColor1==="filter_btn_off"){
+      setBrandBtnColor1("filter_btn_on")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+
+    }else{
+      setBrandBtnColor1("filter_btn_off")
+      filterProduct("shoes")
+    }
+  }
+
+  const changeBrandBtnColor2 = () =>{
+    if(BrandBtnColor2==="filter_btn_off"){
+      setBrandBtnColor2("filter_btn_on")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+    }else{
+      setBrandBtnColor2("filter_btn_off")
+      filterProduct("shoes")
+    }
+  }
+
+  const changeBrandBtnColor3 = () =>{
+    if(BrandBtnColor3==="filter_btn_off"){
+      setBrandBtnColor3("filter_btn_on")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBrandBtnColor4("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+    }else{
+      setBrandBtnColor3("filter_btn_off")
+      filterProduct("shoes")
+    }
+  }
+
+  const changeBrandBtnColor4 = () =>{
+    if(BrandBtnColor4==="filter_btn_off"){
+      setBrandBtnColor4("filter_btn_on")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+    }else{
+      setBrandBtnColor4("filter_btn_off")
+      filterProduct("shoes")
+    }
+  }
+
+  const ResetAllcolor = () =>{
+      setBrandBtnColor4("filter_btn_off")
+      setBrandBtnColor2("filter_btn_off")
+      setBrandBtnColor3("filter_btn_off")
+      setBrandBtnColor1("filter_btn_off")
+      setBtnColor1("filter_btn_off")
+      setBtnColor2("filter_btn_off")
+      setBtnColor3("filter_btn_off")
+  }
 
   const Loading = () => {
     return (
@@ -60,7 +190,7 @@ const Shoes = () => {
 
   const filter1Product = (r) => {
     const updatedList = data.filter((x) => x.colour === r);
-    setFilter(updatedList);
+    setFilter(updatedList);    
   };
 
   const filter2Product = (b) => {
@@ -79,9 +209,10 @@ const Shoes = () => {
 
                 <div>
                   <button
+
                     className="btn btn-outline"
-                    id="filter_btn_first"
-                    onClick={() => filter1Product("Black")}
+                    id={BtnColor1}                    
+                    onClick={() => {filter1Product("Black"); changeBtnColor1();}}
                   >
                     Black
                   </button>
@@ -90,8 +221,8 @@ const Shoes = () => {
                 <div>
                   <button
                     className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter1Product("White")}
+                    id={BtnColor2} 
+                    onClick={() => {filter1Product("White"); changeBtnColor2();}}
                   >
                     White
                   </button>
@@ -100,8 +231,8 @@ const Shoes = () => {
                 <div>
                   <button
                     className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter1Product("Gray")}
+                    id={BtnColor3} 
+                    onClick={() => {filter1Product("Gray"); changeBtnColor3();}}
                   >
                     Gray
                   </button>
@@ -114,8 +245,8 @@ const Shoes = () => {
                 <div>
                   <button
                     className="btn btn-outline"
-                    id="filter_btn_first"
-                    onClick={() => filter2Product("Nike")}
+                    id={BrandBtnColor1} 
+                    onClick={() => {filter2Product("Nike"); changeBrandBtnColor1();}}
                   >
                     Nike
                   </button>
@@ -124,8 +255,8 @@ const Shoes = () => {
                 <div>
                   <button
                     className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter2Product("Puma")}
+                    id={BrandBtnColor2} 
+                    onClick={() => {filter2Product("Puma"); changeBrandBtnColor2();}}
                   >
                     Puma
                   </button>
@@ -134,8 +265,8 @@ const Shoes = () => {
                 <div>
                   <button
                     className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter2Product("Adidas")}
+                    id={BrandBtnColor3}
+                    onClick={() => {filter2Product("Adidas"); changeBrandBtnColor3();}}
                   >
                     Adidas
                   </button>
@@ -144,8 +275,8 @@ const Shoes = () => {
                 <div>
                   <button
                     className="btn btn-outline"
-                    id="filter_btn"
-                    onClick={() => filter2Product("Reebok")}
+                    id={BrandBtnColor4}
+                    onClick={() => {filter2Product("Reebok"); changeBrandBtnColor4();}}
                   >
                     Reebok
                   </button>
@@ -156,7 +287,7 @@ const Shoes = () => {
                 <button
                   className="btn btn-outline"
                   id="filter_btn_reset"
-                  onClick={() => filterProduct("shoes")}
+                  onClick={() => {filterProduct("shoes"); ResetAllcolor();}}
                 >
                   Reset
                 </button>

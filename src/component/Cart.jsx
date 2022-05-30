@@ -2,17 +2,22 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import Empty from "./Empty.gif";
 import Skeleton from "react-loading-skeleton";
+import axios from "axios";
 import swal from "sweetalert";
 
 const Cart = () => {
+  const [data, setData] = useState([]);
   const history = useHistory();
   const [loading, setLoading] = useState();
   const [cartItem, setCartItem] = useState([]);
-  const [Cart_qnt, SetCart_qnt] = useState(10);
-  var token = localStorage.getItem("token");
+  var token = localStorage.getItem("token");  
+  let zeroStock = [];
+  let AllcartItemId = [];
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getcartItem();
+    getProducts();
   }, []);
 
   const LoginAlert = () => {
@@ -28,32 +33,32 @@ const Cart = () => {
   // cart api fatching
   const getcartItem = async () => {
     if(token){
-      let result = await fetch("http://localhost:8000/myCartItem", {
+      let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
     setCartItem(result);
     sessionStorage.setItem("Mycart", result.length);
-    setLoading(false);
+    setLoading(false);    
     }else{
       LoginAlert();
     }
   };
 
   const removeFromCart = async (id) => {
-    let result = await fetch(`http://localhost:8000/removeFromCart/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
     setCartItem(result);
     getcartItem();
-
+    
   };
 
   const increaseQty = async (id) => {    
-    let addone = await fetch(`http://localhost:8000/increaseQuantity/${id}`, {
+    let addone = await fetch(`https://vmart-api.herokuapp.com/increaseQuantity/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -70,7 +75,7 @@ const Cart = () => {
   }
   
   const decreaseQty = async (id) => {    
-    let removeone = await fetch(`http://localhost:8000/decreaseQuantity/${id}`, {
+    let removeone = await fetch(`https://vmart-api.herokuapp.com/decreaseQuantity/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -82,6 +87,75 @@ const Cart = () => {
     getcartItem();
   }
 
+  const getProducts = async () => {
+    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    if(response.status===201){
+      setData(response.data.products);     
+      // checkForZerostock();
+    }     
+  };
+
+  console.log("cartItem",cartItem);
+ 
+  
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].stock === 0) {
+        zeroStock.push(data[i]);
+    }      
+    }
+
+    for (let j = 0; j < cartItem.length; j++) {
+      if (cartItem.length !== 0) {
+        AllcartItemId.push(cartItem[j].productId);
+    }      
+    }
+
+    const OppsAlert = () => {
+      history.push("/cart")
+      swal({
+        title: "Errror!",
+        text: "Found Item In your cart with Zero stock!",
+        icon: "warning",
+        button: "Okay!",
+      });     
+    };
+
+    
+const MatchIds = () =>{
+  var a = 0;
+  for(let k = 0; k < zeroStock.length; k++){
+    for(let l = 0; l<AllcartItemId.length ; l++ ){
+
+      if(a === 1){
+       console.log("break");
+      }
+
+      else if(zeroStock[k]._id === AllcartItemId[l]){  
+        console.log("Found Item In your cart with Zero stock",zeroStock[k]);
+        history.push("/cart")
+        swal({
+          title: "Errror!",
+          text: `Opps Looks like ${zeroStock[k].name} is out of stock!`,
+          icon: "warning",
+          button: "Okay!",
+        }); 
+        a = 1;
+      }
+
+      // if(zeroStock[k] === AllcartItemId[l]){
+        
+      // }
+    }     
+  }
+  if (a===0){
+    console.log("checkout");
+    history.push("/checkout")
+  }
+}
+  console.log("AllcartItemId",AllcartItemId);
+  console.log("zeroStockItems",zeroStock);
+
+  
   const Loading = () => {
     return (
       <>
@@ -110,7 +184,7 @@ const Cart = () => {
     );
   };
 
-  console.log("myCartItem", cartItem);
+  //console.log("myCartItem", cartItem);
 
   const Cartisempty = () => {
     //if(cartItem === 0){
@@ -181,16 +255,18 @@ const Cart = () => {
             </div>
           ))}
         </section>
-        <div className="row">
-          <></>
+        <>
 
-          <NavLink
-            to="/checkout"
-            className="btn btn-outline-dark mb-5 w-25 mx-auto"
-          >
+        <div className="row">
+          <div className="btn btn-outline-dark mb-5 w-25 mx-auto" onClick={ () => {MatchIds();}}>
             Proceed to Checkout
-          </NavLink>
+          </div>         
         </div>
+          
+        </> 
+
+
+        
       </>
     );
   };

@@ -12,8 +12,9 @@ const Laptop = () => {
   let componentMounted = true;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const getProducts = async () => {
-      const response = await axios.get("http://localhost:8000/getProduct");
+      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
       if (componentMounted) {
         setData(response.data.products);
         setFilter(response.data.products);

@@ -13,6 +13,7 @@ const ChangePassword = () => {
   const [error, setError] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     ProtectedRoute();
     console.log("Plese Login First");
   }, []);
@@ -86,7 +87,7 @@ const ChangePassword = () => {
     //e.preventDefault();      
 
     const { oldPassword, newPassword, confirmPassword } = data;
-    let res = await fetch("http://localhost:8000/changePassword", {
+    let res = await fetch("https://vmart-api.herokuapp.com/changePassword", {
       method: "POST",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),

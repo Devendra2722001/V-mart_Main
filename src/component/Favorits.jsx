@@ -12,11 +12,12 @@ const Favorits = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getFavourite();
 
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2000);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   }, []);
 
   const LoginAlert = () => {
@@ -31,12 +32,13 @@ const Favorits = () => {
 
   const getFavourite = async () => {
     if(token){
-      let result = await fetch("http://localhost:8000/myfavouritetItem", {
+      let result = await fetch("https://vmart-api.herokuapp.com/myfavouritetItem", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
     setFavourite(result);
+    setLoading(false)
     }else{
       LoginAlert();
     }
@@ -44,7 +46,7 @@ const Favorits = () => {
 
   const removeFromgetFavourite = async (id) => {
     let result = await fetch(
-      `http://localhost:8000/removeFromFavourite/${id}`,
+      `https://vmart-api.herokuapp.com/removeFromFavourite/${id}`,
       {
         method: "post",
         headers: { token: JSON.parse(localStorage.getItem("token")) },

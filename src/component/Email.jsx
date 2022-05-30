@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import Empty from "./Empty.gif";
 import swal from "sweetalert";
@@ -35,7 +35,7 @@ const Email = () => {
     
     const { emailID } = email;
     if(emailID){
-      let res = await fetch("http://localhost:8000/sendotp", {
+      let res = await fetch("https://vmart-api.herokuapp.com/sendotp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

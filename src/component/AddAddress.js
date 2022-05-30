@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
@@ -47,38 +48,48 @@ const AddAddress = () => {
     setAddress({ ...address, [name]: value });
   };
 
+  // const formData = new FormData();
+  const addproduct = async (e) => {
+    //e.preventDefault();
+    //const { addline1, addline2, city, district, state, zipCode } = address;
+
+    // formData.append("addressLine1", address.addline1);
+    // formData.append("addressLine2", address.addline2);
+    // formData.append("cityName", address.city);
+    // formData.append("district", address.district);
+    // formData.append("state", address.state);
+    // formData.append("zipCode", address.zipCode);
+
+  }
+
+  // console.log("formData",formData);
+
   const PostData = async (e) => {
     e.preventDefault();
-    setError(validation(address));
-    const { addline1, addline2, city, district, state, zipCode } = address;
-    const res = await fetch("http://localhost:8000/addAddress", {
-      method: "POST",
+    setError(validation(address));    
+    const token=JSON.parse(localStorage.getItem("token"))
+    console.log("token",token);
+    await axios.post("https://vmart-api.herokuapp.com/addAddress",{
+        addressLine1: address.addline1,
+        addressLine2: address.addline2,
+        cityName: address.city,
+        district: address.district,
+        state: address.state,
+        zipCode: address.zipCode,
+    },{
       headers: {
-        token: JSON.parse(localStorage.getItem("token")),
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
-        addressLine1: addline1,
-        addressLine2: addline2,
-        cityName: city,
-        district: district,
-        state: state,
-        zipCode: zipCode,
-      }),
-    });
-
-    // res = await res.json();
-    console.log(res);
+        'Content-Type': 'application/json',
+        token:token
+      },      
+  }).then((res)=>{    
     if (res.status === 201) {
       CongoAlert();
-      //window.alert(" address added");
-      //history.push("/user");
     }
-    //     else if (res.status === 500){
-    //     window.alert("-- Something went wrong --")
-    //   }
-  };
+    console.log(res);
+  
+  }).catch((e)=>{console.log(e);})
+
+}
 
   const CongoAlert = () => {
     swal({

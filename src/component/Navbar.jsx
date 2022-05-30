@@ -51,6 +51,7 @@ const Navbar = () => {
 
   const Dologout = async () => {
     localStorage.removeItem("token");
+    //localStorage.removeItem("ImAdmin");
     sessionStorage.removeItem("Mycart");
     //window.alert("-- Logout Successfuly  --");
     CongoAlert();

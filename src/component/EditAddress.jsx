@@ -47,6 +47,7 @@ const EditAddress = () => {
 
 
     useEffect(() =>{
+        window.scrollTo(0, 0);
         getAddress();
     },[])
 

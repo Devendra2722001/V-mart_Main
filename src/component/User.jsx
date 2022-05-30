@@ -4,9 +4,6 @@ import swal from "sweetalert";
 import Skeleton from "react-loading-skeleton";
 import No_data from "./No_data.gif";
 import "./testing_css.css";
-let Edit = ("https://cdn-icons.flaticon.com/png/512/420/premium/420140.png?token=exp=1653375849~hmac=19309216d12ee5e780dbde75613f5107");
-let Tick = ("https://cdn-icons.flaticon.com/png/512/1634/premium/1634264.png?token=exp=1653394803~hmac=db2f1af71843504a92209b6fab75611b");
-
 
 const User = () => {
   const history = useHistory();
@@ -15,43 +12,19 @@ const User = () => {
   const [address, setAddress] = useState([]);
   const [orderHistory, setOrderHistory] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [image, setImage] = useState("");
-  const [ImgTickEdit, setImgTickEdit] = useState(Edit);
+  const [profilePicture, setprofilePicture] = useState("");
+
+
 
   var token = localStorage.getItem("token");
 
 
-  console.log("image",image);
-
-  
-
-    const DoImgTickEdit = () => {
-
-
-      Noneed()
-     
-      // if (ImgTickEdit===Edit) {
-      //   setImgTickEdit(Tick)
-      // } 
-    };
-
-    console.log("Condtion",image==="");
-
-    const Noneed = () =>{
-      if((image==="")===false){
-        setImgTickEdit(Tick)
-      }else {        
-        setImgTickEdit(Edit)
-      }
-    }
-
-    
 
   useEffect(() => {
+    window.scrollTo(0, 0); 
     getProfile();
     getAddress();
-    getOrderHistory(); 
-    setImgTickEdit(Edit);
+    getOrderHistory();     
   }, []);
 
  
@@ -71,13 +44,14 @@ const User = () => {
   
   const getProfile = async () => {
     if(token){
-    let result = await fetch("http://localhost:8000/myProfile", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.json();
     setProfile(result);
     setLoading(false);
+    setprofilePicture(result.profilePicture);
     }
     else{
       swal({
@@ -92,7 +66,7 @@ const User = () => {
 
   const getAddress = async () => {
     if(token){
-    let result = await fetch("http://localhost:8000/addressListing", {
+    let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -112,7 +86,7 @@ const User = () => {
 
   const removeAddress = async (id) => {
     if(token){
-    let result = await fetch(`http://localhost:8000/removeAddress/${id}`, {
+    let result = await fetch(`https://vmart-api.herokuapp.com/removeAddress/${id}`, {
       method: "post",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -132,7 +106,7 @@ const User = () => {
   
   const getOrderHistory = async () => {
     if(token){
-    let result = await fetch("http://localhost:8000/myOrder", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myOrder", {
       method: "GET",
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
@@ -197,12 +171,19 @@ const User = () => {
                 </div>
                 <div className="d-flex flex-column" id="user-profile-card">
                   <div className="d-flex flex-column align-items-center">
+                  <div>
                     <img
-                      className="rounded-circle "
-                      width="100px"
-                      src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-                      alt="User Profile"
+                    className="rounded-circle "
+                    width="100px"
+                    src={profilePicture}
+                    alt="User Profile"
+                    onError={(event) => {
+                      event.target.src =
+                        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
+                      event.onerror = null;
+                    }}
                     />
+                    </div>
                     <div className="d-flex flex-row" id="margin_user">
                       <div className="font-weight-bold">
                         <b>
@@ -239,7 +220,7 @@ const User = () => {
                           className="btn btn-primary profile-button"
                           type="button"
                         >
-                          update profile
+                          Edit profile
                         </button>
                       </NavLink>
                     </div>
@@ -274,12 +255,12 @@ const User = () => {
                     <b>My Addresses</b>
                   </h6>
                   <div>
-                    <NavLink to="/AddAddress">
+                    <NavLink to="/addaddress">
                       <button
                         className="btn btn-primary profile-button"
                         type="button"
                       >
-                        Add New Address
+                        Add Address
                       </button>
                     </NavLink>
                   </div>
@@ -343,12 +324,19 @@ const User = () => {
                 </div>
                 <div className="d-flex flex-column" id="user-profile-card">
                   <div className="d-flex flex-column align-items-center">
-                    <img
-                      className="rounded-circle "
-                      width="100px"
-                      src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-                      alt="User Profile"
+                  <div>  
+                  <img
+                    className="rounded-circle "
+                    width="100px"
+                    src={profilePicture}
+                    alt="User Profile"
+                    onError={(event) => {
+                      event.target.src =
+                        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
+                      event.onerror = null;
+                    }}
                     />
+                    </div>
                     <div className="d-flex flex-row" id="margin_user">
                       <div className="font-weight-bold">
                         <b>
@@ -385,7 +373,7 @@ const User = () => {
                           className="btn btn-primary profile-button"
                           type="button"
                         >
-                          update profile
+                          Edit profile
                         </button>
                       </NavLink>
                     </div>
@@ -420,12 +408,12 @@ const User = () => {
                     <b>My Addresses</b>
                   </h6>
                   <div>
-                    <NavLink to="/AddAddress">
+                    <NavLink to="/addaddress">
                       <button
                         className="btn btn-primary profile-button"
                         type="button"
                       >
-                        Add New Address
+                        Add Address
                       </button>
                     </NavLink>
                   </div>
@@ -522,7 +510,7 @@ const User = () => {
     );
   };
 
-  //console.log(orderHistory);
+  console.log(orderHistory);
 
   const NoAddressFound = () => {
     console.log("Showing Profile with no address");
@@ -539,12 +527,19 @@ const User = () => {
                 </div>
                 <div className="d-flex flex-column" id="user-profile-card">
                   <div className="d-flex flex-column align-items-center">
-                    <img
-                      className="rounded-circle "
-                      width="100px"
-                      src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-                      alt="User Profile"
+                  <div> 
+                  <img
+                    className="rounded-circle "
+                    width="100px"
+                    src={profilePicture}
+                    alt="User Profile"
+                    onError={(event) => {
+                      event.target.src =
+                        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
+                      event.onerror = null;
+                    }}
                     />
+                    </div>
                     <div className="d-flex flex-row" id="margin_user">
                       <div className="font-weight-bold">
                         <b>
@@ -581,7 +576,7 @@ const User = () => {
                           className="btn btn-primary profile-button"
                           type="button"
                         >
-                          update profile
+                          Edit profile
                         </button>
                       </NavLink>
                     </div>
@@ -616,12 +611,12 @@ const User = () => {
                     <b>My Addresses</b>
                   </h6>
                   <div>
-                    <NavLink to="/AddAddress">
+                    <NavLink to="/addaddress">
                       <button
                         className="btn btn-primary profile-button"
                         type="button"
                       >
-                        Add New Address
+                        Add Address
                       </button>
                     </NavLink>
                   </div>
@@ -707,20 +702,16 @@ const User = () => {
                 <div className="d-flex flex-column" id="user-profile-card">
                   <div className="d-flex flex-column align-items-center">
                     <div>
-
-                      
-                        
-                              <label for="image">
-                                  <input type="file" name="image" id="image" className="NoneImg" onChange={(e) => {setImage(e.target.files[0]);}} onClick={() => DoImgTickEdit()}/>
-                                  <img alt="Edit Profile" className="rounded-circle" id="Edit_Img" width="30px" src={ImgTickEdit}/>
-                              </label>
-                     
-                    
                     <img
-                      className="rounded-circle "
-                      width="100px"
-                      src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-                      alt="User Profile"
+                    className="rounded-circle "
+                    width="100px"
+                    src={profilePicture}
+                    alt="User Profile"
+                    onError={(event) => {
+                      event.target.src =
+                        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
+                      event.onerror = null;
+                    }}
                     />
                     </div>
                     <div className="d-flex flex-row" id="margin_user">
@@ -794,12 +785,12 @@ const User = () => {
                     <b>My Addresses</b>
                   </h6>
                   <div>
-                    <NavLink to="/AddAddress">
+                    <NavLink to="/addaddress">
                       <button
                         className="btn btn-primary profile-button"
                         type="button"
                       >
-                        Add New Address
+                        Add Address
                       </button>
                     </NavLink>
                   </div>

@@ -49,10 +49,10 @@ function Main(props) {
   const [size, setSize] = useState(updateProducts?.size || "");
   const [colour, setColour] = useState(updateProducts?.colour || "");
 
-  const [imageurl1, setImageurl1] = useState(updateProducts?.imageurl1 || "");
-  const [imageurl2, setImageurl2] = useState(updateProducts?.imageurl2 || "");
-  const [imageurl3, setImageurl3] = useState(updateProducts?.imageurl3 || "");
-  const [imageurl4, setImageurl4] = useState(updateProducts?.imageurl4 || "");
+  const [imageurl1, setimageurl1] = useState(updateProducts?.imageurl1 || "");
+  const [imageurl2, setimageurl2] = useState(updateProducts?.imageurl2 || "");
+  const [imageurl3, setimageurl3] = useState(updateProducts?.imageurl3 || "");
+  const [imageurl4, setimageurl4] = useState(updateProducts?.imageurl4 || "");
   const [stock, setStock] = useState(updateProducts?.stock || "");
 
   const postImages = () => {
@@ -69,7 +69,7 @@ function Main(props) {
       .then((res) => res.json())
       .then((imgdata1) => {
         console.log(imgdata1);
-        setImageurl1(imgdata1.url);
+        setimageurl1(imgdata1.url);
         //addproduct();
 
         //console.log(data)
@@ -93,7 +93,7 @@ function Main(props) {
       .then((res) => res.json())
       .then((imgdata2) => {
         console.log(imgdata2);
-        setImageurl2(imgdata2.url);
+        setimageurl2(imgdata2.url);
         //addproduct();
 
         //console.log(data)
@@ -117,7 +117,7 @@ function Main(props) {
       .then((res) => res.json())
       .then((imgdata3) => {
         console.log(imgdata3);
-        setImageurl3(imgdata3.url);
+        setimageurl3(imgdata3.url);
       })
 
       .catch((err) => {
@@ -138,7 +138,7 @@ function Main(props) {
       .then((res) => res.json())
       .then((imgdata4) => {
         console.log(imgdata4);
-        setImageurl4(imgdata4.url);
+        setimageurl4(imgdata4.url);
 
         //console.log(data)
       })
@@ -200,7 +200,7 @@ function Main(props) {
     formData.append("imageurl4", imageurl4);
     formData.append("stock", stock);
 
-    await Axios.post("http://localhost:8000/product", formData, {
+    await Axios.post("https://vmart-api.herokuapp.com/product", formData, {
       //formData,
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
@@ -271,7 +271,7 @@ function Main(props) {
     formData.append("stock", stock);
 
     let res = await fetch(
-      `http://localhost:8000/updateProduct/${updateProducts._id}`,
+      `https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`,
       {
         method: "PUT",
         formData,

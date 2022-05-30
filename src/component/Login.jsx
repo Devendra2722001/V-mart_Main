@@ -1,5 +1,5 @@
 import Empty from "./Empty.gif";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
@@ -12,6 +12,10 @@ const Login = () => {
   });
 
   const [error, setError] = useState({});
+
+  useEffect(() => {
+    window.scrollTo(0, 0);    
+  }, []);
 
   const validation = (credentials) => {
     let error = {};
@@ -27,7 +31,7 @@ const Login = () => {
   const Checkforcart = async () => {
     let token = localStorage.getItem("token");
     if(token){
-    let result = await fetch("http://localhost:8000/myCartItem", {
+    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
       method: "GET",
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
@@ -53,7 +57,7 @@ const Login = () => {
     setError(validation(credentials));
     const { email, password } = credentials;
     if(email && password){
-      let res = await fetch("http://localhost:8000/login", {
+      let res = await fetch("https://vmart-api.herokuapp.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +81,7 @@ const Login = () => {
       });
       console.log("User Login Successfull");
       if (data.user.isAdmin === false && data.user.isVendor === false) {
-        localStorage.setItem("ImAdmin", false);
+        //localStorage.setItem("ImAdmin", false);
         localStorage.setItem("token", JSON.stringify(data.token));
 
         //window.alert("Login Successfull....");

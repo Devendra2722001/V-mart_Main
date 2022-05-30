@@ -56,7 +56,7 @@ const Signup = () => {
     setError(validation(user));
     const { fname, lname, email, password, cpassword } = user;
     if(fname && lname && email && password && cpassword && password.length >= 8 && password=== cpassword){
-      let data = await fetch("http://localhost:8000/registration", {
+      let data = await fetch("https://vmart-api.herokuapp.com/registration", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
