@@ -10,7 +10,7 @@ const Cart = () => {
   const history = useHistory();
   const [loading, setLoading] = useState();
   const [cartItem, setCartItem] = useState([]);
-  var token = localStorage.getItem("token");  
+  var token = localStorage.getItem("token")   
   let zeroStock = [];
   let AllcartItemId = [];
 
@@ -18,7 +18,7 @@ const Cart = () => {
     window.scrollTo(0, 0);
     getcartItem();
     getProducts();
-  }, []);
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const LoginAlert = () => {
     swal({
@@ -30,69 +30,93 @@ const Cart = () => {
     history.push("/login");
   };
 
-  // cart api fatching
   const getcartItem = async () => {
     if(token){
-      let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
-      method: "GET",
+      await axios.get("http://localhost:8000/myCartItem", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setCartItem(result);
-    sessionStorage.setItem("Mycart", result.length);
-    setLoading(false);    
+    })
+    .then((res)=>{
+      console.log(" responce of get cart item:::",res);
+      if(res.status === 200) {
+        setCartItem(res.data);
+      sessionStorage.setItem("Mycart", res.data.length);
+      setLoading(false);
+      }
+      
+    })
+    .catch((e) =>{
+      console.log("error of get cart item:::",e);
+    })
     }else{
       LoginAlert();
     }
   };
 
   const removeFromCart = async (id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${id}`, {
-      method: "post",
-      headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setCartItem(result);
-    getcartItem();
-    
+    await axios.post(`http://localhost:8000/removeFromCart/${id}`,{}, {
+      headers: {
+      "Content-Type": "application/json",
+      token: JSON.parse(localStorage.getItem("token")), 
+    },
+  }).then((res) =>{
+      console.log("responce of remove from cart:::",res)
+      setCartItem(res.data);
+      getcartItem();
+  }).catch((e) =>{
+    console.log("Error of remove from cart:::",e)
+  })
   };
 
   const increaseQty = async (id) => {    
-    let addone = await fetch(`https://vmart-api.herokuapp.com/increaseQuantity/${id}`, {
-      method: "post",
+    await axios.post(`http://localhost:8000/increaseQuantity/${id}`,{}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    //addone = await addone.json();
-    getcartItem();
-    if(addone.status===400){
-      swal({
-        title: "Opps",
-        text: "We're sorry! Only 5 unit(s) allowed in each order",
-        icon: "warning",
-        button: "Okay!",
-      });
-    }
+    })
+    .then((res) =>{
+      console.log("responce of increase quantity:::", res)
+    }).catch((error) => {
+      if(error.response.status === 400){
+        //console.log("",res.status);
+        swal({
+          title: "Opps",
+          text: "We're sorry! Only 5 unit(s) allowed in each order",
+          icon: "warning",
+          button: "Okay!",
+        });
+      }
+      else if(error.response.status === 401){
+        swal({
+          title: "Opps",
+          text: `We're sorry! Currently no more unit(s) available`,
+          icon: "warning",
+          button: "Okay!",
+        });
+      }
+    })
+    getcartItem()
   }
   
   const decreaseQty = async (id) => {    
-    let removeone = await fetch(`https://vmart-api.herokuapp.com/decreaseQuantity/${id}`, {
-      method: "post",
+    await axios.post(`http://localhost:8000/decreaseQuantity/${id}`,{}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    removeone = await removeone.json();
-    console.log(removeone.quantity);
-    if(removeone.quantity === 0){
-      removeFromCart(id);
-    }
+    }).then((res) =>{
+      console.log("responce of decrease cart quantity:::", res);
+      console.log(res.data.quantity);
+      if(res.data.quantity === 0){
+        removeFromCart(id);
+      }
+    })
     getcartItem();
-  }
+  };
+
+  
 
   const getProducts = async () => {
-    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
-    if(response.status===201){
-      setData(response.data.products);     
-      // checkForZerostock();
-    }     
+    if(token !== null){
+      const response = await axios.get("http://localhost:8000/getProduct");
+        if(response.status===201){
+          setData(response.data.products);
+        }
+    }
   };
 
   console.log("cartItem",cartItem);
@@ -109,17 +133,6 @@ const Cart = () => {
         AllcartItemId.push(cartItem[j].productId);
     }      
     }
-
-    const OppsAlert = () => {
-      history.push("/cart")
-      swal({
-        title: "Errror!",
-        text: "Found Item In your cart with Zero stock!",
-        icon: "warning",
-        button: "Okay!",
-      });     
-    };
-
     
 const MatchIds = () =>{
   var a = 0;
@@ -141,10 +154,6 @@ const MatchIds = () =>{
         }); 
         a = 1;
       }
-
-      // if(zeroStock[k] === AllcartItemId[l]){
-        
-      // }
     }     
   }
   if (a===0){
@@ -187,7 +196,6 @@ const MatchIds = () =>{
   //console.log("myCartItem", cartItem);
 
   const Cartisempty = () => {
-    //if(cartItem === 0){
     return (
       <section className="cart-wrapper-empty">
         <div className="Empty-Cart">
@@ -202,9 +210,7 @@ const MatchIds = () =>{
         </div>
       </section>
     );
-    //}
   };
-  console.log(cartItem);
   const ShowProducts = () => {
     return (
       <>
@@ -244,16 +250,26 @@ const MatchIds = () =>{
                     </NavLink>
                     
                     <div className="plus-minus">
-                        <button className="btn btn-outline-dark" id="plus-minus_btn_m" onClick={() => {decreaseQty(cartObj.productId);}}>
-                          <i className="fa fa-minus"></i>
-                        </button>
-                        <p className="qty_font">{cartObj.quantity}</p>
-                        <button className="btn btn-outline-dark" id="plus-minus_btn_p" onClick={() => {increaseQty(cartObj.productId);}}>
+                      <button
+                        className="btn btn-outline-dark"
+                        id="plus-minus_btn_m"
+                        onClick={() => {
+                          decreaseQty(cartObj.productId);
+                        }}
+                      >
+                        <i className="fa fa-minus"></i>
+                      </button>
+                      <p className="qty_font">{cartObj.quantity}</p>
+                      <button
+                        className="btn btn-outline-dark"
+                        id="plus-minus_btn_p"
+                        onClick={() => {
+                          increaseQty(cartObj.productId);
+                        }}
+                      >
                         <i className="fa fa-plus"></i>
                       </button>
-                      
                     </div>
-                   
                   </div>
                 </div>
               </div>
@@ -262,16 +278,20 @@ const MatchIds = () =>{
           ))}
         </section>
         <>
-
+          
         <div className="row">
+          <div
+            className="btn btn-outline-dark mb-5 w-25 mx-auto"
+            onClick={()=>{history.go(-1)}}
+          >
+            Cancel
+          </div>
           <div className="btn btn-outline-dark mb-5 w-25 mx-auto" onClick={ () => {MatchIds();}}>
             Proceed to Checkout
           </div>         
         </div>
           
         </> 
-
-
         
       </>
     );

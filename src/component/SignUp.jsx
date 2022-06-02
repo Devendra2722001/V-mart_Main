@@ -2,6 +2,8 @@ import Empty from "./Empty.gif";
 import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import swal from "sweetalert";
+import { signUpValidation} from "./validation"
+import axios from "axios";
 // import validation from "./validation";
 
 const Signup = () => {
@@ -14,33 +16,7 @@ const Signup = () => {
     cpassword: "",
   });
 
-  let validation = (user) => {
-
-    let error={};
-
-    if(!user.fname){
-        error.fname = "* First name must required."
-    }
-    if(!user.lname){
-        error.lname = "* Last name must required."
-    }
-    if(!user.email){
-        error.email = "* Email must required."
-    }
-    if(!user.password){
-        error.password = "* Password must required."
-    }
-    else if(user.password.length < 8){
-        error.password = "* Minimum length of password is 8 charecter."
-    }
-    if(!user.cpassword){
-        error.cpassword = "* Confirm password must required."
-    }
-    else if(user.cpassword !== user.password){
-        error.cpassword = "* Password and Confirm password not match."
-    }
-  return error;
-}
+  
 
   const [error, setError] = useState({});
 
@@ -51,54 +27,56 @@ const Signup = () => {
     setUser({ ...user, [name]: value });
   };
 
-  const PostData = async (e) => {
+  const postData = async (e) => {
     e.preventDefault();
-    setError(validation(user));
+    setError(signUpValidation(user));
     const { fname, lname, email, password, cpassword } = user;
     if(fname && lname && email && password && cpassword && password.length >= 8 && password=== cpassword){
-      let data = await fetch("https://vmart-api.herokuapp.com/registration", {
-      method: "POST",
+      await axios.post("http://localhost:8000/registration", {
+        firstName: fname,
+        lastName: lname,
+        email: email,
+        password: password,
+        con_password: cpassword,
+      },
+      {
       headers: {
         "Content-Type": "application/json",
-      },
-
-        body: JSON.stringify({
-          firstName: fname,
-          lastName: lname,
-          email: email,
-          password: password,
-          con_password: cpassword,
-        }),
-      });
-
-      // data = await data.json();
-      if (data.status === 400) {
-        swal({
-          title: "warning!",
-          text: "This user already exist.",
-          icon: "warning",
-          button: "Okay!",
-        });
-      } else if(data.status === 201){
-        localStorage.setItem("Email", email); 
-        swal({
-          title: "Success!",
-          text: "Check your email for confirmation OTP.",
-          icon: "success",
-          button: "Okay!",
-        });
-        //console.log("Successfull Registration");
-        history.push("/emailVerification");
       }
+      }).then((res)=>{
+        console.log(res);
+        if(res.status === 201){
+          localStorage.setItem("Email", email); 
+          swal({
+            title: "Success!",
+            text: "Check your email for confirmation OTP.",
+            icon: "success",
+            button: "Okay!",
+          });
+          //console.log("Successfull Registration");
+          history.push("/emailVerification");
+        }
+
+      }).catch((error) => {
+        if (error.response.status === 400) {
+          swal({
+            title: "warning!",
+            text: "This user already exist.",
+            icon: "warning",
+            button: "Okay!",
+          });
+        } 
+      })
     }
   };
 
+  
   return (
     <section className="vh-100">
       <div className="container-fluid h-custom">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-md-9 col-lg-6 col-xl-5">
-            <img src={Empty} className="img-fluid" alt="Sample image" />
+            <img src={Empty} className="img-fluid" alt="Sample" />
           </div>
           <div className="col-md-8 col-lg-6 col-xl-4">
             <form method="POST">
@@ -187,23 +165,26 @@ const Signup = () => {
                     </span>
                   )}
                 </div>
-                {/* <div className="col-md-12">
-                  <label className="labels">Select Role</label><br></br>
-                  <input type="radio" name="isAdmin" value={user.isAdmin == true} onChange={handleInputs}/> User &nbsp;
-                  <input type="radio" name="isAdmin" value={user.isAdmin == false} onChange={handleInputs} /> Admin
-                  {error.isAdmin && <span className='text-danger font-weight-bold'>{error.isAdmin}</span>}
-                </div> */}
               </div>
               <div className="text-center text-lg-start pt-2 mt-3">
+                <button
+                  className="btn btn-danger btn-lg  "
+                  id="login_btn-style"
+                  type="button"
+                  onClick={()=>{history.go(-1)}}
+                >
+                  Cancel
+                </button>
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg"
                   id="login_btn-style"
                   value="register"
-                  onClick={PostData}
+                  onClick={postData}
                 >
                   Signup
                 </button>
+
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Already have an account?
                   <NavLink to="/login">Login</NavLink>

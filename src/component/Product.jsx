@@ -1,39 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { toast } from "react-toastify";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 import { css } from 'glamor';
+import axios from "axios";
 
 toast.configure();
 const Product = () => {
-  const history = useHistory();
   const { _id } = useParams();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cartBtn, setCartBtn] = useState("Add To Cart");
   const [favBtn, setFavBtn] = useState("Add To Favorites");
   const [cartItem, setCartItem] = useState([]);
-
-
   useEffect(() => {
     window.scrollTo(0, 0);
     getProduct();
-    Checkforcart();
-    Checkforfav();
-  }, []);
+    if(localStorage.getItem("token" !== null)){      
+      Checkforcart();
+      Checkforfav();
+    }    
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const Checkforcart = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
-      method: "GET",
+    let result = await axios.get("http://localhost:8000/myCartItem", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
     });
-    result = await result.json();
-    //console.log("got cart data:-",result);
+    result = result.data;
+    console.log("got cart data::::::::::",result);
     setCartItem(result.length);
+    console.log("got result length:::::::::",result.length);
 
     for (let i = 0; i < result.length; i++) {
       let item_ids = result[i].productId;
@@ -45,20 +45,18 @@ const Product = () => {
     }    
     
   };
-  
   console.log("cartItem",cartItem);
   sessionStorage.setItem("Mycart", cartItem);
 
   const Checkforfav = async () => {
-    let Favresult = await fetch("https://vmart-api.herokuapp.com/myfavouritetItem", {
-      method: "GET",
+    let Favresult = await axios.get("http://localhost:8000/myfavouritetItem", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
     });
-    Favresult = await Favresult.json();
+    Favresult = Favresult.data;
     console.log("got Fav data:-", Favresult);
-    //setCartItem(Favresult);
+    console.log("got result length data:::::::::",Favresult.length);
 
     for (let i = 0; i < Favresult.length; i++) {
       let favitem_ids = Favresult[i].productId;
@@ -71,21 +69,18 @@ const Product = () => {
   };
 
   const getProduct = async () => {
-    const response = await fetch(`https://vmart-api.herokuapp.com/singleProduct/${_id}`);
-    setProduct(await response.json());
+    const response = await axios.get(`http://localhost:8000/singleProduct/${_id}`);
+    let myRes = response.data
+    setProduct(myRes);
     setLoading(false);
   };
 
   const addToCart = async (_id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/cart/${_id}`, {
-      method: "POST",
+    await axios.post(`http://localhost:8000/cart/${_id}`, {},{
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
     });
-    result = await result.json();
-    //setCartItem(result);
-    //
     toast(`${product.name} Added To cart`, {     
       position: toast.POSITION.TOP_LEFT,
       toastClassName: css({
@@ -94,59 +89,47 @@ const Product = () => {
         padding: '15px !important'
       }),      
     });
-    //setCartBtn("Remove From Cart")
     Checkforcart();
   };
 
   const addTofav = async (_id) => {
-    let Favresult = await fetch(`https://vmart-api.herokuapp.com/favourite/${_id}`, {
-      method: "POST",
+    await axios.post(`http://localhost:8000/favourite/${_id}`, {},  {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
     });
-    Favresult = await Favresult.json();
     toast(`${product.name} Added To Favorites`, {
       position: toast.POSITION.TOP_LEFT,
     });
   };
 
   const removeFromCart = async (_id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/removeFromCart/${_id}`, {
-      method: "POST",
+    await axios.post(`http://localhost:8000/removeFromCart/${_id}`, {}, {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
     });
-    result = await result.json();
-    //setCartItem(result);
     toast(`${product.name} Removed From Cart`, {
       position: toast.POSITION.TOP_LEFT,
     });
-    //window.location.reload();
     Checkforcart();
   };
 
   const removeFromfav = async (_id) => {
-    let Favresult = await fetch(
-      `https://vmart-api.herokuapp.com/removeFromFavourite/${_id}`,
+    await axios.post(
+      `http://localhost:8000/removeFromFavourite/${_id}`,{},
       {
-        method: "POST",
         headers: {
           token: JSON.parse(localStorage.getItem("token")),
         },
       }
     );
-    Favresult = await Favresult.json();
-    //setCartItem(result);
     toast(`${product.name} Removed From Favorites`, {
       position: toast.POSITION.TOP_LEFT,
     });
-    //window.location.reload();
   };
 
   const dothething = () => {
-    //console.log("call donothing",cartBtn,typeof(cartBtn));
     if (cartBtn === "Add To Cart") {
       console.log("---->");
       tryingToadd(product._id);
@@ -156,9 +139,7 @@ const Product = () => {
   };
 
   const dothethingforfav = () => {
-    //console.log("call donothing",cartBtn,typeof(cartBtn));
     if (favBtn === "Add To Favorites") {
-      //console.log("---->")
       tryingToaddfav(product._id);
     } else {
       tryingToremovefav(product._id);
@@ -166,15 +147,11 @@ const Product = () => {
   };
 
   const tryingToadd = (_id) => {
-    //console.log(_id)
-    //console.log("call donothing",cartBtn,typeof(cartBtn));
-
     if (cartBtn === "Add To Cart") {
       addToCart(_id);
       setCartBtn("Remove From Cart");
-      //changeBtn()
     } else {
-      //setCartBtn("Add To Cart")
+
     }
   };
 
@@ -183,7 +160,6 @@ const Product = () => {
       console.log("Trying To Remove from cart");
       removeFromCart(_id);
       setCartBtn("Add To Cart");
-      //changeBtn();
     }
   };
 
@@ -199,7 +175,6 @@ const Product = () => {
       console.log("Trying To Remove from Fav");
       removeFromfav(_id);
       setFavBtn("Add To Favorites");
-      //changeBtn();
     }
   };
 
@@ -222,23 +197,23 @@ const Product = () => {
   };
 
   const CongoAlert = () => {
-    swal({
-      title: "Login/Signup!",
-      text: "Please Login Or Singup to add item to your cart",
-      icon: "warning",
-      button: "Okay!",
-    });
-    //history.push("/login");
+    Swal.fire({
+      icon: 'warning',
+      title: 'Login/Signup!...',
+      text: 'Please Login to add item to your cart',      
+      footer: '<a href="/login">Login Here</a>'
+    })
+   
   };
 
   const CongoAlertFav = () => {
-    swal({
-      title: "Login/Signup!",
-      text: "Please Login Or Singup to add item to your favorites",
-      icon: "warning",
-      button: "Okay!",
-    });
-    //history.push("/login");
+    Swal.fire({
+      icon: 'warning',
+      title: 'Login/Signup!...',
+      text: 'Please Login to add item to your favorites',      
+      footer: '<a href="/login">Login Here</a>'
+    })
+    
   };
 
   const Loading = () => {
@@ -287,21 +262,21 @@ const Product = () => {
               <div>
                 <img
                   className="product-media-mini"
-                  src={product.imageurl2}
+                  src={product.imageUrl2}
                   alt={product.name}
                 />
               </div>
               <div>
                 <img
                   className="product-media-mini"
-                  src={product.imageurl3}
+                  src={product.imageUrl3}
                   alt={product.name}
                 />
               </div>
               <div>
                 <img
                   className="product-media-mini"
-                  src={product.imageurl4}
+                  src={product.imageUrl4}
                   alt={product.name}
                 />
               </div>
@@ -309,18 +284,18 @@ const Product = () => {
             <div className="product-media">
               <img
                 className="product_img"
-                src={product.imageurl1}
+                src={product.imageUrl1}
                 alt={product.name}
               />
             </div>
           </div>
 
           <div id="grid_2">
-          {product.stock===0  && cartBtn === "Add To Cart" ? 
+          {product.stock===0 ? 
           
           <>
           <b className="product-stock_red">
-            Product Out Of Stock Check back later 
+            This item is currently out of stock
           </b>
           </>
           
@@ -329,7 +304,7 @@ const Product = () => {
           <>{product.stock<10 ? 
           
             <div className="product-stock">
-                Hurryup only <b className="product-stock_red"> {product.stock} - </b><tt className="greenColorfont">{product.name}</tt> Left In Stock
+                Hurry, Only a few <b className="greenColorfont">{product.name}</b> left!
             </div>
             
             : 
@@ -340,14 +315,14 @@ const Product = () => {
             <div className="product-category">
               Category - {product.category}
             </div>
-            <div className="product-minitext">Ram - {product.RAM}GB</div>
+            <div className="product-minitext">Ram - {product.RAM}</div>
             <div className="product-minitext">
               {" "}
-              Screen Size - {product.screenSize}
+              Screen HardDisk - {product.hardDisk}
             </div>
             <div className="product-minitext">
               {" "}
-              Main Camera - {product.camera}
+              Processor - {product.processor}
             </div>
             <div className="product-minitext">
               {" "}
@@ -355,7 +330,7 @@ const Product = () => {
             </div>
 
             <div className="addcartgocartBTN">
-            {product.stock===0 ? 
+            {product.stock===0  && cartBtn === "Add To Cart" ? 
               <>
                 <button
                   disabled
@@ -413,21 +388,21 @@ const Product = () => {
               <div>
                 <img
                   className="product-media-mini"
-                  src={product.imageurl2}
+                  src={product.imageUrl2}
                   alt={product.name}
                 />
               </div>
               <div>
                 <img
                   className="product-media-mini"
-                  src={product.imageurl3}
+                  src={product.imageUrl3}
                   alt={product.name}
                 />
               </div>
               <div>
                 <img
                   className="product-media-mini"
-                  src={product.imageurl4}
+                  src={product.imageUrl4}
                   alt={product.name}
                 />
               </div>
@@ -435,7 +410,7 @@ const Product = () => {
             <div className="product-media">
               <img
                 className="product_img"
-                src={product.imageurl1}
+                src={product.imageUrl1}
                 alt={product.name}
               />
             </div>
@@ -446,7 +421,7 @@ const Product = () => {
           
           <>
           <b className="product-stock_red">
-            Product Out Of Stock Check back later 
+            This item is currently out of stock
           </b>
           </>
           
@@ -455,7 +430,7 @@ const Product = () => {
           <>{product.stock<10 ? 
           
             <div className="product-stock">
-                Hurryup only <b className="product-stock_red"> {product.stock} - </b><tt className="greenColorfont">{product.name}</tt> Left In Stock
+                Hurry, Only a few <b className="greenColorfont">{product.name}</b> left!
             </div>
             
             : 
@@ -539,21 +514,21 @@ const Product = () => {
               <div>
                 <img
                   className="product-media-mini"
-                  src={product.imageurl2}
+                  src={product.imageUrl2}
                   alt={product.name}
                 />
               </div>
               <div>
                 <img
                   className="product-media-mini"
-                  src={product.imageurl3}
+                  src={product.imageUrl3}
                   alt={product.name}
                 />
               </div>
               <div>
                 <img
                   className="product-media-mini"
-                  src={product.imageurl4}
+                  src={product.imageUrl4}
                   alt={product.name}
                 />
               </div>
@@ -561,7 +536,7 @@ const Product = () => {
             <div className="product-media">
               <img
                 className="product_img"
-                src={product.imageurl1}
+                src={product.imageUrl1}
                 alt={product.name}
               />
             </div>
@@ -573,7 +548,7 @@ const Product = () => {
           
           <>
           <b className="product-stock_red">
-            Product Out Of Stock Check back later 
+            This item is currently out of stock
           </b>
           </>
           
@@ -582,7 +557,7 @@ const Product = () => {
           <>{product.stock<10 ? 
           
             <div className="product-stock">
-                Hurryup only <b className="product-stock_red"> {product.stock} - </b><tt className="greenColorfont">{product.name}</tt> Left In Stock
+                Hurry, Only a few <b className="greenColorfont">{product.name}</b> left!
             </div>
             
             : 

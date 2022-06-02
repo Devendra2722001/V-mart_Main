@@ -1,18 +1,20 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const VendorOrderist = () => {
   const [ordersList, setOrders] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     getOrdersData();
   }, []);
 
   const getOrdersData = async () => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/order`, {
-      method: "GET",
+    let result = await axios.get(`http://localhost:8000/order`, {
     });
-    result = await result.json();
+    result = result.data
     setOrders(result);
   };
 
@@ -20,22 +22,34 @@ const VendorOrderist = () => {
 
   return (
     <>
+      <br></br>
+      <br></br>
+      <br></br>
+      <div>
+        <button
+          type="button"
+          className="btn btn-danger btn-lg"
+          id="login_btn-style"
+          onClick={() => {
+            history.go(-1);
+          }}
+        >
+          Cancle
+        </button>
+      </div>
       <div className="admin-card-wraper">
         {ordersList.map((order) => {
-          {
-            /* return order.orderDetail.map((orderDetail) => { */
-          }
           return (
             <div className="cart-card-container" key={order._id}>
               <div>
                 <div className="cart-card">
                   <div className="cart-card-text">
                     <div className="cart-card-category">
-                      FirstName -{" "}
+                      FirstName -
                       <b className="admin-card-head">{order.firstName}</b>
                     </div>
                     <div className="cart-card-category">
-                      LastName -{" "}
+                      LastName -
                       <b className="admin-card-head">{order.lastName}</b>
                     </div>
 
@@ -46,7 +60,7 @@ const VendorOrderist = () => {
                     </div>
                     <Link
                       id="noUnderline"
-                      to={`/specificorder/${order.userId}`}
+                      to={`/order/${order.userId}`}
                     >
                       <button type="button" className="btn btn-primary">
                         View orders
@@ -57,9 +71,6 @@ const VendorOrderist = () => {
               </div>
             </div>
           );
-          {
-            /* }); */
-          }
         })}
       </div>
     </>

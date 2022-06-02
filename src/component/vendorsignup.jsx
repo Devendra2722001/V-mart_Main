@@ -2,6 +2,8 @@ import Empty from "./Empty.gif";
 import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import swal from "sweetalert";
+import {vendorSignupValidation} from "./validation"
+import axios from "axios";
 //import validation from "./validation";
 
 const Signup = () => {
@@ -15,34 +17,6 @@ const Signup = () => {
     isVendor: "true",
   });
 
-  let validation = (user) => {
-
-    let error={};
-
-    if(!user.fname){
-        error.fname = "* First name must required."
-    }
-    if(!user.lname){
-        error.lname = "* Last name must required."
-    }
-    if(!user.email){
-        error.email = "* Email must required."
-    }
-    if(!user.password){
-        error.password = "* Password must required."
-    }
-    else if(user.password.length < 8){
-        error.password = "* Minimum length of password is 8 charecter."
-    }
-    if(!user.cpassword){
-        error.cpassword = "* Confirm password must required."
-    }
-    else if(user.cpassword !== user.password){
-        error.cpassword = "* Password and Confirm password not match."
-    }
-  return error;
-  }
-
   const [error, setError] = useState({});
 
   let name, value;
@@ -52,49 +26,47 @@ const Signup = () => {
     setUser({ ...user, [name]: value });
   };
 
-  const PostData = async (e) => {
+  const postData = async (e) => {
     e.preventDefault();
-    setError(validation(user));
+    setError(vendorSignupValidation(user));
     const { fname, lname, email, password, cpassword, isVendor } = user;
     if(fname && lname && email && password && cpassword && isVendor && password.length >= 8 && password=== cpassword){
-      let data = await fetch("https://vmart-api.herokuapp.com/registration", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({
+      await axios.post("http://localhost:8000/registration", {
         firstName: fname,
         lastName: lname,
         email: email,
         password: password,
         con_password: cpassword,
-        isVendor: isVendor,
-      }),
-    });
-
-    // data = await data.json();
-    // data = await data.json();
-      if (data.status === 400) {
-        swal({
-          title: "warning!",
-          text: "This user already exist.",
-          icon: "warning",
-          button: "Okay!",
-        });
-      } else if(data.status === 201){
+        isVendor: isVendor
+      },
+      {
+      headers: {
+        "Content-Type": "application/json",
+      },    
+    }).then((res) => {
+      if(res.status === 201){
         localStorage.setItem("Email", email); 
         swal({
           title: "Success!",
           text: "Check your email for confirmation OTP.",
           icon: "success",
           button: "Okay!",
-        });
-        //console.log("Successfull Registration");
+        })     
         history.push("/emailVerification");
       }
+    }).catch((error) => {
+      if (error.response.status === 400) {
+        swal({
+          title: "warning!",
+          text: "This user already exist.",
+          icon: "warning",
+          button: "Okay!",
+        });
+      }
+    }) 
     } 
   };
+  
 
   return (
     <section className="vh-100">
@@ -197,21 +169,27 @@ const Signup = () => {
                     </span>
                   )}
                 </div>
-                {/* <div className="col-md-12">
-                  <label className="labels">Select Role</label><br></br>
-                  <input type="radio" name="isVendor" value={user.isVendor} onChange={handleInputs} defaultChecked/> Vendor &nbsp;
-                </div> */}
               </div>
               <div className="text-center text-lg-start pt-2 mt-3">
+                <button
+                  type="submit"
+                  className="btn btn-danger btn-lg"
+                  id="login_btn-style"
+                  value="register"
+                  onClick={()=>{history.push("/")}}
+                >
+                  Cancel
+                </button>
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg"
                   id="login_btn-style"
                   value="register"
-                  onClick={PostData}
+                  onClick={postData}
                 >
                   Signup
                 </button>
+
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Already have an account?
                   <NavLink to="/login">Login</NavLink>

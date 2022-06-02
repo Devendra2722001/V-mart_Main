@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
+import {addAddressValidation} from "./validation";
 
 const AddAddress = () => {
   const history = useHistory();
@@ -16,29 +17,6 @@ const AddAddress = () => {
 
   const [error, setError] = useState({});
 
-  const validation = (address) => {
-    let error = {};
-    if (!address.addline1) {
-      error.addline1 = "* Please enter address line-1.";
-    }
-    if (!address.addline2) {
-      error.addline2 = "* Please enter address line-2.";
-    }
-    if (!address.city) {
-      error.city = "* Please enter city.";
-    }
-    if (!address.district) {
-      error.district = "* Please enter district.";
-    }
-    if (!address.state) {
-      error.state = "* Please enter state.";
-    }
-    if (!address.zipCode) {
-      error.zipCode = "* Please enter zipCode.";
-    }
-    return error;
-  };
-
   let name, value;
 
   const handleInputs = (e) => {
@@ -48,48 +26,32 @@ const AddAddress = () => {
     setAddress({ ...address, [name]: value });
   };
 
-  // const formData = new FormData();
-  const addproduct = async (e) => {
-    //e.preventDefault();
-    //const { addline1, addline2, city, district, state, zipCode } = address;
-
-    // formData.append("addressLine1", address.addline1);
-    // formData.append("addressLine2", address.addline2);
-    // formData.append("cityName", address.city);
-    // formData.append("district", address.district);
-    // formData.append("state", address.state);
-    // formData.append("zipCode", address.zipCode);
-
-  }
-
-  // console.log("formData",formData);
-
-  const PostData = async (e) => {
+  const postData = async (e) => {
     e.preventDefault();
-    setError(validation(address));    
-    const token=JSON.parse(localStorage.getItem("token"))
-    console.log("token",token);
-    await axios.post("https://vmart-api.herokuapp.com/addAddress",{
-        addressLine1: address.addline1,
-        addressLine2: address.addline2,
-        cityName: address.city,
-        district: address.district,
-        state: address.state,
-        zipCode: address.zipCode,
-    },{
-      headers: {
-        'Content-Type': 'application/json',
-        token:token
-      },      
-  }).then((res)=>{    
-    if (res.status === 201) {
-      CongoAlert();
+    setError(addAddressValidation(address));
+    const { addline1, addline2, city, district, state, zipCode } = address;
+    if(addline1 && addline2 && city && district && state && zipCode && address.zipCode.length === 6 && !(isNaN(address.zipCode))){
+      await axios.post("http://localhost:8000/addAddress", {
+        addressLine1: addline1,
+        addressLine2: addline2,
+        cityName: city,
+        district: district,
+        state: state,
+        zipCode: zipCode,
+    },
+    {headers: {
+        "Content-Type": "application/json",
+        token: JSON.parse(localStorage.getItem("token")),
+        
+      },
+    }).then((res) => {
+      console.log(res);
+      if (res.status === 201) {
+        CongoAlert();
+      }
+    })
     }
-    console.log(res);
-  
-  }).catch((e)=>{console.log(e);})
-
-}
+  };
 
   const CongoAlert = () => {
     swal({
@@ -116,7 +78,7 @@ const AddAddress = () => {
                 <div className="row g-3" id="user-profile-card">
                   <div className="col-12">
                     <label htmlFor="address" className="form-label">
-                      AddressLine - 1
+                      AddressLine
                     </label>
                     <input
                       type="text"
@@ -140,7 +102,7 @@ const AddAddress = () => {
 
                   <div className="col-12">
                     <label htmlFor="line2" className="form-label">
-                      Location
+                      Type
                     </label>
                     <select
                       type="option"
@@ -153,10 +115,10 @@ const AddAddress = () => {
                       value={address.addline2}
                       onChange={handleInputs}
                     >
+                      <option>--Select Type--</option>
                       <option>Home</option>
                       <option>Office</option>
                     </select>
-                    {/* {error.addline2 && <span className='text-danger font-weight-bold'>{error.addline2}</span>} */}
                     <div className="invalid-feedback">
                       Please Select Location.
                     </div>
@@ -260,12 +222,21 @@ const AddAddress = () => {
                 </div>
                 <hr className="my-4" />
                 <button
+                  className="btn btn-danger profile-button"
+                  type="button"
+                  onClick={() => {
+                    history.push("/user");
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
                   className="btn btn-success profile-button"
                   type="button"
-                  onClick={PostData}
+                  onClick={postData}
                 >
                   Add Address
-                </button>{" "}
+                </button>
                 &nbsp;
               </form>
             </div>

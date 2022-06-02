@@ -7,6 +7,4 @@ const rootReducers = combineReducers({
     handleFav,
 })
 
-
-
 export default rootReducers;

@@ -35,7 +35,7 @@ const handleCart =(state1 = cart, action) => {
                 
     
         default:
-            return state1;            
+            return state1         
     }
 
 }

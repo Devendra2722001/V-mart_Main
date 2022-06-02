@@ -5,14 +5,12 @@ const View = (props) => {
     props?.setUpdateProducts(product);
     props?.setShowForm(true);
   };
-
-
   const [productCount ,setproductCount] = useState();
   const [OrderCount ,setOrderCount] = useState();
   const [outOfStockCount ,setoutOfStockCount] = useState();
 
   useEffect(() => {
-    window.scrollTo(0, 0);    
+    window.scrollTo(0, 0) 
     setInterval(() => {
       setproductCount(sessionStorage.getItem("Myproducts"))   
       setOrderCount(sessionStorage.getItem("MyOrder"))   
@@ -80,7 +78,7 @@ const View = (props) => {
 </div>
         <div className="container-scroller">
           <div className="container-fluid page-body-wrapper table-responsive ">
-            <div className="table-responsive tbl ">
+            <div className="table-responsive tbl "> 
               <table className="table table-striped table-hover table-bordered">
                 <thead>
                   <tr>

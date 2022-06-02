@@ -4,16 +4,13 @@ export default function Testing() {
 
    useEffect(() => {    
       setdata(Api);
-    }, []);
+    }, [])// eslint-disable-line react-hooks/exhaustive-deps
     
 
    let [data, setdata] = useState([]);
    const [isChecked, setIsChecked] = useState(false);
    const [isChecked1, setIsChecked1] = useState(false);
-   //const [value, setValue] = useState("");
-
    let newData = [];
-   
  
    const handleOnChange = () => {
       if(isChecked===false){
@@ -38,8 +35,6 @@ export default function Testing() {
    
 
    //console.log("Value",value);
-
-
    const handleOnChange1 = () => {      
       if(isChecked1===false){
          newData = data.filter((x) => x.price <50000)

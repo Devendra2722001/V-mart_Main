@@ -4,21 +4,21 @@ import Empty from "./Empty.gif";
 import { useEffect, useState } from "react";
 import swal from "sweetalert";
 import Skeleton from "react-loading-skeleton";
+import axios from "axios";
 
 const Favorits = () => {
   const history = useHistory();
   const [favourite, setFavourite] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     window.scrollTo(0, 0);
     getFavourite();
-
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-  }, []);
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const LoginAlert = () => {
     swal({
@@ -32,33 +32,33 @@ const Favorits = () => {
 
   const getFavourite = async () => {
     if(token){
-      let result = await fetch("https://vmart-api.herokuapp.com/myfavouritetItem", {
-      method: "GET",
+      await axios.get("http://localhost:8000/myfavouritetItem", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setFavourite(result);
-    setLoading(false)
+    })
+      
+    .then((res) => {
+      console.log("response of favorite listiing" , res);
+      if (res.status === 200){
+        setFavourite(res.data); 
+      }
+    })
     }else{
       LoginAlert();
     }
   };
 
   const removeFromgetFavourite = async (id) => {
-    let result = await fetch(
-      `https://vmart-api.herokuapp.com/removeFromFavourite/${id}`,
+    await axios.post(
+      `http://localhost:8000/removeFromFavourite/${id}`,{},
       {
-        method: "post",
         headers: { token: JSON.parse(localStorage.getItem("token")) },
       }
-    );
-    result = await result.json();
-    setFavourite(result);
+    ).then((res) => {
+      console.log("responce of remove from favorite", res);
+      setFavourite(res.data);
+    })
   };
-  //console.log("favorite", favourite )
-
   const Cartisempty = () => {
-    //if(cartItem === 0){
     return (
       <section className="cart-wrapper-empty">
         <div className="Empty-Cart">
@@ -73,7 +73,6 @@ const Favorits = () => {
         </div>
       </section>
     );
-    //}
   };
   const Loading = () => {
     return (
@@ -105,6 +104,8 @@ const Favorits = () => {
 
   console.log(favourite);
 
+ 
+
   const ShowProducts = () => {
     return (
       <>
@@ -113,27 +114,39 @@ const Favorits = () => {
             <div className="cart-card-container" key={favObj.productId}>
               <div>
                 <div className="cart-card">
-                <NavLink to={`/productlist/${favObj.productId}`} id="copyright">
-                  <img
-                    src={favObj.productImageurl1}
-                    alt="images"
-                    className="cart-card-media"
-                  />
+                  <NavLink
+                    to={`/productlist/${favObj.productId}`}
+                    id="copyright"
+                  >
+                    <img
+                      src={favObj.productImageurl1}
+                      alt="images"
+                      className="cart-card-media"
+                    />
                   </NavLink>
                   <div className="cart-card-text">
-                    <NavLink to={`/productlist/${favObj.productId}`} id="copyright">
+                    <NavLink
+                      to={`/productlist/${favObj.productId}`}
+                      id="copyright"
+                    >
                       <div className="cart-card-head">{favObj.productName}</div>
                     </NavLink>
                     <div className="cart-card-price">
-                    <NavLink to={`/productlist/${favObj.productId}`} id="copyright">
-                      Price - {favObj.productPrice}₹
+                      <NavLink
+                        to={`/productlist/${favObj.productId}`}
+                        id="copyright"
+                      >
+                        Price - {favObj.productPrice}₹
                       </NavLink>
                     </div>
                     <div className="cart-lastrow">
-                    <NavLink to={`/productlist/${favObj.productId}`} id="copyright">
-                      <div className="cart-card-category">
-                        Category - {favObj.productCategory}
-                      </div>
+                      <NavLink
+                        to={`/productlist/${favObj.productId}`}
+                        id="copyright"
+                      >
+                        <div className="cart-card-category">
+                          Category - {favObj.productCategory}
+                        </div>
                       </NavLink>
                     </div>
                     <br></br>
@@ -151,6 +164,9 @@ const Favorits = () => {
             </div>
           ))}
         </section>
+        <div className="btn btn-danger mb-5 w-25 mx-auto" onClick={()=>{history.go(-1)}}>
+          Cancel
+        </div>
       </>
     );
   };

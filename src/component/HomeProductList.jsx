@@ -6,60 +6,45 @@ import Skeleton from "react-loading-skeleton";
 import axios from "axios";
 
 const HomeProductList = () => {
-  const [data, setData] = useState([]);
-  let componentMounted = true;
-  const [loading, setLoading] = useState(true);  
+  const [data, setData] = useState([])   
+  const [loading, setLoading] = useState(true)   
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    const getProducts = async () => {
-      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
-      //const response = await fetch(`https://vmart-api.herokuapp.com/getProduct`);
-      if (componentMounted) {
-        setData(response.data.products);
-        setLoading(false);
-        //console.log(data);
-        //console.log(response.data.products);
-      }
-
-      return () => {
-        componentMounted = false;
-      };
-    };
+    window.scrollTo(0, 0) 
     getProducts();
   }, []);
 
+  const getProducts = async () => {
+    const response = await axios.get("http://localhost:8000/getProduct");
+    setData(response.data.products);
+    setLoading(false);
+  };
+
   let allproducts = data;
-
-  //console.log(data);
-
   let mobileproducts = [];
-  for (let i = 0; i < allproducts.length; i++) {
-    if (allproducts[i].category === "mobile") {
-      mobileproducts.push(allproducts[i]);
-    }
-  }
-  let fourmobile = mobileproducts.slice(0, 4);
-  //console.log("mobileproducts",fourmobile);
-
   let laptopproducts = [];
-  for (let i = 0; i < allproducts.length; i++) {
-    if (allproducts[i].category === "laptop") {
-      laptopproducts.push(allproducts[i]);
-    }
-  }
-  let fourlaptop = laptopproducts.slice(0, 4);
-  //console.log("laptopproducts",fourlaptop);
-
   let shoesproducts = [];
-  for (let i = 0; i < allproducts.length; i++) {
-    if (allproducts[i].category === "shoes") {
-      shoesproducts.push(allproducts[i]);
+
+  allproducts.forEach((i,j) => {
+    if (allproducts[j].category === "mobile") {
+      mobileproducts.push(allproducts[j]);
     }
-  }
+  });
+  let fourmobile = mobileproducts.slice(0, 4);
+
+  allproducts.forEach((i,k) => {
+    if (allproducts[k].category === "laptop") {
+      laptopproducts.push(allproducts[k]);
+    }
+  });
+  let fourlaptop = laptopproducts.slice(0, 4)   
+
+  allproducts.forEach((i,l) => {
+    if (allproducts[l].category === "shoes") {
+      shoesproducts.push(allproducts[l]);
+    }
+  })   
   let fourshoes = shoesproducts.slice(0, 4);
-  //console.log("shoesproducts",fourshoes);
-  console.log(allproducts);
 
   const ShowProducts = () => {
     return (
@@ -79,9 +64,9 @@ const HomeProductList = () => {
                 <>
                   <div className="card-container" key={product._id}>
                     <Link to={`/productlist/${product._id}`} id="copyright">
-                      <div className="card_All">
+                      <div className="card_All"  key={product._id}>
                         <img
-                          src={product.imageurl1}
+                          src={product.imageUrl1}
                           onError={(event) => {
                             event.target.src =
                               "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";
@@ -126,9 +111,9 @@ const HomeProductList = () => {
                 <>
                   <div className="card-container" key={product._id}>
                     <Link to={`/productlist/${product._id}`} id="copyright">
-                      <div className="card_All">
+                      <div className="card_All"  key={product._id}>
                         <img
-                          src={product.imageurl1}
+                          src={product.imageUrl1}
                           onError={(event) => {
                             event.target.src =
                               "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";
@@ -172,9 +157,9 @@ const HomeProductList = () => {
                 <>
                   <div className="card-container" key={product._id}>
                     <Link to={`/productlist/${product._id}`} id="copyright">
-                      <div className="card_All">
+                      <div className="card_All"  key={product._id}>
                         <img
-                          src={product.imageurl1}
+                          src={product.imageUrl1}
                           onError={(event) => {
                             event.target.src =
                               "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";

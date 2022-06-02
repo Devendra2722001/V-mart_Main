@@ -7,8 +7,6 @@ git push -u origin devendra_react
 
 git commit -m "Uploading to Devendra_react"
 git pull origin admin_dashboard hii
-
-
 $ heroku login
 Create a new Git repository
 Initialize a git repository in a new or existing directory
@@ -32,6 +30,4 @@ rm -rf node_modules
 npm i
 
 https://vmart-ap-i.herokuapp.com
-
-
 http://localh-ost:8000

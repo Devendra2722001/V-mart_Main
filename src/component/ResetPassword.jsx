@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import Empty from "./Empty.gif";
 import swal from "sweetalert";
+import { resetPasswordValidation } from "./validation"
+import axios from "axios";
 
 const ResetPassword = () => {
   const history = useHistory();
@@ -13,26 +15,7 @@ const ResetPassword = () => {
     conPassword: "",
   });
 
-  let validation = (data) => {
-    let error = {};
-    if (!data.email) {
-      error.email = "* Email must required.";
-    }
-    if (!data.otp) {
-      error.otp = "* otp must required.";
-    }
-    if (!data.password) {
-      error.password = "* password must required.";
-    } else if (data.password.length < 8) {
-      error.password = "* Minimum length of password is 8 charecter.";
-    }
-    if (!data.conPassword) {
-      error.conPassword = "* confirm password must required.";
-    } else if (data.password !== data.conPassword) {
-      error.conPassword = "* Password and Confirm password not match.";
-    }
-    return error;
-  };
+  
 
   const [error, setError] = useState({});
 
@@ -44,55 +27,56 @@ const ResetPassword = () => {
   };
 
   const resetPassword = async (e) => {
-
     e.preventDefault();
-    setError(validation(data));
+    setError(resetPasswordValidation(data));
     const { email, otp, password, conPassword } = data;
 
-    if(email && otp && password && conPassword && password.length >= 8 && conPassword===password){
-      const res = await fetch("https://vmart-api.herokuapp.com/forgotpass", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    if(email && otp && password && conPassword && password.length >= 8 && conPassword===password){ 
+      await axios.post("http://localhost:8000/forgotpass", {
         email: email,
         code: otp,
         password: password,
         con_password: conPassword,
-      }),
-    });
-    if (res.status === 201) {
-      swal({
-        //title: "Success!",
-        text: "Password reset successfuly",
-        icon: "success",
-        button: "Okay!",
-      });
-      history.push("/login");
-    } else if(res.status === 403){
-      swal({
-        //title: "Opps...!",
-        text: "Invalid Email",
-        icon: "warning",
-        button: "Okay!",
-      });
-    }else if(res.status === 400){
-      swal({
-        //title: "Opps...!",
-        text: "Invalid OTP or email",
-        icon: "warning",
-        button: "Okay!",
-      });
-    }else if(res.status === 401){
-      swal({
-        // title: "Opps...!",
-        text: "OTP Expired",
-        icon: "warning",
-        button: "Okay!",
-      });
-      history.push("/email");
-    }
+      },
+      {
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then((res)=>{
+      if (res.status === 201) {
+        swal({
+          //title: "Success!",
+          text: "Password reset successfuly",
+          icon: "success",
+          button: "Okay!",
+        });
+        history.push("/login");
+      }
+    }).catch ((error) => {
+      if(error.response.status === 403){
+        swal({
+          //title: "Opps...!",
+          text: "Invalid Email",
+          icon: "warning",
+          button: "Okay!",
+        });
+      }else if(error.response.status === 400){
+        swal({
+          //title: "Opps...!",
+          text: "Invalid OTP or email",
+          icon: "warning",
+          button: "Okay!",
+        });
+      }else if(error.response.status === 401){
+        swal({
+          // title: "Opps...!",
+          text: "OTP Expired",
+          icon: "warning",
+          button: "Okay!",
+        });
+        history.push("/email");
+      }
+    })
     }
   };
 
@@ -163,6 +147,15 @@ const ResetPassword = () => {
           )}
         </div>
         <br></br>
+        <button
+          className="btn btn-danger profile-button"
+          type="button"
+          onClick={() => {
+            history.go(-1);
+          }}
+        >
+          Cancel
+        </button>
         <NavLink to="/ResetPassword">
           <button
             className="btn btn-primary profile-button"

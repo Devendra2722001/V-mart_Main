@@ -3,53 +3,37 @@ import Main from "../component/mainForm";
 import View from "../component/View";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
-
-//window.alert("Welcome to Admin Panel....");
+import Swal from "sweetalert2";
 
 function VendorDashbord() {
   const [products, setProducts] = useState([]);
   const [updateProducts, setUpdateProducts] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [profile, setProfile] = useState([]);
-  const [vid, setVid] = useState("");
 
   useEffect(() => {
     getProductsData();
     getProfile();
     getOrderhistory();
-    //setVid(localStorage.getItem("token"))
-    //console.log(vid);
-    //console.log(localStorage.getItem("token"));
   }, []);
 
-  //console.log(profile._id);
-
   const getProfile = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
-      method: "GET",
+    await axios.get("http://localhost:8000/myProfile", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });    
-    result = await result.json();
-    setProfile(result);
-    setVid(result._id);
-    
   };
 
    const getOrderhistory = async () => {
-      let data = await fetch("https://vmart-api.herokuapp.com/order", {
+      let data = await fetch("http://localhost:8000/order", {
       method: "GET",
     });
     data = await data.json();
-    console.log(data.length);    
+    console.log(data.length) 
     sessionStorage.setItem("MyOrder", data.length);
   }
 
   async function getProductsData() {
-    const { data } = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    const { data } = await axios.get("http://localhost:8000/getProduct");
       
-    //setProducts(data.products);
-    //console.log(data);
 
     let allproducts = data.products;
     let Zerostock = [];
@@ -61,7 +45,7 @@ function VendorDashbord() {
       }
     }
     setProducts(vendorproduct);
-    sessionStorage.setItem("Myproducts", vendorproduct.length);  
+    sessionStorage.setItem("Myproducts", vendorproduct.length)   
 
     for (let i = 0; i < vendorproduct.length; i++) {
       if (vendorproduct[i].stock === 0) {
@@ -69,27 +53,34 @@ function VendorDashbord() {
       }
     }
 
-    sessionStorage.setItem("OutOfStock", Zerostock.length);  
+    sessionStorage.setItem("OutOfStock", Zerostock.length)   
     console.log("Zerostock",Zerostock);
-    // setInterval(() => {
-    //
-    // }, 1000);
-
-    //console.log(allproducts);
-    //let fourmobile = mobileproducts.slice(0, 4);
+    
   }
 
+  
+
   const deleteProduct = async (id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/deleteProduct/${id}`, {
-      method: "DELETE",
-      headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    console.log(result);
-    //result = await result.json;
-    if (result.status === 200) {
-      toast("Record is deleted");
-      getProductsData();
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then  (async(result) => {
+      if (result.isConfirmed) {
+        var res = await axios.delete(`http://localhost:8000/deleteProduct/${id}`, {
+        headers: { token: JSON.parse(localStorage.getItem("token")) },
+        });
+        //res = await res.data
+        console.log(res);
+        if(res.status === 200){
+          getProductsData();
+        }
+      }
+    })
   };
 
   return (

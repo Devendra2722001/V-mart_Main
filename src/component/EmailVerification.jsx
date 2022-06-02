@@ -3,8 +3,8 @@ import { NavLink, useHistory } from "react-router-dom";
 import Empty from "./Empty.gif";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
-
-// take otp from user for email verofication
+import axios from "axios";
+import {emailVerificationValidation} from "./validation"
 
 const EmailVerification = () => {
   const history = useHistory();
@@ -12,14 +12,6 @@ const EmailVerification = () => {
   const [OTP, setOTP] = useState({
     otp: "",
   });
-
-  const validation = (OTP) => {
-    let error = {};
-    if (!OTP.otp) {
-      error.otp = "* enter otp.";
-    }
-    return error;
-  };
 
   const [error, setError] = useState({});
 
@@ -31,87 +23,69 @@ const EmailVerification = () => {
   };
 
   const checkOTP = async (e) => {
-    //localStorage.setItem("emailid" , email.emailID);
     e.preventDefault();
-    setError(validation(OTP));
+    setError(emailVerificationValidation(OTP));
     const { otp } = OTP;
     if(otp){
-      let res = await fetch("https://vmart-api.herokuapp.com/verificationOTP", {
-      method: "POST",
+      await axios.post("http://localhost:8000/verificationOTP", {
+        verificationOTP: otp,
+        email : localStorage.getItem("Email")
+      }, {
       headers: {
         "Content-Type": "application/json",
       },
-      
-        body: JSON.stringify({
-          verificationOTP: otp,
-          email : localStorage.getItem("Email")
-        }),
-      });
-
-      if (res.status === 201) {
-        swal({
-          title: "Success!",
-          text: "Now you are registered",
-          icon: "success",
-          button: "Okay!",
-        });
-        console.log("Successfull Registration");
-        history.push("/login");
-        localStorage.removeItem('Email');
-      } else if (res.status === 404) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'OTP did not match!',
-          //footer: '<a href="">Why do I have this issue?</a>'
-        })
-      }
+      }).then((res) => {
+        console.log("responce of v erification otp",res);
+        if (res.status === 201) {
+          swal({
+            title: "Success!",
+            text: "Now you are registered",
+            icon: "success",
+            button: "Okay!",
+          });
+          console.log("Successfull Registration");
+          history.push("/login");
+          localStorage.removeItem('Email');
+        } 
+      }).catch((error) => {
+          if (error.response.status === 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'OTP did not match!',
+          })
+        }
+      })
     }
-     
   };
 
   const resendOTP = async (e) => {
-    //localStorage.setItem("emailid" , email.emailID);
     e.preventDefault();
-    //setError(validation(OTP));
-    //const { otp } = OTP;
-    //if(otp){
-      let res = await fetch("https://vmart-api.herokuapp.com/resendOTP", {
-      method: "POST",
+      await axios.post("http://localhost:8000/resendOTP",{email : localStorage.getItem("Email")}, {
       headers: {
         "Content-Type": "application/json",
       },
-      
-        body: JSON.stringify({
-          //verificationOTP: otp,
-          email : localStorage.getItem("Email")
-        }),
-      });
-
-      if (res.status === 201) {
-        swal({
-          title: "Success!",
-          text: "OTP resended on your email",
-          icon: "success",
-          button: "Okay!",
-        });
-        //console.log("Successfull Registration");
-        //history.push("/login");
-        //localStorage.removeItem('Email');
-      } else if (res.status === 500) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'something went wrong!',
-          //footer: '<a href="">Why do I have this issue?</a>'
-        })
-      }
-    //}
-     
+      }).then((res) =>{
+        console.log("responce of resend otp", res);
+        if (res.status === 201) {
+          swal({
+            title: "Success!",
+            text: "OTP resended on your email",
+            icon: "success",
+            button: "Okay!",
+          });
+        }
+      }).catch ((error) => {
+        if (error.response.status === 500) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'something went wrong!',
+          })
+        }
+      })
   };
   console.log(OTP)
-
-  
 
   return (
     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -140,14 +114,24 @@ const EmailVerification = () => {
           >
             Verify Account
           </button>
-        </NavLink>&nbsp;&nbsp;
+        </NavLink>
+        &nbsp;&nbsp;
         <button
-            className="btn btn-primary profile-button"
-            type="button"
-            onClick={resendOTP}
-          >
-            Resend OTP
-          </button>
+          className="btn btn-danger profile-button"
+          type="button"
+          onClick={() => {
+            history.go(-1);
+          }}
+        >
+          Cancel
+        </button>
+        <button
+          className="btn btn-primary profile-button"
+          type="button"
+          onClick={resendOTP}
+        >
+          Resend OTP
+        </button>
       </div>
     </div>
   );

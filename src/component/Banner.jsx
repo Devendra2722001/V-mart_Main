@@ -7,7 +7,7 @@ const Banner = () => {
         <Carousel className="carousel_slider">
         
         <Carousel.Item>
-        <NavLink to={`/productList/62834a47635a8f8828b45ac8`} id="copyright">
+        <NavLink to={`/productList/6295a02b890cecb55ee34635`} id="copyright">
           <img
             className="d-block w-100"
             src="images/banner1.png"

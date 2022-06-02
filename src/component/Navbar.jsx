@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
 import login from "./login.png";
 import logout from "./logout.png";
 import { useHistory } from "react-router-dom";
@@ -12,19 +11,15 @@ const Navbar = () => {
   const [cartItem, setCartItem] = useState();
 
   useEffect(() => { 
-    //Checkforcart();
     setInterval(() => {     
       const token = localStorage.getItem("token");
+      setCartItem(sessionStorage.getItem("Mycart"));
       if (token != null) {
-        setlogBtn(logout);  
-        setCartItem(sessionStorage.getItem("Mycart"));
+        setlogBtn(logout);
       }
     }, 1000);
 
-  }, []);  
-  
-  //console.log("cartItem",cartItem);  
-  
+  }, [])   
 
   const CongoAlert = () => {
     swal({
@@ -35,30 +30,17 @@ const Navbar = () => {
     });
 
     setCartItem("");
-    //localStorage.removeItem("token");
-    history.push("/");    
-  };
-
-
-  const ProtectedRoute = (props) => {
-    const token = localStorage.getItem("token");
-    if (token === null) {
-      setlogBtn(logout);
-    } else {
-      setlogBtn(logout);
-    }
+    history.push("/") 
   };
 
   const Dologout = async () => {
-    localStorage.removeItem("token");
-    //localStorage.removeItem("ImAdmin");
-    sessionStorage.removeItem("Mycart");
-    //window.alert("-- Logout Successfuly  --");
+    localStorage.removeItem("token") 
+    sessionStorage.removeItem("Mycart") 
     CongoAlert();
     setlogBtn(login);
   };
 
-  const DoLoginout = () => {
+  const doLoginout = () => {
     const token = localStorage.getItem("token");
     if (logBtn === login) {
       if (token === null) {
@@ -73,8 +55,6 @@ const Navbar = () => {
     }
   };
 
-  //console.log("cartItem Navbar",cartItem);
-
   return (
     <div>
       <nav className="navbar" id="Navbar">
@@ -87,12 +67,6 @@ const Navbar = () => {
             ></img>
           </NavLink>
 
-          {/* <div id="searchbar">
-
-                        <form className="d-flex">
-                            <input className="form-control" type="search" placeholder="Search Here..." aria-label="Search" />
-                        </form>
-                    </div> */}
           <div className="Nav-menu-options">
             <div id="bloc3" className="push">
               <NavLink to="/cart">
@@ -135,7 +109,7 @@ const Navbar = () => {
                 alt="Login/Logout"
                 title="Login/Logout"
                 onClick={() => {
-                  DoLoginout();
+                  doLoginout();
                 }}
               />
             </div>

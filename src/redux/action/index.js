@@ -5,8 +5,6 @@ export const addCart = (product) => {
         payload : product
     }
 }
-
-
 // For Delete Item From Cart
 export const delCart = (product) => {
     return{
@@ -21,8 +19,6 @@ export const addFav = (favorit) => {
         payload : favorit
     }
 }
-
-
 export const delFav = (favorit) => {
     return{
         type : "DELFAV",

@@ -1,48 +1,40 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Orderlist = () => {
-  //const [orderHistory, setOrderHistory] = useState([]);
-  //const [ordersList1, setOrderslist1] = useState({});
-  const { id, key } = useParams();
+  const { id } = useParams();
+  const history = useHistory();
   console.log(id);
 
   const [ordersList, setOrdersList] = useState([]);
 
   useEffect(() => {
     getOrdersData();
-  }, []);
+  }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
   const getOrdersData = async () => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/specificorder/${id}`, {
-      method: "GET",
+    let result = await axios.get(`http://localhost:8000/order/${id}`, {
     });
-    result = await result.json();
-    console.log("hello123");
-
+    result = result.data;
     setOrdersList(result);
   };
-
-  //console.log(ordersList);
-  // const getOrdersList = async () => {
-  //   let result = await fetch(
-  //     `https://vmart-api.herokuapp.com/specificorder/${id}/${key}`,
-
-  //     {
-  //       method: "GET",
-  //     }
-  //   );
-  //   result = await result.json();
-  //   setOrderslist1(result);
-  // // };
-
-  // console.log(ordersList1);
 
   return (
     <>
       <div>
         <div>
           <br /> <br />
+          <br></br>
+          <button
+            type="button"
+            className="btn btn-danger btn-lg"
+            id="login_btn-style"
+            onClick={()=>{history.go(-1)}}
+          >
+            Cancel
+          </button>
           <div className="container-fluid page-body-wrapper table-responsive">
             <div className="table-responsive tbl ">
               <table className="table table-striped table-hover table-bordered">

@@ -7,11 +7,8 @@ import axios from "axios";
 
 const Shoes = () => {
   const [data, setData] = useState([]);
-  const [Alldata, setAllData] = useState([]);
-
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(true);
-  const [isApplied, setisApplied] = useState(true)
   const [BtnColor1, setBtnColor1] = useState("filter_btn_off")
   const [BtnColor2, setBtnColor2] = useState("filter_btn_off")
   const [BtnColor3, setBtnColor3] = useState("filter_btn_off")
@@ -20,30 +17,21 @@ const Shoes = () => {
   const [BrandBtnColor3, setBrandBtnColor3] = useState("filter_btn_off")
   const [BrandBtnColor4, setBrandBtnColor4] = useState("filter_btn_off")
 
-
-  let componentMounted = true;
-
   useEffect(() => {
-    window.scrollTo(0, 0); 
-    const getProducts = async () => {
-      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
-      if (componentMounted) {
-        setData(response.data.products);
-        setFilter(response.data.products);
-        setAllData(response.data.products);
-        setLoading(false);
-        setTimeout(() => {
-          filterProduct();
-          console.log("Data loaded");
-        }, 1);
-      }
-
-      return () => {
-        componentMounted = false;
-      };
-    };
+    window.scrollTo(0, 0) 
     getProducts();
-  }, []);
+  }, [])// eslint-disable-line react-hooks/exhaustive-deps
+
+  const getProducts = async () => {
+    const response = await axios.get("http://localhost:8000/getProduct") 
+      setData(response.data.products);
+      setFilter(response.data.products);
+      setLoading(false);
+      setTimeout(() => {
+        filterProduct();
+        console.log("Data loaded");
+      }, 1) 
+  };
 
   const changeBtnColor1 = () =>{
     if(BtnColor1==="filter_btn_off"){
@@ -151,7 +139,7 @@ const Shoes = () => {
     }
   }
 
-  const ResetAllcolor = () =>{
+  const resetAll = () =>{
       setBrandBtnColor4("filter_btn_off")
       setBrandBtnColor2("filter_btn_off")
       setBrandBtnColor3("filter_btn_off")
@@ -190,7 +178,7 @@ const Shoes = () => {
 
   const filter1Product = (r) => {
     const updatedList = data.filter((x) => x.colour === r);
-    setFilter(updatedList);    
+    setFilter(updatedList) 
   };
 
   const filter2Product = (b) => {
@@ -287,7 +275,7 @@ const Shoes = () => {
                 <button
                   className="btn btn-outline"
                   id="filter_btn_reset"
-                  onClick={() => {filterProduct("shoes"); ResetAllcolor();}}
+                  onClick={() => {filterProduct("shoes"); resetAll();}}
                 >
                   Reset
                 </button>
@@ -303,7 +291,7 @@ const Shoes = () => {
                     <Link to={`/productlist/${product._id}`} id="copyright">
                       <div className="card_All">
                         <img
-                          src={product.imageurl1}
+                          src={product.imageUrl1}
                           onError={(event) => {
                             event.target.src =
                               "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";

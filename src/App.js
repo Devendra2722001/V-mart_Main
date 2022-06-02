@@ -2,7 +2,6 @@ import "./App.css";
 import home from "./component/Home";
 import Navbar from "./component/Navbar";
 import AdminNavbar from "./component/component/AdminNavbar";
-//import { BrowserRouter as Switch, Router, Route} from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
 import productlist from "./component/Cart";
 import product from "./component/Product";
@@ -25,7 +24,6 @@ import Dashbord from "./component/component/productDash";
 import VendorDashbord from "./component/component/productDashVendor";
 import Userorder from "./component/component/userOrder";
 import VendorOrderuser from "./component/component/VendorOrderuser";
-//import VendorOrderlist from "../src/component/component/VendorOrderlist";
 import Orderlist from "../src/component/component/orderList";
 import vendorsignup from "../src/component/vendorsignup";
 import VendorNavbar from "./component/component/VendorNavbar";
@@ -34,20 +32,12 @@ import EmailVerification from "./component/EmailVerification";
 import VendororderHistory from "./component/component/VendororderHistory";
 import Testing from "./testing";
 
-
-
-
-
-
-
 function App() {
-
-     
-  if(localStorage.getItem("ImAdmin") === "true"){
-    console.log("Hello Admin")
+  if (localStorage.getItem("ImAdmin") === "true") {
+    console.log("Hello Admin");
     return (
       <>
-      <div>
+        <div>
           <section className="home-section">
             <>
             <div>
@@ -57,52 +47,55 @@ function App() {
                     <Switch>
                         <Route exact path="/" component={Dashbord} />
                         <Route exact path="/userorder" component={Userorder} />
-                        <Route exact path="/specificorder/:id" component={Orderlist} />
+                        <Route exact path="/order/:id" component={Orderlist} />
                     </Switch>
               </div>
             </>
           </section>
-      </div>
+        </div>
       </>
     );
-  }
-  
-  else if(localStorage.getItem("ImVendor") === "true"){
-    console.log("Hello Vendor")
+  } else if (localStorage.getItem("ImVendor") === "true") {
+    console.log("Hello Vendor");
     return (
       <>
-      <div>
+        <div>
           <section className="home-section">
             <>
               <div>
-                  <div className="topfixednav">
-                    <VendorNavbar />
-                  </div> 
-                  <Switch>
-                        <Route exact path="/" component={VendorDashbord} />
-                        <Route exact path="/VendorOrderuser" component={VendorOrderuser} />     
-                        <Route exact path="/VendororderHistory" component={VendororderHistory} />                     
-                  </Switch>
+                <div className="topfixednav">
+                  <VendorNavbar />
+                </div>
+                <Switch>
+                  <Route exact path="/" component={VendorDashbord} />
+                  <Route
+                    exact
+                    path="/VendorOrderuser"
+                    component={VendorOrderuser}
+                  />
+                  <Route
+                    exact
+                    path="/VendororderHistory"
+                    component={VendororderHistory}
+                  />
+                </Switch>
               </div>
             </>
           </section>
-      </div>
+        </div>
       </>
     );
-  }
-  
-  else{
-      return (
-        <>
+  } else {
+    return (
+      <>
         <div className="Mainapp">
           <div className="topfixednav">
             <Navbar />
           </div>
           <Switch>
-
             <Route exact path="/" component={home} />
-            <Route exact path="/productlist" component={productlist} />        
-            <Route exact path="/productlist/:_id" component={product} />           
+            <Route exact path="/productlist" component={productlist} />
+            <Route exact path="/productlist/:_id" component={product} />
             <Route exact path="/cart" component={cart} />
             <Route exact path="/checkout" component={checkout} />
             <Route exact path="/favorites" component={favorites} />
@@ -120,16 +113,17 @@ function App() {
             <Route exact path="/Email" component={email} />
             <Route exact path="/ResetPassword" component={resetpassword} />
             <Route exact path="/Testing" component={Testing} />
-            <Route exact path="/EmailVerification" component={EmailVerification} />
-
-            
+            <Route
+              exact
+              path="/EmailVerification"
+              component={EmailVerification}
+            />
           </Switch>
-          
-          <Footer/>
-          
+
+          <Footer />
         </div>
-        </>
-       );
+      </>
+    );
   }
 }
 

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import Empty from "./Empty.gif";
 import swal from "sweetalert";
+import axios from "axios";
+import { emailValidation } from "./validation";
 
 const Email = () => {
   const history = useHistory();
@@ -9,15 +11,7 @@ const Email = () => {
   const [email, setEmail] = useState({
     emailID: "",
   });
-  const token = localStorage.getItem("token")
-
-  const validation = (email) => {
-    let error = {};
-    if (!email.emailID) {
-      error.email = "* to get otp, email must required.";
-    }
-    return error;
-  };
+ 
 
   const [error, setError] = useState({});
 
@@ -28,40 +22,41 @@ const Email = () => {
     setEmail({ ...email, [name]: value });
   };
 
-  const SendOTP = async (e) => {
-    //localStorage.setItem("emailid" , email.emailID);
+  const sendOTP = async (e) => {
     e.preventDefault();
-    setError(validation(email));
+    setError(emailValidation(email));
     
     const { emailID } = email;
     if(emailID){
-      let res = await fetch("https://vmart-api.herokuapp.com/sendotp", {
-      method: "POST",
+      await axios.post("http://localhost:8000/sendotp", { email: emailID}, {
       headers: {
         "Content-Type": "application/json",
-      },
-        body: JSON.stringify({
-          email: emailID,
-        }),
-      });
-      if (res.status === 200) {
-        swal({
-          title: "",
-          text: "OTP send on given email ID.",
-          icon: "success",
-          button: "Okay!",
-        });
-        history.push("/ResetPassword");
-      } else if (res.status === 400) {
-        swal({
-          title: "Opps...!",
-          text: "No user with this Email ID!",
-          icon: "warning",
-          button: "Okay!",
-        });
       }
+      }).then((res) => {
+        console.log("responce of send email", res);
+        if (res.status === 200) {
+          swal({
+            title: "",
+            text: "OTP send on given email ID.",
+            icon: "success",
+            button: "Okay!",
+          });
+          history.push("/ResetPassword");
+        } 
+      }).catch((error) => {
+        if (error.response.status === 400) {
+          swal({
+            title: "Opps...!",
+            text: "No user with this Email ID!",
+            icon: "warning",
+            button: "Okay!",
+          });
+        }
+
+      })
     }
   };
+ 
 
   return (
     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -83,11 +78,18 @@ const Email = () => {
           <span className="text-danger font-weight-bold">{error.email}</span>
         )}
         <br></br>
+        <button
+          className="btn btn-danger profile-button"
+          type="button"
+          onClick={()=>{history.go(-1)}}
+        >
+          Cancel
+        </button>
         <NavLink to="/ResetPassword">
           <button
             className="btn btn-primary profile-button"
             type="button"
-            onClick={SendOTP}
+            onClick={sendOTP}
           >
             Send OTP
           </button>

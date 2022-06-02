@@ -2,6 +2,8 @@ import Empty from "./Empty.gif";
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
+import axios from "axios";
+import {changPasswordValidation} from "./validation";
 
 const ChangePassword = () => {
   const history = useHistory();
@@ -16,40 +18,18 @@ const ChangePassword = () => {
     window.scrollTo(0, 0);
     ProtectedRoute();
     console.log("Plese Login First");
-  }, []);
-
-  const validation = (data) => {
-    let error = [];
-    if (!data.oldPassword) {
-      error.oldPassword = "* Please enter old password.";
-    }else
-    if (!data.newPassword) {
-      error.newPassword = "* Please enter new password.";
-    } else if (data.newPassword.length < 8) {
-      error.newPassword =
-        "* Minimum length of password should be 8 characters.";
-    }else
-    if (!data.confirmPassword) {
-      error.confirmPassword = "* Please confirm new password.";
-    } else if (data.confirmPassword !== data.newPassword) {
-      error.confirmPassword = "* password and confirm password does not match.";
-    }else{
-      ChangePass();
-    }
-    return error;
-  };
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   let name, value;
 
   const handleInputs = (e) => {
-    //setError(validation(data));
     console.log(e);
     name = e.target.name;
     value = e.target.value;
     setData({ ...data, [name]: value });
   };
 
-  const ProtectedRoute = (props) => {
+  const ProtectedRoute = () => {
     const token = localStorage.getItem("token");
     if (token == null) {
       CongoAlert();
@@ -77,44 +57,44 @@ const ChangePassword = () => {
   };
 
   console.log(typeof error);
-  console.log("error",error);
+  console.log("error", error);
 
-  const firstpost = () =>{
-    setError(validation(data));
-  }
 
-  const ChangePass = async () => {
-    //e.preventDefault();      
-
+  const ChangePass = async (e) => {
+    //e.preventDefault();    
+    setError(changPasswordValidation(data))
     const { oldPassword, newPassword, confirmPassword } = data;
-    let res = await fetch("https://vmart-api.herokuapp.com/changePassword", {
-      method: "POST",
+    if(oldPassword && newPassword === confirmPassword && newPassword.length >=8 ){
+
+      await axios.post("http://localhost:8000/changePassword",{ 
+      oldPassword: oldPassword,
+      password: newPassword,
+      con_password: confirmPassword,},
+     {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        oldPassword: oldPassword,
-        password: newPassword,
-        con_password: confirmPassword,
-      }),
-    });
-    // res = await res.json();
-    if (res.status === 200) {
-      CongoAlertDone();
-      //window.alert("password changed successfuly");
-      //history.push("user")
-    }else{
-      swal({
-        title: "Error!",
-        text: "Plese Enter Valid Credentials....",
-        icon: "warning",
-        button: "Okay!",
-      });
-    }
+      }
+    }).then((res) =>{
+      console.log("responce of change password",res);
+      if (res.status === 200) {
+        CongoAlertDone();
+      }
+      // else{
+        
+      // }
+    }).catch((error) => {
+      if(error.response.status === 400){
+        swal({
+          title: "Error!",
+          text: " Old password not metch! ",
+          icon: "warning",
+          button: "Okay!",
+        });
+      }
 
-    
-    
+    })
+    } 
   };
 
   return (
@@ -179,9 +159,19 @@ const ChangePassword = () => {
               <div className="text-center text-lg-start mt-4 pt-2">
                 <button
                   type="button"
+                  className="btn btn-danger btn-lg"
+                  id="login_btn-style"
+                  onClick={() => {
+                    history.go(-1);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
                   className="btn btn-primary btn-lg"
                   id="login_btn-style"
-                  onClick={firstpost}
+                  onClick={ChangePass}
                 >
                   Save
                 </button>

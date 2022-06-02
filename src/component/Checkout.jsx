@@ -1,44 +1,37 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
-//import { useSelector } from 'react-redux';
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import swal from "sweetalert";
 
 const Checkout = () => {
   const history = useHistory();
-  //const state = useSelector((state) => state.handleCart)
   const [address, setAddress] = useState([]);
   const [cartItem, setCartItem] = useState([]);
   const [cartId, setCartId] = useState([]);
   const [addId, setaddId] = useState([]);
 
-  const { _id } = useParams();
-
-  const [order, setOrder] = useState({
-    address: "",
-  });
-
-  let name,
-    value,
-    key = cartId;
-
   const handleInputs = (e) => {
-    name = e.target.name;
-    value = e.target.value;
-    setOrder({ [name]: value });
+    let value = e.target.value 
     setaddId(value);
   };
 
-  const PostOrder = async (id, key) => {
-    sendEmail();
-    let result = await fetch(`https://vmart-api.herokuapp.com/order/${cartId}/${addId}`, {
-      method: "POST",
+  const postOrder = async (id, key) => {
+      await axios.post(`http://localhost:8000/order/${cartId}/${addId}`, {}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    //console.log("Data posted");
-    //if (result.status === 201) {
-      removeProduct();
-    //}    
+    }).then((res) =>{
+      console.log("post data responce :::", res);
+      console.log("Data posted");
+      if (res.status === 201) {
+        CongoAlert();
+        removeProduct();
+        sendEmail();
+      }
+    }).catch((error) =>{
+      console.log("PPP>>", error.response.status);
+      if(error.response.status === 404 || error.response.status === 500) {
+        somethingWentWrong();
+      } 
+    })
   };
 
   useEffect(() => {
@@ -46,23 +39,22 @@ const Checkout = () => {
     getAddress();
     getcartItem();
     getcartId();
-  }, []);
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const sendEmail = async () => {
-    let mailsent = await fetch(`https://vmart-api.herokuapp.com/sendmsg`, {
-      method: "POST",
+      await axios.post(`http://localhost:8000/sendmsg`, {}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    mailsent = await mailsent.json();
-    if (mailsent.status === 200) {
-      console.log("mail send in your mail");
-    } else {
-      console.log("opps!!!");
-    }
+    }).then((res) => {
+      console.log("send mail responce:::", res);
+      if (res.status === 200) {
+        console.log("mail send in your mail");
+      } else {
+        console.log("opps!!!");
+      }
+    })
   };
 
   const CongoAlert = () => {
-    //sendEmail();
     swal({
       title: "Success!",
       text: "Congratulations your order has been placed successfully!",
@@ -70,10 +62,16 @@ const Checkout = () => {
       button: "Okay!",
     });
     history.push("/");
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 2000);
-    //
+  };
+
+  const somethingWentWrong = () => {
+    swal({
+      title: "Opps!",
+      text: "Something went wrong! Please try again.",
+      icon: "error",
+      button: "Okay!",
+    });
+    history.push("/");
   };
 
   const CongoAlertOps = () => {
@@ -83,9 +81,6 @@ const Checkout = () => {
       icon: "warning",
       button: "Okay!",
     });
-    //window.alert("Select Adress")
-    //history.push("/");
-    //
   };
 
   const CongoAlertAddress = () => {
@@ -95,58 +90,45 @@ const Checkout = () => {
       icon: "warning",
       button: "Okay!",
     });
-    //window.alert("Select Adress")
     history.push("/AddAddress");
-    //
   };
 
-
   const getAddress = async () => {
-    let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
-      method: "GET",
-      headers: {
-        token: JSON.parse(localStorage.getItem("token")),
-      },
-    });
-    result = await result.json();
-    setAddress(result);
-    //console.log("result check",result);
-
-    if(result.length===0){
-      CongoAlertAddress();
+    await axios.get("http://localhost:8000/addressListing", {
+    headers: {
+      "Content-Type": "application/json",
+      token: JSON.parse(localStorage.getItem("token")),
     }
+    }).then((res) => {
+      console.log("responce of address listing:::" , res);
+      setAddress(res.data);
+      if(res.data.length===0){
+        CongoAlertAddress();
+      }
+    }) 
   };
 
   const getcartItem = async () => {
-    let cartItem = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
-      method: "GET",
+    await axios.get("http://localhost:8000/myCartItem", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
-    });
-    cartItem = await cartItem.json();
-    setCartItem(cartItem);    
+    }).then((res) => {
+      setCartItem(res.data);
+    })     
   };
 
-  //console.log("cartItem",cartItem);
+  console.log("cartItem",cartItem);
 
-  //console.log("cartItem ----------------------------",cartId);
-  //let priceofall = cartItem.productPrice.json()
-  //console.log(priceofall)
-  //console.log(cartItem)
-  //const prize = cartItem.productPrice;
-  //console.log(prize)
+  console.log("cartItem ----------------------------",cartId);
 
   let pricearray = [];
   for (let i = 0; i < cartItem.length; i++) {
     let allitem = cartItem;
     let priceofitem = allitem[i].productPrice;
     if (priceofitem !== null) {
-      //console.log("truing to add price");
       pricearray.push(priceofitem);
     }
-    // pricearray.push(priceofitem[i]);
-    // break;
   }
   console.log("pricearray", pricearray);
 
@@ -155,60 +137,49 @@ const Checkout = () => {
     let allitem = cartItem;
     let qntofitem = allitem[q].quantity;
     if (qntofitem !== null) {
-      //console.log("truing to add price");
       qntarray.push(qntofitem);
     }
-    // pricearray.push(priceofitem[i]);
-    // break;
   }
-  //console.log("qntarray",qntarray);
 
   let mularray = [];
   for (let m = 0; m < cartItem.length; m++) {
     mularray.push(qntarray[m] * pricearray[m]);
   }
-  //console.log("mularray",mularray);
 
   let sum = 0;
   for (let s = 0; s < cartItem.length; s++) {
     sum += mularray[s];
-  }
-  //console.log("Total of products is :", sum);
+  }  
 
   const getcartId = async () => {
-    let cartId = await fetch("https://vmart-api.herokuapp.com/myCartId", {
-      method: "GET",
+      let res = await axios.get("http://localhost:8000/myCartId", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
     });
-    cartId = await cartId.json();
-    setCartId(cartId);
+    console.log("my cart id..........", res);
+    setCartId(res.data);
   };
 
   const removeProduct = async () => {
-    let emptyCart = await fetch("https://vmart-api.herokuapp.com/removeAllProduct", {
-      method: "POST",
+    await axios.post("http://localhost:8000/removeAllProduct", {}, {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
     });
     sessionStorage.setItem("Mycart", 0);
-    CongoAlert();
   };
 
-  const Clickedmeforcheckout = (e) => {
+  const clickedMeForCheckout = (e) => {
     e.preventDefault();
 
-    if (addId.length == 0) {
-      //console.log("Failed");
+    if (addId.length === 0) {
+      
       CongoAlertOps();
     } else {
-      PostOrder();            
+      postOrder();
     }
   };
-
-  //console.log(cartItem)
 
   return (
     <>
@@ -275,7 +246,6 @@ const Checkout = () => {
                             <div className="form-label mb-2">
                               {addressObj.addressLine1}
                             </div>
-                            {/* <div className="add-card-head mb-2">{addressObj.addressLine2}</div> */}
                           </div>
                           <div className="col-md-12 row mb-2">
                             <div className="col-md-3">
@@ -316,9 +286,17 @@ const Checkout = () => {
                     ))}
                     <div className="mt-5">
                       <button
+                        className="w-100 btn btn-danger btn-lg"
+                        onClick={() => {
+                          history.push("/cart");
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
                         className="w-100 btn btn-primary btn-lg"
                         onClick={(e) => {
-                          Clickedmeforcheckout(e);
+                          clickedMeForCheckout(e);
                         }}
                       >
                         Place Order

@@ -19,30 +19,22 @@ const Mobile = () => {
   const [BrandBtnColor4, setBrandBtnColor4] = useState("filter_btn_off")
 
   useEffect(() => {
-    window.scrollTo(0, 0);    
+    window.scrollTo(0, 0)
     getProducts();
-  }, []);
-
-
+  }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const getProducts = async () => {
-    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    const response = await axios.get("http://localhost:8000/getProduct");
     if (componentMounted) {
       setData((response.data.products).filter((x) => x.category ==="mobile"));
       setFilter((response.data.products).filter((x) => x.category ==="mobile"));
-      setLoading(false);
-      // setTimeout(() => {
-      //   filterProduct();
-      //   console.log("Data loaded");
-      // }, 1);
+      setLoading(false)   
     }
 
     return () => {
       componentMounted = false;
     };
   };
-
-
   const changeBtnColor1 = () =>{
     if(BtnColor1==="filter_btn_off"){
       setBtnColor1("filter_btn_on")
@@ -149,7 +141,7 @@ const Mobile = () => {
     }
   }
 
-  const ResetAllcolor = () =>{
+  const resetAll = () =>{
       setFilter(data)
       setBrandBtnColor4("filter_btn_off")
       setBrandBtnColor2("filter_btn_off")
@@ -159,18 +151,6 @@ const Mobile = () => {
       setBtnColor2("filter_btn_off")
       setBtnColor3("filter_btn_off")
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -197,11 +177,7 @@ const Mobile = () => {
     );
   };
 
-  const filterProduct = (c) => {
-    const updatedList = data.filter((x) => x.category === c);
-    setFilter(updatedList);
-    //document.getElementById("filter_btn_reset").click();
-  };
+ 
 
   const filter1Product = (r) => {
     const updatedList = data.filter((x) => x.RAM === r);
@@ -302,7 +278,7 @@ const Mobile = () => {
                 <button
                   className="btn btn-outline"
                   id="filter_btn_reset"
-                  onClick={() => {ResetAllcolor();}}
+                  onClick={() => {resetAll();}}
                 >
                   Reset
                 </button>
@@ -318,7 +294,7 @@ const Mobile = () => {
                     <Link to={`/productlist/${product._id}`} id="copyright">
                       <div className="card_All">
                         <img
-                          src={product.imageurl1}
+                          src={product.imageUrl1}
                           onError={(event) => {
                             event.target.src =
                               "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";
@@ -329,9 +305,9 @@ const Mobile = () => {
                         />
                         <div className="card-text">
                           <div className="card-head"> {product.name} </div>
-                          <div className="card-price">
-                            Price - {product.price}₹
-                          </div>
+                            <div className="card-price">
+                              Price - {product.price}₹
+                            </div>
                           <div className="lastrow">
                             <div className="card-category">
                               Category - {product.category}

@@ -4,28 +4,25 @@ import swal from "sweetalert";
 import Skeleton from "react-loading-skeleton";
 import No_data from "./No_data.gif";
 import "./testing_css.css";
+import axios from "axios";
 
 const User = () => {
   const history = useHistory();
   const [profile, setProfile] = useState([]);
-  const [CardState, setCardState] = useState("user-card");  
+  const [CardState, setCardState] = useState("user-card")   
   const [address, setAddress] = useState([]);
   const [orderHistory, setOrderHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [profilePicture, setprofilePicture] = useState("");
 
-
-
   var token = localStorage.getItem("token");
-
-
 
   useEffect(() => {
     window.scrollTo(0, 0); 
     getProfile();
     getAddress();
-    getOrderHistory();     
-  }, []);
+    getOrderHistory()  
+  }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
  
 
@@ -36,22 +33,19 @@ const User = () => {
       setCardState("user-card_Big")
     }
   }
-
-  //console.log("orderHistory",orderHistory);
-
-  
-
-  
+ 
   const getProfile = async () => {
     if(token){
-    let result = await fetch("https://vmart-api.herokuapp.com/myProfile", {
-      method: "GET",
+    await axios.get("http://localhost:8000/myProfile", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setProfile(result);
-    setLoading(false);
-    setprofilePicture(result.profilePicture);
+    }).then((res) => {
+      console.log("myProfile<><><><>", res);
+      if (res.status === 200 ){
+        setProfile(res.data);
+        setprofilePicture(res.data.profilePicture);
+      }
+      setLoading(false);
+    })
     }
     else{
       swal({
@@ -66,12 +60,14 @@ const User = () => {
 
   const getAddress = async () => {
     if(token){
-    let result = await fetch("https://vmart-api.herokuapp.com/addressListing", {
-      method: "GET",
+    await axios.get("http://localhost:8000/addressListing", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setAddress(result);
+    }).then((res) => {
+      console.log("addressListing<><><><>", res);
+      if(res.status === 200){
+        setAddress(res.data);
+      }
+    })
     }
     else{
       swal({
@@ -86,11 +82,10 @@ const User = () => {
 
   const removeAddress = async (id) => {
     if(token){
-    let result = await fetch(`https://vmart-api.herokuapp.com/removeAddress/${id}`, {
-      method: "post",
+    let result = await axios.post(`http://localhost:8000/removeAddress/${id}`, {}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
-    result = await result.json();
+    result = await result.data
     setAddress(result);
     }
     else{
@@ -106,13 +101,16 @@ const User = () => {
   
   const getOrderHistory = async () => {
     if(token){
-    let result = await fetch("https://vmart-api.herokuapp.com/myOrder", {
-      method: "GET",
+    await axios.get("http://localhost:8000/myOrder", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setOrderHistory(result);
-    //console.log("result", result);
+    }).then((res) => {
+      console.log("myOrder<><><><>", res);
+      if (res.status === 200) {
+        setOrderHistory(res.data);
+        console.log("result", res);
+      }
+    })
+    
     }
     else{
       swal({
@@ -125,7 +123,12 @@ const User = () => {
     }
   };
 
+  for(let i = 0; i < orderHistory.length;i++){
+    console.log("Hello");
+  };
+
   const logout = async () => {
+    sessionStorage.removeItem("Mycart");
     localStorage.removeItem("token");
     CongoAlertLogout();
   };
@@ -156,8 +159,7 @@ const User = () => {
     );
   };
 
-  const NoAddressAndNoorderFound = () => {
-    //console.log("Showing Profile with no address & no order");
+  const NoAddressAndNoorderFound = () => {   
     return (
       <section className="margin_bottom-for-user">
         <div className="container rounded bg-white mt-4">
@@ -176,12 +178,12 @@ const User = () => {
                     className="rounded-circle "
                     width="100px"
                     src={profilePicture}
-                    alt="User Profile"
                     onError={(event) => {
                       event.target.src =
-                        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
+                        "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";
                       event.onerror = null;
                     }}
+                    alt="User Profile"
                     />
                     </div>
                     <div className="d-flex flex-row" id="margin_user">
@@ -209,10 +211,7 @@ const User = () => {
                       <label htmlFor="Email_id">
                         <b>Email ID :</b> {profile.email}
                       </label>
-                    </div>
-                    {/* <div className="col-md-12">
-                                        <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
-                                    </div> */}
+                    </div>                  
                     <br></br>
                     <div className="d-flex flex-column align-items-center">
                       <NavLink to="/editprofile">
@@ -309,8 +308,7 @@ const User = () => {
     );
   };
 
-  const NoOrderFound = () => {
-    //console.log("Showing Profile with no order");
+  const NoOrderFound = () => {    
     return (
       <section className="margin_bottom-for-user">
         <div className="container rounded bg-white mt-4">
@@ -329,12 +327,12 @@ const User = () => {
                     className="rounded-circle "
                     width="100px"
                     src={profilePicture}
-                    alt="User Profile"
                     onError={(event) => {
                       event.target.src =
-                        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
+                        "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";
                       event.onerror = null;
                     }}
+                    alt="User Profile"
                     />
                     </div>
                     <div className="d-flex flex-row" id="margin_user">
@@ -532,12 +530,12 @@ const User = () => {
                     className="rounded-circle "
                     width="100px"
                     src={profilePicture}
-                    alt="User Profile"
                     onError={(event) => {
                       event.target.src =
-                        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
+                        "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";
                       event.onerror = null;
                     }}
+                    alt="User Profile"
                     />
                     </div>
                     <div className="d-flex flex-row" id="margin_user">
@@ -649,7 +647,7 @@ const User = () => {
                   return orderHistory.products.map((products) => {
                     return orderHistory.address.map((address) => {
                     return (
-                      <ul className="list-group" key={orderHistory._id}>
+                      <ul className="list-group">
                         <li className="d-flex justify-content-between mb-3">
                           <div className={CardState} onClick={ () => ClickedtheCard()}>
                             <img
@@ -727,12 +725,12 @@ const User = () => {
                     className="rounded-circle "
                     width="100px"
                     src={profilePicture}
-                    alt="User Profile"
                     onError={(event) => {
                       event.target.src =
-                        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
+                        "https://res.cloudinary.com/volansys/image/upload/v1650948247/images/1000_F_441129176_ifK3aSVPLlSM4kDe93SlaEACpBNZQOtg_zu4bdb.jpg";
                       event.onerror = null;
                     }}
+                    alt="User Profile"
                     />
                     </div>
                     <div className="d-flex flex-row" id="margin_user">
@@ -911,7 +909,7 @@ const User = () => {
                   return orderHistory.products.map((products) => {
                     return orderHistory.address.map((address) => {
                     return (
-                      <ul className="list-group" key={orderHistory._id}>
+                      <ul className="list-group">
                         <li className="d-flex justify-content-between mb-3">
                           <div className={CardState} onClick={ () => ClickedtheCard()}>
                             <img

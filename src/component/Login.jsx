@@ -1,8 +1,10 @@
 import Empty from "./Empty.gif";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
+import { loginValidation } from "./validation"
+import axios from "axios";
 
 const Login = () => {
   const history = useHistory();
@@ -13,34 +15,19 @@ const Login = () => {
 
   const [error, setError] = useState({});
 
-  useEffect(() => {
-    window.scrollTo(0, 0);    
-  }, []);
-
-  const validation = (credentials) => {
-    let error = {};
-    if (!credentials.email) {
-      error.email = "* email must required.";
-    }
-    if (!credentials.password) {
-      error.password = "* password must required.";
-    }
-    return error;
-  };
-
   const Checkforcart = async () => {
     let token = localStorage.getItem("token");
     if(token){
-    let result = await fetch("https://vmart-api.herokuapp.com/myCartItem", {
-      method: "GET",
+    await axios.get("http://localhost:8000/myCartItem", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
-    });
-    result = await result.json();
-    //console.log("got cart data:-",result);
-    //setCartItem(result.length);
-    sessionStorage.setItem("Mycart", result.length);
+    }).then((res) => {
+      console.log("responce of myCartItem :::", res);
+      sessionStorage.setItem("Mycart",(res.data.length));
+      console.log("responce of myCartItem length :::", res.data.length);
+
+    })
   }};
 
   let name, value;
@@ -50,89 +37,86 @@ const Login = () => {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const LoginUser = async (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
-    //window.location.reload();
 
-    setError(validation(credentials));
+    setError(loginValidation(credentials));
     const { email, password } = credentials;
     if(email && password){
-      let res = await fetch("https://vmart-api.herokuapp.com/login", {
-      method: "POST",
+     await axios.post("http://localhost:8000/login", { 
+      email: email,
+      password: password
+     },{
       headers: {
         "Content-Type": "application/json",
       },
-
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
-
-    const data = await res.json();
-    console.log(res);
-    if ((res.status === 200)) {
-      localStorage.setItem("token", JSON.stringify(data.token));
-      await swal({
-        title: "Welcome!",
-        text: "Login Successfull....",
-        icon: "success",
-        button: "Okay!",
-      });
-      console.log("User Login Successfull");
-      if (data.user.isAdmin === false && data.user.isVendor === false) {
-        //localStorage.setItem("ImAdmin", false);
+    }).then((res) => {
+      console.log("responce of login :::", res);
+      let data = res.data
+      console.log("response data:-",data);
+      if ((res.status === 200)) {
         localStorage.setItem("token", JSON.stringify(data.token));
-
-        //window.alert("Login Successfull....");
-        Checkforcart();
-        //CongoAlert();
+        swal({
+          title: "Welcome!",
+          text: "Login Successfull....",
+          icon: "success",
+          button: "Okay!",
+        });
         console.log("User Login Successfull");
-        history.push("/");
-      } 
-      else if (data.user.isAdmin === true && data.user.isVendor === false) {
-        localStorage.setItem("ImAdmin", true);
-        localStorage.setItem("token", JSON.stringify(data.token));
-        console.log("Admin Login Successfull");
-        //localStorage.removeItem('token');
-        history.push("/");
-        window.location.reload();
+        if (data.user.isAdmin === false && data.user.isVendor === false) {
+          localStorage.setItem("ImAdmin", false);
+          localStorage.setItem("token", JSON.stringify(data.token));
+          
+          Checkforcart();
+          console.log("User Login Successfull");
+          history.push("/");
+        } 
+        else if (data.user.isAdmin === true && data.user.isVendor === false) {
+          localStorage.setItem("ImAdmin", true);
+          localStorage.setItem("token", JSON.stringify(data.token));
+          console.log("Admin Login Successfull");
+          history.push("/");
+          window.location.reload();
+        }
+        else if (data.user.isVendor === true && data.user.isAdmin === false) {
+          localStorage.setItem("ImVendor", true);
+          localStorage.setItem("VendorId", data.user._id);
+          localStorage.setItem("token", JSON.stringify(data.token));
+          console.log("Vendor Login Successfull");
+          history.push("/");
+          window.location.reload();
+        }
       }
-      else if (data.user.isVendor === true && data.user.isAdmin === false) {
-        localStorage.setItem("ImVendor", true);
-        localStorage.setItem("VendorId", data.user._id);
-        localStorage.setItem("token", JSON.stringify(data.token));
-        console.log("Vendor Login Successfull");
-        history.push("/");
-        window.location.reload();
+    }).catch((error) =>{
+      if(error.response.status === 401){
+        swal({
+          title: "Opps...!",
+          text: "Invalid credentials!",
+          icon: "warning",
+          button: "Okay!",
+        });
+      }else if((error.response.status === 500)){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You are not registered!',
+          footer: '<a href="SignUp">Register hear</a>'
+        })
+      }else if((error.response.status === 400)){
+        localStorage.setItem("Email", email)
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oops...',
+          text: 'First verify your Email',
+          footer: '<a href="EmailVerification">Make verification?</a>'
+        })
       }
-      
-    }else if((res.status === 401)){
-      swal({
-        title: "Opps...!",
-        text: "Invalid credentials!",
-        icon: "warning",
-        button: "Okay!",
-      });
-    }else if((res.status === 500)){
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'You are not registered!',
-        footer: '<a href="SignUp">Register hear</a>'
-      })
-    }else if((res.status === 400)){
-      localStorage.setItem("Email", email)
-      Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'First verify your Email',
-        footer: '<a href="EmailVerification">Make verification?</a>'
-      })
+    })
     }
-    }
-  };  
+  }   
 
+
+ 
   return (
     <section className="vh-100">
       <div className="container-fluid h-custom">
@@ -188,9 +172,17 @@ const Login = () => {
                   type="button"
                   className="btn btn-primary btn-lg"
                   id="login_btn-style"
-                  onClick={LoginUser}
+                  onClick={loginUser}
                 >
                   Login
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger btn-lg"
+                  id="login_btn-style"
+                  onClick={()=> history.push("/")}
+                >
+                  Cancel
                 </button>
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Don't have an account?

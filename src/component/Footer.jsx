@@ -20,8 +20,6 @@ const linkmelinkedin = () => {
 const linkmemap = () => {
     window.location.href = "https://www.google.com/maps/dir/23.0208241,72.5086395/volansys+map/@23.0152921,72.5010664,16z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x395e8364844fffff:0x5bd95b41ea59f9c!2m2!1d72.5057008!2d23.009711";
 };
-
-
 const Footer = () => {
 
     return (
@@ -103,6 +101,4 @@ const Footer = () => {
 };
 
 export default Footer;
-
-
 

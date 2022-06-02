@@ -35,7 +35,7 @@ const handleFav =(state2 = favorit, action,product) => {
                 
     
         default:
-            return state2;            
+            return state2         
     }
 
 }

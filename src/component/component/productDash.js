@@ -5,8 +5,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-//window.alert("Welcome to Admin Panel....");
-
 function Dashbord() {
   const [products, setProducts] = useState([]);
   const [updateProducts, setUpdateProducts] = useState("");
@@ -18,28 +16,27 @@ function Dashbord() {
   }, []);
 
   async function getProductsData() {
-    const { data } = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    const { data } = await axios.get("http://localhost:8000/getProduct");
     setProducts(data.products);
     console.log("Got Data");
     sessionStorage.setItem("Myproducts", data.products.length);
   }
 
   const getOrderhistory = async () => {
-    let data = await fetch("https://vmart-api.herokuapp.com/order", {
+    let data = await fetch("http://localhost:8000/order", {
     method: "GET",
   });
   data = await data.json();
-  console.log(data.length);    
+  console.log(data.length) 
   sessionStorage.setItem("MyOrder", data.length);
 }
 
   const deleteProduct = async (id) => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/deleteProduct/${id}`, {
-      method: "DELETE",
+    let result = await axios.delete(`http://localhost:8000/deleteProduct/${id}`, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
+    //result = result.data
     console.log(result);
-    //result = await result.json;
     if (result.status === 200) {
       toast("Record is deleted");
       getProductsData();
@@ -55,7 +52,7 @@ function Dashbord() {
       }
     }
 
-    sessionStorage.setItem("OutOfStock", Zerostock.length);  
+    sessionStorage.setItem("OutOfStock", Zerostock.length)   
     console.log("Zerostock",Zerostock);
 
   return (

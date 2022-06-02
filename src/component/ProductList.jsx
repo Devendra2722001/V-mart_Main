@@ -1,5 +1,3 @@
-
-
 import React from "react";
 
 const Products = () => {
@@ -11,6 +9,6 @@ const Products = () => {
 
   )
  
-};  
+}   
 
 export default Products;

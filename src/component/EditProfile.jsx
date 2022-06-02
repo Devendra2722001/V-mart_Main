@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import swal from "sweetalert";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const EditProfile = () => {
   const [, setProfile] = useState("");
@@ -12,26 +13,21 @@ const EditProfile = () => {
   let [image, setImage] = useState([]); 
   let [imageUrl, setImageurl] = useState(""); 
 
-
-  //console.log("image -",image);
-  //console.log("Type of image -",typeof image);
-
-
   useEffect(() => {
     window.scrollTo(0, 0);
     getProfile();
   }, []);
 
   const getProfile = async () => {
-    let result = await fetch(`https://vmart-api.herokuapp.com/myProfile`, {
-      method: "get",
+    await axios.get(`http://localhost:8000/myProfile`, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    });
-    result = await result.json();
-    setProfile(result);
-    setFirstName(result.firstName);
-    setLastName(result.lastName);
-    setprofilePicture(result.profilePicture);
+    }).then((res) =>{
+      console.log("my profile for prefill form", res);
+      setProfile(res.data);
+      setFirstName(res.data.firstName);
+      setLastName(res.data.lastName);
+      setprofilePicture(res.data.profilePicture);
+    })  
   };
 
   let profile = {
@@ -53,8 +49,8 @@ const EditProfile = () => {
       .then((res) => res.json())
       .then((imgdata) => {
         console.log(imgdata);
-        setImageurl(imgdata.url);        
-        PostData(imgdata.url);
+        setImageurl(imgdata.url)     
+        postData(imgdata.url);
       })
 
       .catch((err) => {
@@ -65,38 +61,30 @@ const EditProfile = () => {
   console.log(imageUrl)
   
 
-  const PostData = async (img) => {
-    // if(imageUrl === ""){
-    //   console.log("Got Null Clicking AGAIN");
-    //   document.getElementById("Click_Me_to_Reupload").click();
-    // }
-    // console.log("Trying to Post -",imageUrl);
-    // if(imageUrl !== ""){
+  const postData = async (img) => {
+   
      console.log("Posting With This Url -",imageUrl);
 
-        if (profile) {
-          let res = await fetch(`https://vmart-api.herokuapp.com/updateProfile`, {
-            method: "put",
-            headers: {
-              token: JSON.parse(localStorage.getItem("token")),
-              "Content-Type": "application/json",
-            },
-    
-            
-    
-            body: JSON.stringify({
-              firstName: firstName,
-              lastName: lastName,
-              profilePicture : img,
-            }),
-    
-          });
-          if (res.status === 201) {
-            CongoAlert();
-          }
-        } else {
+     if (profile) {
+      await axios.put(`http://localhost:8000/updateProfile`, {
+        firstName: firstName,
+        lastName: lastName,
+        profilePicture : img,
+      }, {
+        headers: {
+          token: JSON.parse(localStorage.getItem("token")),
+          "Content-Type": "application/json",
+        },
+      }).then((res) =>{
+        console.log(res);
+        if (res.status === 201) {
+          CongoAlert();
+        }else {
           console.log("Err");
         }
+      })
+      
+    } 
     
   };
 
@@ -109,6 +97,7 @@ const EditProfile = () => {
     });
     history.push("/user");
   };
+  
 
   return (
     <>
@@ -158,16 +147,22 @@ const EditProfile = () => {
                       className="form-control"
                       id="image"
                       required
-                      name="image"
-                      //value={imageUrl}
+                      name="image"                      
                       onChange={(e) => {setImage(e.target.files[0]);}}
                     />
                   </div>
                 </div>
                 <br></br>
-                <button
-                  id="Click_Me_to_Reupload"
+                <button                  
                   className="btn btn-success profile-button"
+                  type="button"   
+                  onClick={()=>{history.go(-1)}}
+                >
+                  Cancel
+                </button>
+                <button
+                id="Click_Me_to_Reupload"
+                  class="btn btn-success profile-button"
                   type="button"
                   onClick={postDP}
                 >

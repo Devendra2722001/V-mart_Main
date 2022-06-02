@@ -1,67 +1,32 @@
+import axios from 'axios';
 import React,{useState, useEffect} from 'react';
-import { NavLink, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { editAddressValidation } from "./validation"
+import swal from "sweetalert";
 
 const EditAddress = () => {
-    const history = useHistory();   
+    const history = useHistory()  
     const[address, setAddress] = useState({
         addressLine1:"",addressLine2:"",cityName:"",district:"",state:"",zipCode:""
     })
      const params = useParams();
      const [error, setError] = useState({});
 
-     const validation = (address) =>{
-        let error={};
-        if (!address.addressLine1){
-            error.addline1 = "* Please enter address line-1."
-        }
-        if (!address.addressLine2){
-            error.addline2 = "* Please enter address line-2."
-        }
-        if (!address.cityName){
-            error.city = "* Please enter city."
-        }
-        if (!address.district){
-            error.district = "* Please enter district."
-        }
-        if (!address.state){
-            error.state = "* Please enter state."
-        }
-        if (!address.zipCode){
-            error.zipCode = "* Please enter zipCode."
-        }
-        else if (address.zipCode.length > 6 || address.zipCode.length < 6 ){
-            error.zipCode = "* Zipcode contain six digits."
-        }
-        // else if (address.zipCode.length < 6){
-        //     error.zipCode = "* minimum six digits allowed."
-        // }
-        if(isNaN(address.zipCode)){
-            error.zipCode = "* ZipCode contain only digits."
-        }
-        // else if(address.addressLine1 && address.addressLine2 && address.cityName && address.district && address.state && address.zipCode && address.zipCode.length === 6) {
-        //     window.alert(" address Updated");
-        //     history.push("/user");   
-        // }
-        return error;
-      }
-
-
     useEffect(() =>{
         window.scrollTo(0, 0);
         getAddress();
-    },[])
+    },[])// eslint-disable-line react-hooks/exhaustive-deps
 
     const getAddress = async() =>{
         console.log(params);
         
-        let result = await fetch(`/selectedAddress/${params.id}`,{
-            method: "get",
+        await axios.get(`/selectedAddress/${params.id}`,{
             headers: { token : JSON.parse(localStorage.getItem("token")),
           }
+        }).then((res) =>{
+            console.log("get address for prefill", res)
+            setAddress(res.data)
         })
-        result  = await result.json();
-        console.log(result)
-        setAddress(result)
     }
     let name, value;
 
@@ -69,35 +34,39 @@ const EditAddress = () => {
         console.log(e);
         name = e.target.name;
         value = e.target.value;
-        setAddress({ ... address, [name]:value});
+        setAddress({ ...address, [name]:value});
     }
+
+    const CongoAlert = () => {
+        swal({
+          title: "Updated !",
+          text: "Address Updated Successfully....",
+          icon: "success",
+          button: "Okay!",
+        });
+        history.go(-1);
+      };
     
-    const PostData = async (e) => {
+    const postData = async (e) => {
         e.preventDefault();
-        setError(validation(address))
+        setError(editAddressValidation(address))
         const { addressLine1, addressLine2, cityName, district, state, zipCode} = address;
         if(addressLine1 && addressLine2 && cityName && district && state && zipCode && address.zipCode.length === 6 && !(isNaN(address.zipCode))){
-            let res = await fetch(`/updateAddress/${params.id}`, {
+            await axios.put(`/updateAddress/${params.id}`,{
+                addressLine1:address.addressLine1, addressLine2:address.addressLine2, cityName:address.cityName, district:address.district, state:address.state, zipCode:address.zipCode
+            }, {
             method: "put",
             headers: { token : JSON.parse(localStorage.getItem("token")),
                 "Content-Type": "application/json"
-            },
-                    
-            body: JSON.stringify({
-                addressLine1:addressLine1, addressLine2:addressLine2, cityName:cityName, district:district, state:state, zipCode:zipCode
+            }
+            }).then((res) => {
+                if (res.status === 201) {
+                    CongoAlert();
+                  history.push("/user");
+                } else {
+                  window.alert("-- Something went wrong --");
+                }
             })
-            });
-            
-        //res = await res.json();
-        console.log(res)
-          if (res.status === 201) {
-            //if(address.addressLine1 && address.addressLine2 && address.cityName && address.district && address.state && address.zipCode && address.zipCode.length === 6 && !(isNaN(address.zipCode))) {
-                window.alert(" address Updated");
-                history.push("/user");   
-            //}      
-          } else {
-            window.alert("-- Something went wrong --")
-          }
         } 
       }
     
@@ -109,7 +78,7 @@ const EditAddress = () => {
                 <div className="row g-5">
                     <div className="">
                         <h4 className="mb-3">update Address</h4>
-                        <form method="post" className="needs-validation" novalidate="" onSubmit={PostData}>
+                        <form method="post" className="needs-validation" novalidate="" onSubmit={postData}>
                             <div className="row g-3">
 
                                 <div className="col-12">
@@ -120,23 +89,12 @@ const EditAddress = () => {
                                         Please enter your shipping address.
                                     </div>
                                 </div>
-
-                                {/* <div className="col-12">
-                                    <label htmlFor="address" className="form-label">AddressLine - 2</label>
-                                    <input type="text" className="form-control" id="address" placeholder="1234 Main St" required="" name="addressLine2" value={address.addressLine2} onChange={handleInputs}/>
-                                    {error.addline2 && <span className='text-danger font-weight-bold'>{error.addline2}</span>}
-                                    <div className="invalid-feedback">
-                                        Please enter your shipping address.
-                                    </div>
-                                </div> */}
-
                                 <div className="col-12">
                                     <label htmlFor="address" className="form-label">Location</label>
                                     <select type="option" className="form-control" id="address" required="" name="addressLine2" value={address.addressLine2} onChange={handleInputs}>
                                     <option>Home</option>
                                     <option>Office</option>
-                                    </select>
-                                    {/* {error.addline2 && <span className='text-danger font-weight-bold'>{error.addline2}</span>} */}
+                                    </select>                                   
                                     <div className="invalid-feedback">
                                         Please Select Location.
                                     </div>
@@ -181,7 +139,7 @@ const EditAddress = () => {
 
                             <hr className="my-4" />                            
 
-                            <button className="btn btn-success profile-button" type="button" onClick={PostData}>save changes</button> &nbsp;
+                            <button className="btn btn-success profile-button" type="button" onClick={postData}>save changes</button> &nbsp;
                         </form>
                     </div>
                 </div>
