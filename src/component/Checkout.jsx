@@ -16,7 +16,7 @@ const Checkout = () => {
   };
 
   const postOrder = async (id, key) => {
-      await axios.post(`http://localhost:8000/order/${cartId}/${addId}`, {}, {
+      await axios.post(`https://vmart-api.herokuapp.com/order/${cartId}/${addId}`, {}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) =>{
       console.log("post data responce :::", res);
@@ -42,7 +42,7 @@ const Checkout = () => {
   }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const sendEmail = async () => {
-      await axios.post(`http://localhost:8000/sendmsg`, {}, {
+      await axios.post(`https://vmart-api.herokuapp.com/sendmsg`, {}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) => {
       console.log("send mail responce:::", res);
@@ -94,7 +94,7 @@ const Checkout = () => {
   };
 
   const getAddress = async () => {
-    await axios.get("http://localhost:8000/addressListing", {
+    await axios.get("https://vmart-api.herokuapp.com/addressListing", {
     headers: {
       "Content-Type": "application/json",
       token: JSON.parse(localStorage.getItem("token")),
@@ -109,7 +109,7 @@ const Checkout = () => {
   };
 
   const getcartItem = async () => {
-    await axios.get("http://localhost:8000/myCartItem", {
+    await axios.get("https://vmart-api.herokuapp.com/myCartItem", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
@@ -152,7 +152,7 @@ const Checkout = () => {
   }  
 
   const getcartId = async () => {
-      let res = await axios.get("http://localhost:8000/myCartId", {
+      let res = await axios.get("https://vmart-api.herokuapp.com/myCartId", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
@@ -162,7 +162,7 @@ const Checkout = () => {
   };
 
   const removeProduct = async () => {
-    await axios.post("http://localhost:8000/removeAllProduct", {}, {
+    await axios.post("https://vmart-api.herokuapp.com/removeAllProduct", {}, {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },

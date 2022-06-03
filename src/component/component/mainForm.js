@@ -176,7 +176,7 @@ function Main(props) {
     console.log("asasas",img1,img2,img3,img4)
 
       console.log("122333 now add product");
-      await Axios.post("http://localhost:8000/product", formData, {
+      await Axios.post("https://vmart-api.herokuapp.com/product", formData, {
       //formData,
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
@@ -248,7 +248,7 @@ function Main(props) {
 
     if(name && description && price && stock && brand && category && ((RAM && batteryCapacity && screenSize && networkType && resolutionType && camera)|| (processor && hardDisk && touchScreen) || (gender && size && colour))){
       let res = await axios.put(
-        `http://localhost:8000/updateProduct/${updateProducts._id}`, Product, {
+        `https://vmart-api.herokuapp.com/updateProduct/${updateProducts._id}`, Product, {
 
           headers: {
             accept: "application/json",

@@ -66,7 +66,7 @@ const ChangePassword = () => {
     const { oldPassword, newPassword, confirmPassword } = data;
     if(oldPassword && newPassword === confirmPassword && newPassword.length >=8 ){
 
-      await axios.post("http://localhost:8000/changePassword",{ 
+      await axios.post("https://vmart-api.herokuapp.com/changePassword",{ 
       oldPassword: oldPassword,
       password: newPassword,
       con_password: confirmPassword,},

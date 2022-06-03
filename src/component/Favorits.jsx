@@ -32,7 +32,7 @@ const Favorits = () => {
 
   const getFavourite = async () => {
     if(token){
-      await axios.get("http://localhost:8000/myfavouritetItem", {
+      await axios.get("https://vmart-api.herokuapp.com/myfavouritetItem", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
       
@@ -49,7 +49,7 @@ const Favorits = () => {
 
   const removeFromgetFavourite = async (id) => {
     await axios.post(
-      `http://localhost:8000/removeFromFavourite/${id}`,{},
+      `https://vmart-api.herokuapp.com/removeFromFavourite/${id}`,{},
       {
         headers: { token: JSON.parse(localStorage.getItem("token")) },
       }

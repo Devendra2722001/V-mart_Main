@@ -19,7 +19,7 @@ const EditProfile = () => {
   }, []);
 
   const getProfile = async () => {
-    await axios.get(`http://localhost:8000/myProfile`, {
+    await axios.get(`https://vmart-api.herokuapp.com/myProfile`, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) =>{
       console.log("my profile for prefill form", res);
@@ -66,7 +66,7 @@ const EditProfile = () => {
      console.log("Posting With This Url -",imageUrl);
 
      if (profile) {
-      await axios.put(`http://localhost:8000/updateProfile`, {
+      await axios.put(`https://vmart-api.herokuapp.com/updateProfile`, {
         firstName: firstName,
         lastName: lastName,
         profilePicture : img,

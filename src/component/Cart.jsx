@@ -32,7 +32,7 @@ const Cart = () => {
 
   const getcartItem = async () => {
     if(token){
-      await axios.get("http://localhost:8000/myCartItem", {
+      await axios.get("https://vmart-api.herokuapp.com/myCartItem", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
     .then((res)=>{
@@ -53,7 +53,7 @@ const Cart = () => {
   };
 
   const removeFromCart = async (id) => {
-    await axios.post(`http://localhost:8000/removeFromCart/${id}`,{}, {
+    await axios.post(`https://vmart-api.herokuapp.com/removeFromCart/${id}`,{}, {
       headers: {
       "Content-Type": "application/json",
       token: JSON.parse(localStorage.getItem("token")), 
@@ -68,7 +68,7 @@ const Cart = () => {
   };
 
   const increaseQty = async (id) => {    
-    await axios.post(`http://localhost:8000/increaseQuantity/${id}`,{}, {
+    await axios.post(`https://vmart-api.herokuapp.com/increaseQuantity/${id}`,{}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
     .then((res) =>{
@@ -96,7 +96,7 @@ const Cart = () => {
   }
   
   const decreaseQty = async (id) => {    
-    await axios.post(`http://localhost:8000/decreaseQuantity/${id}`,{}, {
+    await axios.post(`https://vmart-api.herokuapp.com/decreaseQuantity/${id}`,{}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) =>{
       console.log("responce of decrease cart quantity:::", res);
@@ -112,7 +112,7 @@ const Cart = () => {
 
   const getProducts = async () => {
     if(token !== null){
-      const response = await axios.get("http://localhost:8000/getProduct");
+      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
         if(response.status===201){
           setData(response.data.products);
         }

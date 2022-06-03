@@ -36,7 +36,7 @@ const User = () => {
  
   const getProfile = async () => {
     if(token){
-    await axios.get("http://localhost:8000/myProfile", {
+    await axios.get("https://vmart-api.herokuapp.com/myProfile", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) => {
       console.log("myProfile<><><><>", res);
@@ -60,7 +60,7 @@ const User = () => {
 
   const getAddress = async () => {
     if(token){
-    await axios.get("http://localhost:8000/addressListing", {
+    await axios.get("https://vmart-api.herokuapp.com/addressListing", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) => {
       console.log("addressListing<><><><>", res);
@@ -82,7 +82,7 @@ const User = () => {
 
   const removeAddress = async (id) => {
     if(token){
-    let result = await axios.post(`http://localhost:8000/removeAddress/${id}`, {}, {
+    let result = await axios.post(`https://vmart-api.herokuapp.com/removeAddress/${id}`, {}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.data
@@ -101,7 +101,7 @@ const User = () => {
   
   const getOrderHistory = async () => {
     if(token){
-    await axios.get("http://localhost:8000/myOrder", {
+    await axios.get("https://vmart-api.herokuapp.com/myOrder", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) => {
       console.log("myOrder<><><><>", res);
