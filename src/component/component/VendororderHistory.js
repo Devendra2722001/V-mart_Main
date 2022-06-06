@@ -11,7 +11,7 @@ const VendororderHistory = () => {
   }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
     const getOrderhistory = async () => {
-      let res = await axios.get("https://vmart-api.herokuapp.com/order", {
+      let res = await axios.get("http://localhost:8000/order", {
     });
     res = res.data;
     console.log(res);

@@ -14,10 +14,7 @@ const Favorits = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getFavourite();
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    getFavourite();    
   }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const LoginAlert = () => {
@@ -32,7 +29,7 @@ const Favorits = () => {
 
   const getFavourite = async () => {
     if(token){
-      await axios.get("https://vmart-api.herokuapp.com/myfavouritetItem", {
+      await axios.get("http://localhost:8000/myfavouritetItem", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
       
@@ -40,6 +37,7 @@ const Favorits = () => {
       console.log("response of favorite listiing" , res);
       if (res.status === 200){
         setFavourite(res.data); 
+        setLoading(false);
       }
     })
     }else{
@@ -49,7 +47,7 @@ const Favorits = () => {
 
   const removeFromgetFavourite = async (id) => {
     await axios.post(
-      `https://vmart-api.herokuapp.com/removeFromFavourite/${id}`,{},
+      `http://localhost:8000/removeFromFavourite/${id}`,{},
       {
         headers: { token: JSON.parse(localStorage.getItem("token")) },
       }

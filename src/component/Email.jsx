@@ -28,7 +28,7 @@ const Email = () => {
     
     const { emailID } = email;
     if(emailID){
-      await axios.post("https://vmart-api.herokuapp.com/sendotp", { email: emailID}, {
+      await axios.post("http://localhost:8000/sendotp", { email: emailID}, {
       headers: {
         "Content-Type": "application/json",
       }

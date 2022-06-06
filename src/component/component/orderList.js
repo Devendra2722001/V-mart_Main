@@ -15,7 +15,7 @@ const Orderlist = () => {
   }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
   const getOrdersData = async () => {
-    let result = await axios.get(`https://vmart-api.herokuapp.com/order/${id}`, {
+    let result = await axios.get(`http://localhost:8000/order/${id}`, {
     });
     result = result.data;
     setOrdersList(result);

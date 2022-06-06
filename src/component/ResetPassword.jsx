@@ -32,7 +32,7 @@ const ResetPassword = () => {
     const { email, otp, password, conPassword } = data;
 
     if(email && otp && password && conPassword && password.length >= 8 && conPassword===password){ 
-      await axios.post("https://vmart-api.herokuapp.com/forgotpass", {
+      await axios.post("http://localhost:8000/forgotpass", {
         email: email,
         code: otp,
         password: password,

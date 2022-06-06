@@ -10,7 +10,7 @@ const VendorOrderuser = () => {
   }, []);
 
   const getOrdersData = async () => {
-    let result = await axios.get(`https://vmart-api.herokuapp.com/order`, {
+    let result = await axios.get(`http://localhost:8000/order`, {
     });
     result = result.data
     setOrders(result);

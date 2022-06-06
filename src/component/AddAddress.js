@@ -31,7 +31,7 @@ const AddAddress = () => {
     setError(addAddressValidation(address));
     const { addline1, addline2, city, district, state, zipCode } = address;
     if(addline1 && addline2 && city && district && state && zipCode && address.zipCode.length === 6 && !(isNaN(address.zipCode))){
-      await axios.post("https://vmart-api.herokuapp.com/addAddress", {
+      await axios.post("http://localhost:8000/addAddress", {
         addressLine1: addline1,
         addressLine2: addline2,
         cityName: city,

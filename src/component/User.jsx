@@ -3,7 +3,6 @@ import { NavLink, useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import Skeleton from "react-loading-skeleton";
 import No_data from "./No_data.gif";
-import "./testing_css.css";
 import axios from "axios";
 
 const User = () => {
@@ -36,7 +35,7 @@ const User = () => {
  
   const getProfile = async () => {
     if(token){
-    await axios.get("https://vmart-api.herokuapp.com/myProfile", {
+    await axios.get("http://localhost:8000/myProfile", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) => {
       console.log("myProfile<><><><>", res);
@@ -60,7 +59,7 @@ const User = () => {
 
   const getAddress = async () => {
     if(token){
-    await axios.get("https://vmart-api.herokuapp.com/addressListing", {
+    await axios.get("http://localhost:8000/addressListing", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) => {
       console.log("addressListing<><><><>", res);
@@ -82,7 +81,7 @@ const User = () => {
 
   const removeAddress = async (id) => {
     if(token){
-    let result = await axios.post(`https://vmart-api.herokuapp.com/removeAddress/${id}`, {}, {
+    let result = await axios.post(`http://localhost:8000/removeAddress/${id}`, {}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     result = await result.data
@@ -101,7 +100,7 @@ const User = () => {
   
   const getOrderHistory = async () => {
     if(token){
-    await axios.get("https://vmart-api.herokuapp.com/myOrder", {
+    await axios.get("http://localhost:8000/myOrder", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) => {
       console.log("myOrder<><><><>", res);
@@ -285,7 +284,7 @@ const User = () => {
               <div className="py-5">
                 <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
-                    <b>My Orders</b>
+                    <b>Recent Orders</b>
                   </h6>
                 </div>
 
@@ -485,7 +484,7 @@ const User = () => {
               <div className="py-5">
                 <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
-                    <b>My Orders</b>
+                    <b>Recent Orders</b>
                   </h6>
                 </div>
 
@@ -640,10 +639,10 @@ const User = () => {
               <div className="py-5">
                 <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
-                    <b>My Orders</b>
+                    <b>Recent Orders</b>
                   </h6>
                 </div>
-                {orderHistory.map((orderHistory) => {
+                {orderHistory.slice((orderHistory.length)-2, orderHistory.length).reverse().map((orderHistory) => {
                   return orderHistory.products.map((products) => {
                     return orderHistory.address.map((address) => {
                     return (
@@ -758,10 +757,7 @@ const User = () => {
                       <label htmlFor="Email_id">
                         <b>Email ID :</b> {profile.email}
                       </label>
-                    </div>
-                    {/* <div className="col-md-12">
-                                        <label htmlFor="Email_id"><b>Mobile No :</b> {profile.mobile}</label>
-                                    </div> */}
+                    </div>                   
                     <br></br>
                     <div className="d-flex flex-column align-items-center">
                       <NavLink to="/editprofile">
@@ -883,29 +879,10 @@ const User = () => {
               <div className="py-5">
                 <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
                   <h6 className="order_text">
-                    <b>My Orders</b>
+                    <b>Recent Orders</b>
                   </h6>
-                </div>
-                  {/* <div
-                        className={"container " + (open ? "expand" : "")}
-                        onClick={handleClick}
-                      >
-                        <div className="upper">
-                          <p>June 10</p>
-                          <h3>
-                            A family saga with a supernatural twist, set in a German town, where
-                            the disappearance of two young children exposes            
-                          </h3>
-                        </div>
-                        <div className="lower">
-                            <p>June 10</p>
-                            <h3>
-                              A family saga with a supernatural twist, set in a German town, where
-                              the disappearance of two young children exposes...
-                            </h3>
-                        </div>
-                      </div>    */}
-                {orderHistory.map((orderHistory) => {
+                </div>                 
+                {orderHistory.slice((orderHistory.length)-2, orderHistory.length).reverse().map((orderHistory) => {
                   return orderHistory.products.map((products) => {
                     return orderHistory.address.map((address) => {
                     return (

@@ -15,7 +15,7 @@ const HomeProductList = () => {
   }, []);
 
   const getProducts = async () => {
-    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    const response = await axios.get("http://localhost:8000/getProduct");
     setData(response.data.products);
     setLoading(false);
   };

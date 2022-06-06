@@ -13,6 +13,7 @@ const Cart = () => {
   var token = localStorage.getItem("token")   
   let zeroStock = [];
   let AllcartItemId = [];
+  let allProductStock = [];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,7 +33,7 @@ const Cart = () => {
 
   const getcartItem = async () => {
     if(token){
-      await axios.get("https://vmart-api.herokuapp.com/myCartItem", {
+      await axios.get("http://localhost:8000/myCartItem", {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
     .then((res)=>{
@@ -53,7 +54,7 @@ const Cart = () => {
   };
 
   const removeFromCart = async (id) => {
-    await axios.post(`https://vmart-api.herokuapp.com/removeFromCart/${id}`,{}, {
+    await axios.post(`http://localhost:8000/removeFromCart/${id}`,{}, {
       headers: {
       "Content-Type": "application/json",
       token: JSON.parse(localStorage.getItem("token")), 
@@ -68,11 +69,11 @@ const Cart = () => {
   };
 
   const increaseQty = async (id) => {    
-    await axios.post(`https://vmart-api.herokuapp.com/increaseQuantity/${id}`,{}, {
+    await axios.post(`http://localhost:8000/increaseQuantity/${id}`,{}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     })
     .then((res) =>{
-      console.log("responce of increase quantity:::", res)
+      //console.log("responce of increase quantity:::", res)
     }).catch((error) => {
       if(error.response.status === 400){
         //console.log("",res.status);
@@ -96,7 +97,7 @@ const Cart = () => {
   }
   
   const decreaseQty = async (id) => {    
-    await axios.post(`https://vmart-api.herokuapp.com/decreaseQuantity/${id}`,{}, {
+    await axios.post(`http://localhost:8000/decreaseQuantity/${id}`,{}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     }).then((res) =>{
       console.log("responce of decrease cart quantity:::", res);
@@ -112,14 +113,14 @@ const Cart = () => {
 
   const getProducts = async () => {
     if(token !== null){
-      const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+      const response = await axios.get("http://localhost:8000/getProduct");
         if(response.status===201){
           setData(response.data.products);
         }
     }
   };
 
-  console.log("cartItem",cartItem);
+  //console.log("cartItem",cartItem);
  
   
     for (let i = 0; i < data.length; i++) {
@@ -128,22 +129,57 @@ const Cart = () => {
     }      
     }
 
+    for (let t = 0; t < data.length; t++) {
+      if (data[t].stock > 0) {
+        allProductStock.push(data[t]);
+    }      
+    }
+
+    console.log("allProductStock",allProductStock);
+
     for (let j = 0; j < cartItem.length; j++) {
       if (cartItem.length !== 0) {
-        AllcartItemId.push(cartItem[j].productId);
+        AllcartItemId.push(cartItem[j]);
     }      
     }
     
 const MatchIds = () =>{
+
+  var b = 0;
+    for(let o = 0; o < allProductStock.length; o++){
+      for(let p = 0; p<AllcartItemId.length ; p++ ){
+  
+        if(b === 1){
+          console.log("break");
+           break;
+        }
+        
+        if(allProductStock[o].stock < AllcartItemId[p].quantity){  
+          console.log("-------------------------------------------------------------------");
+          console.log("Found Item In your cart with  Lower stock then cart qnt",allProductStock[o]);
+          console.log("-------------------------------------------------------------------");
+          history.push("/cart")
+          swal({
+            title: "Errror!",
+            text: `${allProductStock[o].name} is at low stock please reduce some`,
+            icon: "warning",
+            button: "Okay!",
+          }); 
+           b = 1;
+        }
+      }     
+    }
+     
   var a = 0;
   for(let k = 0; k < zeroStock.length; k++){
     for(let l = 0; l<AllcartItemId.length ; l++ ){
 
       if(a === 1){
-       console.log("break");
+        console.log("break");
+        break;
       }
-
-      else if(zeroStock[k]._id === AllcartItemId[l]){  
+      
+      else if(zeroStock[k]._id === AllcartItemId[l].productId){  
         console.log("Found Item In your cart with Zero stock",zeroStock[k]);
         history.push("/cart")
         swal({
@@ -156,14 +192,11 @@ const MatchIds = () =>{
       }
     }     
   }
-  if (a===0){
+  if (a===0 && b===0){
     console.log("checkout");
     history.push("/checkout")
   }
 }
-  console.log("AllcartItemId",AllcartItemId);
-  console.log("zeroStockItems",zeroStock);
-
   
   const Loading = () => {
     return (

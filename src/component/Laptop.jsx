@@ -24,7 +24,7 @@ const Laptop = () => {
   }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const getProducts = async () => {
-    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
+    const response = await axios.get("http://localhost:8000/getProduct");
     if (componentMounted) {
       setData((response.data.products).filter((x) => x.category ==="laptop"));
       setFilter((response.data.products).filter((x) => x.category ==="laptop"));

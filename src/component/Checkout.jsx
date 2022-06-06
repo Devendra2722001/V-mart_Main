@@ -15,19 +15,16 @@ const Checkout = () => {
     setaddId(value);
   };
 
-  const postOrder = async (id, key) => {
-      await axios.post(`https://vmart-api.herokuapp.com/order/${cartId}/${addId}`, {}, {
+  const postOrder = async () => {
+      await axios.post(`http://localhost:8000/order/${cartId}/${addId}`, {}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    }).then((res) =>{
-      console.log("post data responce :::", res);
-      console.log("Data posted");
+    }).then((res) =>{      
       if (res.status === 201) {
         CongoAlert();
         removeProduct();
         sendEmail();
       }
-    }).catch((error) =>{
-      console.log("PPP>>", error.response.status);
+    }).catch((error) =>{      
       if(error.response.status === 404 || error.response.status === 500) {
         somethingWentWrong();
       } 
@@ -42,14 +39,13 @@ const Checkout = () => {
   }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const sendEmail = async () => {
-      await axios.post(`https://vmart-api.herokuapp.com/sendmsg`, {}, {
+      await axios.post(`http://localhost:8000/sendmsg`, {}, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
-    }).then((res) => {
-      console.log("send mail responce:::", res);
+    }).then((res) => {      
       if (res.status === 200) {
-        console.log("mail send in your mail");
+        //console.log("mail send in your mail");
       } else {
-        console.log("opps!!!");
+        //console.log("opps!!!");
       }
     })
   };
@@ -94,13 +90,12 @@ const Checkout = () => {
   };
 
   const getAddress = async () => {
-    await axios.get("https://vmart-api.herokuapp.com/addressListing", {
+    await axios.get("http://localhost:8000/addressListing", {
     headers: {
       "Content-Type": "application/json",
       token: JSON.parse(localStorage.getItem("token")),
     }
-    }).then((res) => {
-      console.log("responce of address listing:::" , res);
+    }).then((res) => {      
       setAddress(res.data);
       if(res.data.length===0){
         CongoAlertAddress();
@@ -109,7 +104,7 @@ const Checkout = () => {
   };
 
   const getcartItem = async () => {
-    await axios.get("https://vmart-api.herokuapp.com/myCartItem", {
+    await axios.get("http://localhost:8000/myCartItem", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
@@ -118,10 +113,6 @@ const Checkout = () => {
     })     
   };
 
-  console.log("cartItem",cartItem);
-
-  console.log("cartItem ----------------------------",cartId);
-
   let pricearray = [];
   for (let i = 0; i < cartItem.length; i++) {
     let allitem = cartItem;
@@ -129,8 +120,7 @@ const Checkout = () => {
     if (priceofitem !== null) {
       pricearray.push(priceofitem);
     }
-  }
-  console.log("pricearray", pricearray);
+  }  
 
   let qntarray = [];
   for (let q = 0; q < cartItem.length; q++) {
@@ -152,17 +142,16 @@ const Checkout = () => {
   }  
 
   const getcartId = async () => {
-      let res = await axios.get("https://vmart-api.herokuapp.com/myCartId", {
+      let res = await axios.get("http://localhost:8000/myCartId", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
-    });
-    console.log("my cart id..........", res);
+    });    
     setCartId(res.data);
   };
 
   const removeProduct = async () => {
-    await axios.post("https://vmart-api.herokuapp.com/removeAllProduct", {}, {
+    await axios.post("http://localhost:8000/removeAllProduct", {}, {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },

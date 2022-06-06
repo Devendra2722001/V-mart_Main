@@ -31,7 +31,7 @@ const Signup = () => {
     setError(vendorSignupValidation(user));
     const { fname, lname, email, password, cpassword, isVendor } = user;
     if(fname && lname && email && password && cpassword && isVendor && password.length >= 8 && password=== cpassword){
-      await axios.post("https://vmart-api.herokuapp.com/registration", {
+      await axios.post("http://localhost:8000/registration", {
         firstName: fname,
         lastName: lname,
         email: email,

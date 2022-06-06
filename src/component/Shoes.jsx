@@ -23,7 +23,7 @@ const Shoes = () => {
   }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
   const getProducts = async () => {
-    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct") 
+    const response = await axios.get("http://localhost:8000/getProduct") 
       setData(response.data.products);
       setFilter(response.data.products);
       setLoading(false);
