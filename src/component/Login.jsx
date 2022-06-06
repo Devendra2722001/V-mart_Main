@@ -18,7 +18,7 @@ const Login = () => {
   const Checkforcart = async () => {
     let token = localStorage.getItem("token");
     if(token){
-    await axios.get("http://localhost:8000/myCartItem", {
+    await axios.get("https://vmart-api.herokuapp.com/myCartItem", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
@@ -43,7 +43,7 @@ const Login = () => {
     setError(loginValidation(credentials));
     const { email, password } = credentials;
     if(email && password){
-     await axios.post("http://localhost:8000/login", { 
+     await axios.post("https://vmart-api.herokuapp.com/login", { 
       email: email,
       password: password
      },{

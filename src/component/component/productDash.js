@@ -16,14 +16,14 @@ function Dashbord() {
   }, []);
 
   async function getProductsData() {
-    const { data } = await axios.get("http://localhost:8000/getProduct");
+    const { data } = await axios.get("https://vmart-api.herokuapp.com/getProduct");
     setProducts(data.products);
     console.log("Got Data");
     sessionStorage.setItem("Myproducts", data.products.length);
   }
 
   const getOrderhistory = async () => {
-    let data = await fetch("http://localhost:8000/order", {
+    let data = await fetch("https://vmart-api.herokuapp.com/order", {
     method: "GET",
   });
   data = await data.json();
@@ -32,7 +32,7 @@ function Dashbord() {
 }
 
   const deleteProduct = async (id) => {
-    let result = await axios.delete(`http://localhost:8000/deleteProduct/${id}`, {
+    let result = await axios.delete(`https://vmart-api.herokuapp.com/deleteProduct/${id}`, {
       headers: { token: JSON.parse(localStorage.getItem("token")) },
     });
     //result = result.data

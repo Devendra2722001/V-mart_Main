@@ -27,7 +27,7 @@ const EmailVerification = () => {
     setError(emailVerificationValidation(OTP));
     const { otp } = OTP;
     if(otp){
-      await axios.post("http://localhost:8000/verificationOTP", {
+      await axios.post("https://vmart-api.herokuapp.com/verificationOTP", {
         verificationOTP: otp,
         email : localStorage.getItem("Email")
       }, {
@@ -61,7 +61,7 @@ const EmailVerification = () => {
 
   const resendOTP = async (e) => {
     e.preventDefault();
-      await axios.post("http://localhost:8000/resendOTP",{email : localStorage.getItem("Email")}, {
+      await axios.post("https://vmart-api.herokuapp.com/resendOTP",{email : localStorage.getItem("Email")}, {
       headers: {
         "Content-Type": "application/json",
       },

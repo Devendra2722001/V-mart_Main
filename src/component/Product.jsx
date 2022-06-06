@@ -25,7 +25,7 @@ const Product = () => {
   }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const Checkforcart = async () => {
-    let result = await axios.get("http://localhost:8000/myCartItem", {
+    let result = await axios.get("https://vmart-api.herokuapp.com/myCartItem", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
@@ -49,7 +49,7 @@ const Product = () => {
   sessionStorage.setItem("Mycart", cartItem);
 
   const Checkforfav = async () => {
-    let Favresult = await axios.get("http://localhost:8000/myfavouritetItem", {
+    let Favresult = await axios.get("https://vmart-api.herokuapp.com/myfavouritetItem", {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
@@ -69,14 +69,14 @@ const Product = () => {
   };
 
   const getProduct = async () => {
-    const response = await axios.get(`http://localhost:8000/singleProduct/${_id}`);
+    const response = await axios.get(`https://vmart-api.herokuapp.com/singleProduct/${_id}`);
     let myRes = response.data
     setProduct(myRes);
     setLoading(false);
   };
 
   const addToCart = async (_id) => {
-    await axios.post(`http://localhost:8000/cart/${_id}`, {},{
+    await axios.post(`https://vmart-api.herokuapp.com/cart/${_id}`, {},{
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
@@ -93,7 +93,7 @@ const Product = () => {
   };
 
   const addTofav = async (_id) => {
-    await axios.post(`http://localhost:8000/favourite/${_id}`, {},  {
+    await axios.post(`https://vmart-api.herokuapp.com/favourite/${_id}`, {},  {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
@@ -104,7 +104,7 @@ const Product = () => {
   };
 
   const removeFromCart = async (_id) => {
-    await axios.post(`http://localhost:8000/removeFromCart/${_id}`, {}, {
+    await axios.post(`https://vmart-api.herokuapp.com/removeFromCart/${_id}`, {}, {
       headers: {
         token: JSON.parse(localStorage.getItem("token")),
       },
@@ -117,7 +117,7 @@ const Product = () => {
 
   const removeFromfav = async (_id) => {
     await axios.post(
-      `http://localhost:8000/removeFromFavourite/${_id}`,{},
+      `https://vmart-api.herokuapp.com/removeFromFavourite/${_id}`,{},
       {
         headers: {
           token: JSON.parse(localStorage.getItem("token")),

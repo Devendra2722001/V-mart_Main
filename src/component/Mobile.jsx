@@ -24,7 +24,7 @@ const Mobile = () => {
   }, []);// eslint-disable-line react-hooks/exhaustive-deps
 
   const getProducts = async () => {
-    const response = await axios.get("http://localhost:8000/getProduct");
+    const response = await axios.get("https://vmart-api.herokuapp.com/getProduct");
     if (componentMounted) {
       setData((response.data.products).filter((x) => x.category ==="mobile"));
       setFilter((response.data.products).filter((x) => x.category ==="mobile"));
