@@ -162,7 +162,7 @@ const EditProfile = () => {
                 </button>
                 <button
                 id="Click_Me_to_Reupload"
-                  class="btn btn-success profile-button"
+                  className="btn btn-success profile-button"
                   type="button"
                   onClick={postDP}
                 >

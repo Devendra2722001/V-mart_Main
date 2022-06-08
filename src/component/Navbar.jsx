@@ -72,46 +72,23 @@ const Navbar = () => {
               <NavLink to="/cart">
                 <div className="text_cart">{cartItem}</div>
                 <img
-                  src="../images/cart.png"
+                  src="../images/1458205.png"
                   width="30rem;"
                   title="Your Cart"
                   alt="cart"
                 ></img>
               </NavLink>
             </div>
-
-            <div id="bloc4" className="push">
-              <NavLink to="/favorites">
-                <img
-                  src="../images/heart.png"
-                  width="30rem;"
-                  title="Favorites"
-                  alt="favorits"
-                ></img>
-              </NavLink>
-            </div>
-
+         
             <div id="bloc5" className="push">
               <NavLink to="/user">
                 <img
-                  src="../images/user.png"
+                  src="../images/1458201.png"
                   title="Your Profile"
                   width="30rem;"
                   alt="profile"
                 ></img>
               </NavLink>
-            </div>
-
-            <div id="bloclog" className="push">
-              <img
-                src={logBtn}
-                width="30rem;"
-                alt="Login/Logout"
-                title="Login/Logout"
-                onClick={() => {
-                  doLoginout();
-                }}
-              />
             </div>
           </div>
         </div>

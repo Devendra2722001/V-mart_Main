@@ -49,6 +49,9 @@ const HomeProductList = () => {
   const ShowProducts = () => {
     return (
       <>
+      <div className="ShopByCategory">
+                <div className="ShopByCategoryText">Best Deals For You</div>
+            </div>
         <div className="Mobile-list-Line">
           <div className="Mobile-list-Line-text">
             <div className="Mobile-list-Line-cat">Mobile</div>

@@ -31,6 +31,7 @@ import EditProfile from "./component/EditProfile";
 import EmailVerification from "./component/EmailVerification";
 import VendororderHistory from "./component/component/VendororderHistory";
 import Testing from "./testing";
+import LandingPage from "./component/Landingpage";
 
 function App() {
   if (localStorage.getItem("ImAdmin") === "true") {
@@ -93,7 +94,8 @@ function App() {
             <Navbar />
           </div>
           <Switch>
-            <Route exact path="/" component={home} />
+
+            <Route exact path="/" component={LandingPage} />
             <Route exact path="/productlist" component={productlist} />
             <Route exact path="/productlist/:_id" component={product} />
             <Route exact path="/cart" component={cart} />
