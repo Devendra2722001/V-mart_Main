@@ -1,59 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import login from "./login.png";
-import logout from "./logout.png";
-import { useHistory } from "react-router-dom";
-import swal from "sweetalert";
 
 const Navbar = () => {
-  const history = useHistory();
-  const [logBtn, setlogBtn] = useState(login);
   const [cartItem, setCartItem] = useState();
 
   useEffect(() => { 
-    setInterval(() => {     
-      const token = localStorage.getItem("token");
+    setInterval(() => {
       setCartItem(sessionStorage.getItem("Mycart"));
-      if (token != null) {
-        setlogBtn(logout);
-      }
-    }, 1000);
+    }, 500);
 
   }, [])   
-
-  const CongoAlert = () => {
-    swal({
-      title: "Cya Later!",
-      text: "Logout Successfull....",
-      icon: "success",
-      button: "Okay!",
-    });
-
-    setCartItem("");
-    history.push("/") 
-  };
-
-  const Dologout = async () => {
-    localStorage.removeItem("token") 
-    sessionStorage.removeItem("Mycart") 
-    CongoAlert();
-    setlogBtn(login);
-  };
-
-  const doLoginout = () => {
-    const token = localStorage.getItem("token");
-    if (logBtn === login) {
-      if (token === null) {
-        setlogBtn(login);
-      } else {
-        setlogBtn(logout);
-      }
-      history.push("/login");
-    } else {
-      setlogBtn(logout);
-      Dologout();
-    }
-  };
 
   return (
     <div>

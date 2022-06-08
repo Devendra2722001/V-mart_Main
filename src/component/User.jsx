@@ -127,8 +127,8 @@ const User = () => {
   };
 
   const logout = async () => {
-    sessionStorage.removeItem("Mycart");
-    localStorage.removeItem("token");
+    sessionStorage.clear();
+    localStorage.clear();
     CongoAlertLogout();
   };
   const CongoAlertLogout = () => {
@@ -219,6 +219,17 @@ const User = () => {
                           type="button"
                         >
                           Edit profile
+                        </button>
+                      </NavLink>
+                    </div>
+                    <br></br>
+                    <div className="d-flex flex-column align-items-center">
+                      <NavLink to="/favorites">
+                        <button
+                          className="btn btn-primary profile-button"
+                          type="button"
+                        >
+                          View Favorites
                         </button>
                       </NavLink>
                     </div>
@@ -579,6 +590,17 @@ const User = () => {
                     </div>
                     <br></br>
                     <div className="d-flex flex-column align-items-center">
+                      <NavLink to="/favorites">
+                        <button
+                          className="btn btn-primary profile-button"
+                          type="button"
+                        >
+                          View Favorites
+                        </button>
+                      </NavLink>
+                    </div>
+                    <br></br>
+                    <div className="d-flex flex-column align-items-center">
                       <NavLink to="/ChangePassword">
                         <button
                           className="btn btn-primary profile-button"
@@ -766,6 +788,17 @@ const User = () => {
                           type="button"
                         >
                           Edit profile
+                        </button>
+                      </NavLink>
+                    </div>
+                    <br></br>
+                    <div className="d-flex flex-column align-items-center">
+                      <NavLink to="/favorites">
+                        <button
+                          className="btn btn-primary profile-button"
+                          type="button"
+                        >
+                          View Favorites
                         </button>
                       </NavLink>
                     </div>

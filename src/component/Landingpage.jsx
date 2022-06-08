@@ -1,14 +1,12 @@
 import React from 'react';
 import NewBanner from './NewBanner';
-import Navbar from './Navbar';
 import HomeCatList from './HomeCatList';
 import TrendingProducts from './TrendingProducts'
 import HomeProductList from './HomeProductList';
-import Footer from './Footer';
 import LandingCatNav from './LandingCatNav';
 import Usp from './Usp';
 import Newsletter from './NewsLetter';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 
 
