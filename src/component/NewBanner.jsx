@@ -11,7 +11,7 @@ const Banner = () => {
           <img
             id="BannerMargin"
             className="d-block w-100"
-            src="images/Mobile_Banner_1.jpg"
+            src="images/Mobile_Banner_1-min.jpg"
             alt="iphone 13 max"
           />
          </NavLink>
@@ -33,7 +33,7 @@ const Banner = () => {
           <img
             id="BannerMargin"
             className="d-block w-100"
-            src="images/Shoes_Banner.jpg"
+            src="images/Shoes_Banner-min.jpg"
             alt="Macbook Pro 2022"
           />
           </NavLink>
