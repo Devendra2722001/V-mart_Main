@@ -18,7 +18,7 @@ const Banner = () => {
         </Carousel.Item>
         
         <Carousel.Item>
-        <NavLink to={`/productList/628f296dd516b474a4f17f0f`} id="copyright">
+        <NavLink to={`/productList/62a082ae7f1caf8b4b96c399`} id="copyright">
           <img
             id="BannerMargin"
             className="d-block w-100"
@@ -29,7 +29,7 @@ const Banner = () => {
         </Carousel.Item>
 
         <Carousel.Item>
-        <NavLink to={`/productList/628f0d607e2e971a3add430d`} id="copyright">
+        <NavLink to={`/productList/62a0867d7f1caf8b4b96c3b9`} id="copyright">
           <img
             id="BannerMargin"
             className="d-block w-100"

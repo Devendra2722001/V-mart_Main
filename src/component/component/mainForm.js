@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -142,6 +142,7 @@ function Main(props) {
   };
 
   const formData = new FormData();
+  //console.log("Got Image Url - ", imageurl1);
 
 
   const addproduct = async (img1,img2,img3,img4) => {
@@ -174,6 +175,10 @@ function Main(props) {
 
 
     console.log("asasas",img1,img2,img3,img4)
+    // console.log("name:::",name);
+    // console.log("description:::",description);
+    // console.log("description:::",description);
+    //console.log("condition 1::::", (name && description && price && stock && brand && category && image2 && image3 && image4 && imageurl1 && imageurl2 && imageurl3 && imageurl4));
 
       console.log("122333 now add product");
       await Axios.post("https://vmart-api.herokuapp.com/product", formData, {
@@ -188,9 +193,11 @@ function Main(props) {
     })
     .catch((error) => window.alert("unable To Post"));
   };
+  //console.log(networkType);
 
   const handleChange = (e) => {
     setProductcategory(e.target.value);
+    console.log(networkType);
   };
 
   const UpdateForme = async () => {
@@ -456,7 +463,7 @@ function Main(props) {
                     )}
                     </div>
                   </div>
-
+                  
                   <div className="d-flex flex-row align-items-center mb-4">
                     <div className="form-outline flex-fill mb-0">
                       <label className="form-label" for="category">
@@ -489,22 +496,22 @@ function Main(props) {
                       <div className="row mt-2">
                         <div className="d-flex flex-row align-items-center mb-4 col-md-4">
                           <div className="form-outline flex-fill mb-0">
-                            <label className="form-label" for="RAM">
-                              RAM
-                            </label>
-                            <select
+                            <label className="form-label">RAM (in GB)</label>
+                            <input
+                              type="text"
+                              value={RAM}
                               className="form-control"
-                              defaultValue={RAM || "select"}
-                              name="RAM"
-                              id="RAM"
+                              placeholder="RAM"
                               onChange={(e) => {
                                 setRam(e.target.value);
                               }}
-                            >
-                              <option value="4">4</option>
-                              <option value="6">6</option>
-                              <option value="8">8</option>
-                            </select>
+                              required
+                            />
+                            {error.RAM && (
+                              <span className="text-danger font-weight-bold">
+                                {error.RAM}
+                              </span>
+                            )}
                           </div>
                         </div>
 
@@ -513,40 +520,42 @@ function Main(props) {
                             <label className="form-label">
                               Battery Capacity (in mAh)
                             </label>
-                            <select
+                            <input
+                              type="text"
+                              value={batteryCapacity}
                               className="form-control"
+                              placeholder="Battery Capacity"
                               onChange={(e) => {
                                 setBatteryCapacity(e.target.value);
                               }}
-                            >
-                              <option value="4000">4000</option>
-                              <option value="5000">5000</option>
-                              <option value="6000">6000</option>
-                            </select>
+                              required
+                            />
+                            {error.batteryCapacity && (
+                              <span className="text-danger font-weight-bold">
+                                {error.batteryCapacity}
+                              </span>
+                            )}
                           </div>
                         </div>
 
                         <div className="d-flex flex-row align-items-center mb-4 col-md-4">
                           <div className="form-outline flex-fill mb-0">
-                            <label className="form-label">Screen size</label>
-                            <select
+                            <label className="form-label">Screen size (in inch)</label>
+                            <input
+                              type="text"
+                              value={screenSize}
                               className="form-control"
+                              placeholder="Screen size"
                               onChange={(e) => {
                                 setScreensize(e.target.value);
                               }}
-                            >
-                              <option value="6.00">6.00</option>
-                              <option value="6.01">6.01</option>
-                              <option value="6.02">6.02</option>
-                              <option value="6.03">6.03</option>
-                              <option value="6.04">6.04</option>
-                              <option value="6.05">6.05</option>
-                              <option value="6.06">6.06</option>
-                              <option value="6.07">6.07</option>
-                              <option value="6.08">6.08</option>
-                              <option value="6.09">6.09</option>
-                              <option value="7.00">7.00</option>
-                            </select>
+                              required
+                            />
+                            {error.screenSize && (
+                              <span className="text-danger font-weight-bold">
+                                {error.screenSize}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -555,16 +564,21 @@ function Main(props) {
                         <div className="d-flex flex-row align-items-center mb-4 col-md-4">
                           <div className="form-outline flex-fill mb-0">
                             <label className="form-label">Network type</label>
-                            <select
+                            <input
+                              type="text"
+                              value={networkType}
                               className="form-control"
+                              placeholder="Network type"
                               onChange={(e) => {
                                 setNetworktype(e.target.value);
                               }}
-                            >
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                            </select>
+                              required
+                            />
+                            {error.networkType && (
+                              <span className="text-danger font-weight-bold">
+                                {error.networkType}
+                              </span>
+                            )}
                           </div>
                         </div>
 
@@ -573,34 +587,42 @@ function Main(props) {
                             <label className="form-label">
                               Resolution type (in pixel )
                             </label>
-                            <select
+                            <input
+                              type="text"
+                              value={resolutionType}
                               className="form-control"
+                              placeholder="Resolution type"
                               onChange={(e) => {
                                 setResolutiontype(e.target.value);
                               }}
-                            >
-                              <option value="720">720</option>
-                              <option value="1080">1080</option>
-                              <option value="4000">4000</option>
-                            </select>
+                              required
+                            />
+                            {error.resolutionType && (
+                              <span className="text-danger font-weight-bold">
+                                {error.resolutionType}
+                              </span>
+                            )}
                           </div>
                         </div>
 
                         <div className="d-flex flex-row align-items-center mb-4 col-md-4 ">
                           <div className="form-outline flex-fill mb-0">
-                            <label className="form-label">Primary camera</label>
-                            <select
+                            <label className="form-label">Primary camera (in megapixel)</label>
+                            <input
+                              type="text"
+                              value={camera}
                               className="form-control"
+                              placeholder="Primary camera"
                               onChange={(e) => {
                                 setPrimarycamera(e.target.value);
                               }}
-                            >
-                              <option value="12">12</option>
-                              <option value="16">16</option>
-                              <option value="48">48</option>
-                              <option value="64">64</option>
-                              <option value="128">128</option>
-                            </select>
+                              required
+                            />
+                            {error.camera && (
+                              <span className="text-danger font-weight-bold">
+                                {error.camera}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -608,73 +630,68 @@ function Main(props) {
                   ) : category === "laptop" ? (
                     <div>
                       <div className="row mt-2">
-                        <div className="d-flex flex-row align-items-center mb-4 col-md-3 ">
+                        <div className="d-flex flex-row align-items-center mb-4 col-md-4 ">
                           <div className="form-outline flex-fill mb-0">
                             <label className="form-label">Processor</label>
-                            <select
+                            <input
+                              type="text"
+                              value={processor}
                               className="form-control"
+                              placeholder="Processor"
                               onChange={(e) => {
                                 setProcessor(e.target.value);
                               }}
-                            >
-                              <option value="i3">i3</option>
-                              <option value="i5">i5</option>
-                              <option value="i9">i9</option>
-                              <option value="M1">M1</option>
-                              <option value="M1-Max">M1-Max</option>
-                              <option value="Ryzen 3">Ryzen 3</option>
-                              <option value="Ryzen 5">Ryzen 5</option>
-                              <option value="Ryzen 9">Ryzen 9</option>
-                            </select>
+                              required
+                            />
+                            {error.processor && (
+                              <span className="text-danger font-weight-bold">
+                                {error.processor}
+                              </span>
+                            )}
                           </div>
                         </div>
 
-                        <div className="d-flex flex-row align-items-center mb-4 col-md-3">
-                          <div className="form-outline flex-fill mb-0">
-                            <label className="form-label">RAM</label>
-                            <select
-                              className="form-control"
-                              name="category"
-                              id="category"
-                              onChange={(e) => {
-                                setRam(e.target.value);
-                              }}
-                            >
-                              <option value="8">8</option>
-                              <option value="16">16</option>
-                              <option value="32">32</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="d-flex flex-row align-items-center mb-4 col-md-3 ">
+                        <div className="d-flex flex-row align-items-center mb-4 col-md-4 ">
                           <div className="form-outline flex-fill mb-0">
                             <label className="form-label">
                               Harddisk capacity (in GB)
                             </label>
-                            <select
+                            <input
+                              type="text"
+                              value={hardDisk}
                               className="form-control"
+                              placeholder="Hard disk capacity"
                               onChange={(e) => {
                                 setHard_disk_capacity(e.target.value);
                               }}
-                            >
-                              <option value="256">256</option>
-                              <option value="512">512</option>
-                              <option value="1000">1000</option>
-                            </select>
+                              required
+                            />
+                            {error.hardDisk && (
+                              <span className="text-danger font-weight-bold">
+                                {error.hardDisk}
+                              </span>
+                            )}
                           </div>
                         </div>
-                        <div className="d-flex flex-row align-items-center mb-4 col-md-3 ">
+
+                        <div className="d-flex flex-row align-items-center mb-4 col-md-4 ">
                           <div className="form-outline flex-fill mb-0">
                             <label className="form-label">Touch screen</label>
-                            <select
+                            <input
+                              type="text"
+                              value={touchScreen}
                               className="form-control"
+                              placeholder="Touch screen"
                               onChange={(e) => {
                                 setTouch_screen(e.target.value);
                               }}
-                            >
-                              <option value="Yes">Yes</option>
-                              <option value="No">No</option>
-                            </select>
+                              required
+                            />
+                            {error.touchScreen && (
+                              <span className="text-danger font-weight-bold">
+                                {error.touchScreen}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -686,55 +703,63 @@ function Main(props) {
                           <div className="d-flex flex-row align-items-center mb-4 col-md-4">
                             <div className="form-outline flex-fill mb-0">
                               <label className="form-label">Gender</label>
-                              <select
+                              <input
+                                type="text"
+                                value={gender}
                                 className="form-control"
+                                placeholder="Gender"
                                 onChange={(e) => {
                                   setGender(e.target.value);
                                 }}
-                              >
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                              </select>
+                                required
+                              />
+                              {error.gender && (
+                                <span className="text-danger font-weight-bold">
+                                  {error.gender}
+                                </span>
+                              )}
                             </div>
                           </div>
 
                           <div className="d-flex flex-row align-items-center mb-4 col-md-4">
                             <div className="form-outline flex-fill mb-0">
-                              <label className="form-label">Size</label>
-                              <select
+                              <label className="form-label">Size (in UK/india)</label>
+                              <input
+                                type="text"
+                                value={size}
                                 className="form-control"
+                                placeholder="Size"
                                 onChange={(e) => {
-                                  setColour(e.target.value);
+                                  setSize(e.target.value);
                                 }}
-                              >
-                                <option value="White">White</option>
-                                <option value="Red">Red</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Green">Green</option>
-                                <option value="Black">Black</option>
-                                <option value="Gray">Gray</option>
-                                <option value="Yellow">Yellow</option>
-                              </select>
+                                required
+                              />
+                              {error.size && (
+                              <span className="text-danger font-weight-bold">
+                                {error.size}
+                              </span>
+                            )}
                             </div>
                           </div>
 
                           <div className="d-flex flex-row align-items-center mb-4 col-md-4">
                             <div className="form-outline flex-fill mb-0">
                               <label className="form-label">Color</label>
-                              <select
+                              <input
+                                type="text"
+                                value={colour}
                                 className="form-control"
-                                defaultValue={category || "select"}
+                                placeholder="Color"
                                 onChange={(e) => {
-                                  setSize(e.target.value);
+                                  setColour(e.target.value);
                                 }}
-                              >
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                              </select>
+                                required
+                              />
+                              {error.colour && (
+                              <span className="text-danger font-weight-bold">
+                                {error.colour}
+                              </span>
+                            )}
                             </div>
                           </div>
                         </div>
@@ -743,21 +768,23 @@ function Main(props) {
                   )}
                   <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button
-                      type="button"
-                      className="btn btn-danger btn-cancle btn-lg"
-                      onClick={() => props?.setShowForm(false)}
-                    >
-                      Cancel
-                    </button>
-                    <button
                       id="clickme"
                       type="button"
                       className="btn btn-primary btn-lg"
                       onClick={() => {
                         tryingtodosomething();
+                        
+                        //postImages();
                       }}
                     >
                       {updateProducts ? "Update Product" : "Add Product"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-cancle btn-lg"
+                      onClick={() => props?.setShowForm(false)}
+                    >
+                      Cancel
                     </button>
                   </div>
                 </form>

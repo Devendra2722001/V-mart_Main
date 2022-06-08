@@ -3,7 +3,7 @@ import NewBanner from './NewBanner';
 import HomeCatList from './HomeCatList';
 import TrendingProducts from './TrendingProducts'
 import HomeProductList from './HomeProductList';
-import LandingCatNav from './LandingCatNav';
+import LandingCatNav from './landingCatNav';
 import Usp from './Usp';
 import Newsletter from './NewsLetter';
 import { useState } from "react";
