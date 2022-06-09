@@ -17,7 +17,7 @@ const Navbar = () => {
         <div className="container-fluid">
           <NavLink className="navbar-brand" to="/">
             <img
-              src="../images/logo_gold.png"
+              src="../images/TheVmart.png"
               alt="Logo"
               className="navbar-brand"
             ></img>

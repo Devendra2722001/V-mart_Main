@@ -248,9 +248,10 @@ const User = () => {
                 </div>
                 <div className="mt-5">
                   <button
-                    className="btn btn-primary profile-button"
+                    className="btn profile-button"
                     type="button"
                     onClick={() => logout()}
+                    style={{"margin-bottom":"100px", "backgroundColor":"gray", "color":"white"}}
                   >
                     LOG OUT
                   </button>
@@ -400,9 +401,10 @@ const User = () => {
                 </div>
                 <div className="mt-5">
                   <button
-                    className="btn btn-primary profile-button"
+                    className="btn profile-button"
                     type="button"
                     onClick={() => logout()}
+                    style={{"margin-bottom":"100px", "backgroundColor":"gray", "color":"white"}}
                   >
                     LOG OUT
                   </button>
@@ -518,8 +520,6 @@ const User = () => {
     );
   };
 
-  console.log(orderHistory);
-
   const NoAddressFound = () => {
     console.log("Showing Profile with no address");
     return (
@@ -614,9 +614,10 @@ const User = () => {
                 </div>
                 <div className="mt-5">
                   <button
-                    className="btn btn-primary profile-button"
+                    className="btn profile-button"
                     type="button"
                     onClick={() => logout()}
+                    style={{"margin-bottom":"100px", "backgroundColor":"gray", "color":"white"}}
                   >
                     LOG OUT
                   </button>
@@ -817,9 +818,10 @@ const User = () => {
                 </div>
                 <div className="mt-5">
                   <button
-                    className="btn btn-primary profile-button"
+                    className="btn profile-button"
                     type="button"
                     onClick={() => logout()}
+                    style={{"margin-bottom":"100px", "backgroundColor":"gray", "color":"white"}}
                   >
                     LOG OUT
                   </button>

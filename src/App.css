@@ -291,7 +291,7 @@
   }
   
   .card-head{
-    font-size: 2rem;
+    font-size: 25px;
     margin-top: 0.5rem;
     font-weight: bold;   
     
@@ -2232,4 +2232,19 @@ html {
 #Cat__navbar a:hover {
   background-color: #ddd;
   color: black;
+}
+
+
+#loadingCircle {
+	animation: rotation 8s infinite linear;
+	width: 600px;
+}
+
+@keyframes rotation {
+		from {
+				-webkit-transform: rotate(0deg);
+		}
+		to {
+				-webkit-transform: rotate(359deg);
+		}
 }

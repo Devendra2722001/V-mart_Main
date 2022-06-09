@@ -181,13 +181,14 @@ const Signup = () => {
                   id="login_btn-style"
                   value="register"
                   onClick={postData}
+                  style={{"margin-left":"30px"}}
                 >
                   Signup
                 </button>
 
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Already have an account?
-                  <NavLink to="/login">Login</NavLink>
+                  <NavLink to="/login"> Login Here !!</NavLink>
                 </p>
               </div>
             </form>

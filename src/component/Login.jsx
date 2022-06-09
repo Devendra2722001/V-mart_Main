@@ -167,26 +167,27 @@ const Login = () => {
                 </NavLink>
               </div>
 
-              <div className="text-center text-lg-start mt-4 pt-2">
+              <div className="text-center text-lg-start mt-4 pt-2">                
                 <button
                   type="button"
+                  className="btn btn-danger btn-lg"
+                  id="login_btn-style"                  
+                  onClick={()=> history.push("/")}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  style={{"margin-left":"30px"}}
                   className="btn btn-primary btn-lg"
                   id="login_btn-style"
                   onClick={loginUser}
                 >
                   Login
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-danger btn-lg"
-                  id="login_btn-style"
-                  onClick={()=> history.push("/")}
-                >
-                  Cancel
-                </button>
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Don't have an account?
-                  <NavLink to="/signup">Register</NavLink>
+                  <NavLink to="/signup"> Register Here !!</NavLink>
                 </p>
               </div>
             </form>

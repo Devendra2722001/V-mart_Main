@@ -4,14 +4,18 @@ import { NavLink } from "react-router-dom";
 
 const Banner = () => {
     return (
-        <Carousel className="carousel_slider">
+        <Carousel 
+          interval={5000}
+          className="carousel_slider"
+        >
         
         <Carousel.Item>
+        
         <NavLink to={`/productList/6295a02b890cecb55ee34635`} id="copyright">
           <img
             id="BannerMargin"
             className="d-block w-100"
-            src="images/Mobile_Banner_1-min.jpg"
+            src="images/Mobile_Banner_2-min.jpg"
             alt="iphone 13 max"
           />
          </NavLink>
@@ -33,7 +37,7 @@ const Banner = () => {
           <img
             id="BannerMargin"
             className="d-block w-100"
-            src="images/Shoes_Banner-min.jpg"
+            src="images/Shoes_Banner_1-min.jpg"
             alt="Macbook Pro 2022"
           />
           </NavLink>

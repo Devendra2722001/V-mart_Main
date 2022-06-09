@@ -4,6 +4,7 @@ const Usp = () => {
     return (
         <>
         <div className="Usp_main">
+        
         <div className="e55_27">
          <div className="e5_34">
             <span  className="e5_17">Why Shop At V-Mart ?</span>
@@ -12,7 +13,9 @@ const Usp = () => {
             <span  className="e5_23">Best price in the Market</span>
         </div>
          <div className="e5_35">
+         
             <div className="e0_30">
+            <img id="loadingCircle" src="https://res.cloudinary.com/volansys/image/upload/v1654754684/Subtract_2_wawwhp.png"/>
                <div className="e0_34">
                   <div  className="e0_35"></div>
                   <div  className="e5_20"></div>

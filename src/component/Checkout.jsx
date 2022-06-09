@@ -275,10 +275,11 @@ const Checkout = () => {
                     ))}
                     <div className="mt-5">
                       <button
-                        className="w-100 btn btn-danger btn-lg"
+                        className="w-100 btn btn-lg"
                         onClick={() => {
                           history.push("/cart");
                         }}
+                        style={{"margin-bottom":"30px", "backgroundColor":"gray", "color":"white"}}
                       >
                         Cancel
                       </button>
