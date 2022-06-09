@@ -72,7 +72,7 @@ const Footer = () => {
                                 <div>
                                     <div className="footer-text">
                                         <p>Visit www.Volansys.com For More Info</p>
-                                        <NavLink to="/vendorsignup">
+                                        <NavLink to="/vendorsignup" className="VendorLink">
                                             <p>Vendor Signup ?</p>
                                         </NavLink>
                                     </div>

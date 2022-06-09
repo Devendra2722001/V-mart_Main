@@ -18,10 +18,10 @@ const LandingPage = () => {
         window.onscroll = function() {
         var currentScrollPos = window.pageYOffset;
         if (prevScrollpos > currentScrollPos) {
-            console.log("Time To show Cat Nav");
+            //console.log("Time To show Cat Nav");
             setcatNavClass("Cat__navbar0");
         } else {
-            console.log("Time To Hide Cat Nav");
+            //console.log("Time To Hide Cat Nav");
             setcatNavClass("Cat__navbar60");
         }
         prevScrollpos = currentScrollPos;
